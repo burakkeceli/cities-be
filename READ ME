@@ -1,2 +1,14 @@
-Initial Read me for Backend
-After changed name
+Information:
+
+Docker -> Postgre connection:
+1. Install image of docker
+2. docker run -d --name postgre -p 5432:5432 -v pg-data:/var/lib/postgresql/data postgres:latest
+	-> -d (run as deamon)
+	-> --name postgre (give name to container)
+	-> -p 5432:5432 (from which port to which port)
+	-> -v pg-data:/var/lib/postgresql/data (in which volume it will be used)
+	-> postgres:latest (container Id)
+3. docker exec -it postgre /bin/sh (get in the container inside)
+4. psql -U postgres (inside the postgresql, now create table etc)
+5. docker inspect <container_id>
+6. Take IP and login via pgadmin
