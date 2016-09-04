@@ -1,0 +1,10 @@
+.settings
+.classpath
+.project
+.ropeproject
+target
+*.local
+*.iml
+*.pyc
+.idea
+*.versionsBackup
