@@ -23,11 +23,13 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="commons" />
+        <module name="web-api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="cities be" target="1.5" />
-      <module name="commons" target="1.5" />
+      <module name="commons" target="1.7" />
+      <module name="web-api" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>
