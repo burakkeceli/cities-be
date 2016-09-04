@@ -8,18 +8,18 @@ nginx:
     - tomcatOne:tomcat1
     - tomcatTwo:tomcat2
   volumes:
-    - /home/burak/DockerVolume/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+    - /path/to/default.conf:/etc/nginx/conf.d/default.conf
 
 tomcatOne:
   image: 'tomcat'
   volumes:
-    - /home/burak/DockerVolume/Tomcat/server.xml:/usr/local/tomcat/conf/server.xml
-    - /home/burak/DockerVolume/Tomcat/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
-    - /home/burak/DockerVolume/Tomcat/ROOT/index.jsp:/usr/local/tomcat/webapps/ROOT/index.jsp
+    - /path/to/server.xml:/usr/local/tomcat/conf/server.xml
+    - /path/to/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
+    - /path/to/ROOT/index.jsp:/usr/local/tomcat/webapps/ROOT/index.jsp
 
 tomcatTwo:
   image: 'tomcat'
   volumes:
-    - /home/burak/DockerVolume/Tomcat/server.xml:/usr/local/tomcat/conf/server.xml
-    - /home/burak/DockerVolume/Tomcat/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
-    - /home/burak/DockerVolume/Tomcat/ROOT/index.jsp:/usr/local/tomcat/webapps/ROOT/index.jsp
+    - /path/to/server.xml:/usr/local/tomcat/conf/server.xml
+    - /path/to/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
+    - /path/to/ROOT/index.jsp:/usr/local/tomcat/webapps/ROOT/index.jsp
