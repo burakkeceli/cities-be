@@ -13,10 +13,7 @@ docker stop <containerId>
 We will run 2 tomcat servers:
 docker run -d --name tomcatOne -v ../DockerVolume/Tomcat/server.xml:/usr/local/tomcat/conf/server.xml -v ../DockerVolume/Tomcat/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml tomcat
 
-(docker run -d --name tomcatOne -v /home/burak/DockerVolume/Tomcat/server.xml:/usr/local/tomcat/conf/server.xml -v /home/burak/DockerVolume/Tomcat/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml -v /home/burak/DockerVolume/Tomcat/ROOT/index.jsp:/usr/local/tomcat/webapps/ROOT/index.jsp tomcat)
-
 docker run -d --name tomcatTwo -v ../DockerVolume/Tomcat/server.xml:/usr/local/tomcat/conf/server.xml -v ../DockerVolume/Tomcat/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml tomcat
-(docker run -d --name tomcatTwo -v /home/burak/DockerVolume/Tomcat/server.xml:/usr/local/tomcat/conf/server.xml -v /home/burak/DockerVolume/Tomcat/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml -v /home/burak/DockerVolume/Tomcat/ROOT/index.jsp:/usr/local/tomcat/webapps/ROOT/index.jsp tomcat)
 
 check 2 tomcats are running
 
