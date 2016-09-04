@@ -1,0 +1,79 @@
+cd ~
+mkdir DockerVolume/Tomcat
+cd DockerVolume/Tomcat
+docker run -d tomcat // create tomcat container
+docker cp <containerId>:/usr/local/tomcat/conf/tomcat-users.xml tomcat-users.xml
+docker cp <containerId>:/usr/local/tomcat/conf/server.xml server.xml
+
+Add to server.xml bkz:*
+Add to tomcat-users.xml bkz:**
+
+docker stop <containerId>
+
+We will run 2 tomcat servers:
+docker run -d --name tomcatOne -v ../DockerVolume/Tomcat/server.xml:/usr/local/tomcat/conf/server.xml -v ../DockerVolume/Tomcat/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml tomcat
+
+docker run -d --name tomcatTwo -v ../DockerVolume/Tomcat/server.xml:/usr/local/tomcat/conf/server.xml -v ../DockerVolume/Tomcat/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml tomcat
+
+check 2 tomcats are running
+
+then run nginx
+docker run -it nginx bash
+docker cp <nginx_container_id>:/etc/nginx/conf.d conf.d
+add conf.d/default.conf to this lines:
+upstream backend {
+	server tomcat1:8080;
+	server tomcat2:8080;
+}
+
+change these lines to:
+    location / {
+        proxy_pass http://backend;
+    }
+
+linked them:
+docker run -d --link tomcatOne:tomcat1 --link tomcatTwo:tomcat2 -v /home/burak/DockerVolume/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf nginx
+
+*
+<Cluster className="org.apache.catalina.ha.tcp.SimpleTcpCluster"
+                 channelSendOptions="8">
+
+          <Manager className="org.apache.catalina.ha.session.DeltaManager"
+                   expireSessionsOnShutdown="false"
+                   notifyListenersOnReplication="true"/>
+
+          <Channel className="org.apache.catalina.tribes.group.GroupChannel">
+            <Membership className="org.apache.catalina.tribes.membership.McastService"
+                        address="228.0.0.4"
+                        port="45564"
+                        frequency="500"
+                        dropTime="3000"/>
+            <Receiver className="org.apache.catalina.tribes.transport.nio.NioReceiver"
+                      address="auto"
+                      port="4000"
+                      autoBind="100"
+                      selectorTimeout="5000"
+                      maxThreads="6"/>
+
+            <Sender className="org.apache.catalina.tribes.transport.ReplicationTransmitter">
+              <Transport className="org.apache.catalina.tribes.transport.nio.PooledParallelSender"/>
+            </Sender>
+            <Interceptor className="org.apache.catalina.tribes.group.interceptors.TcpFailureDetector"/>
+            <Interceptor className="org.apache.catalina.tribes.group.interceptors.MessageDispatch15Interceptor"/>
+          </Channel>
+
+          <Valve className="org.apache.catalina.ha.tcp.ReplicationValve"
+                 filter=""/>
+          <Valve className="org.apache.catalina.ha.session.JvmRouteBinderValve"/>
+
+          <Deployer className="org.apache.catalina.ha.deploy.FarmWarDeployer"
+                    tempDir="/tmp/war-temp/"
+                    deployDir="/tmp/war-deploy/"
+                    watchDir="/tmp/war-listen/"
+                    watchEnabled="false"/>
+
+          <ClusterListener className="org.apache.catalina.ha.session.ClusterSessionListener"/>
+        </Cluster>
+
+**
+<user username=<username> password=<password> roles=<manager-gui>/>
