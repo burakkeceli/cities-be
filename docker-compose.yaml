@@ -1,4 +1,6 @@
 ##
+# volume paths will be common later
+# read Docker LB and 2 Tomcats to understand what this is doing
 ##
 nginx:
   image: 'nginx'
