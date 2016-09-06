@@ -38,7 +38,5 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-
-        <finalName>Cities</finalName>
     </build>
 </project>

@@ -21,7 +21,9 @@
         <javax.version>3.1.0</javax.version>
         <spring.security.version>4.0.3.RELEASE</spring.security.version>
         <lombok.version>1.16.8.0</lombok.version>
+        <commons.collections4.version>4.0</commons.collections4.version>
         <jsonwebtoken.version>0.6.0</jsonwebtoken.version>
+        <commons.lang>2.6</commons.lang>
     </properties>
 
     <dependencies>
@@ -45,6 +47,18 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
             <version>${spring.security.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>${commons.collections4.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>${commons.lang}</version>
         </dependency>
 
         <dependency>
