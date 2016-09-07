@@ -130,8 +130,18 @@ public class TokenUtils {
         final String username = this.getUsernameFromToken(token);
         final Date created = this.getCreatedDateFromToken(token);
         final Date expiration = this.getExpirationDateFromToken(token);
-        return (username.equals(user.getUsername())
+        Boolean result = validationResult(token, user, username, created);
+        System.out.println("cities => validation result : " +result);
+        return result;
+    }
+
+    private boolean validationResult(String token, SpringSecurityUser user, String username, Date created) {
+        System.out.println("cities => username.equals(user.getUsername()) : " + username.equals(user.getUsername()));
+        System.out.println("cities => !(this.isTokenExpired(token)) " + !(this.isTokenExpired(token)));
+        boolean b = !(this.isCreatedBeforeLastPasswordReset(created, user.getLastPasswordReset()));
+        System.out.println("cities => !(this.isCreatedBeforeLastPasswordReset(created, user.getLastPasswordReset())) : " + b);
+        return username.equals(user.getUsername())
                 && !(this.isTokenExpired(token))
-                && !(this.isCreatedBeforeLastPasswordReset(created, user.getLastPasswordReset())));
+                && b;
     }
 }

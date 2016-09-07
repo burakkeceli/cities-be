@@ -24,6 +24,7 @@
         <commons.collections4.version>4.0</commons.collections4.version>
         <jsonwebtoken.version>0.6.0</jsonwebtoken.version>
         <commons.lang>2.6</commons.lang>
+        <logging.version>1.2.17</logging.version>
     </properties>
 
     <dependencies>
@@ -76,6 +77,12 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>${javax.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${logging.version}</version>
         </dependency>
 
     </dependencies>

@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
-@RequestMapping
+@RequestMapping("auth")
 public class AuthenticationController {
 
     @Autowired

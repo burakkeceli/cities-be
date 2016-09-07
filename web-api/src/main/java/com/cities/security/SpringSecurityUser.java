@@ -9,18 +9,18 @@ import java.util.Date;
 public class SpringSecurityUser implements UserDetails {
 
     private Long id;
-    private String userName;
+    private String username;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
     private Date lastPasswordReset;
 
     public SpringSecurityUser() { super(); }
 
-    public SpringSecurityUser(Long id, String userName, String password,
+    public SpringSecurityUser(Long id, String username, String password,
                               Collection<? extends GrantedAuthority> authorities,
                               Date lastPasswordReset) {
         this.id = id;
-        this.userName = userName;
+        this.username = username;
         this.password = password;
         this.authorities = authorities;
         this.lastPasswordReset = lastPasswordReset;
@@ -32,36 +32,36 @@ public class SpringSecurityUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return this.getAuthorities();
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return this.username;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }
