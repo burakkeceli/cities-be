@@ -3,6 +3,7 @@ package com.cities.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.apache.log4j.Logger;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,8 @@ import java.util.Map;
 
 @Component
 public class TokenUtils {
+
+    static Logger log = Logger.getLogger(TokenUtils.class.getName());
 
     private final String AUDIENCE_UNKNOWN = "unknown";
     private final String AUDIENCE_TABLET = "tablet";
@@ -104,7 +107,7 @@ public class TokenUtils {
     private String generateToken(Map<String, Object> claims) {
         return Jwts.builder().setClaims(claims)
                 .setExpiration(this.generateExpirationDate())
-                .signWith(SignatureAlgorithm.ES256, this.secret)
+                .signWith(SignatureAlgorithm.HS256, this.secret)
                 .compact();
     }
 
@@ -131,14 +134,18 @@ public class TokenUtils {
         final Date created = this.getCreatedDateFromToken(token);
         final Date expiration = this.getExpirationDateFromToken(token);
         Boolean result = validationResult(token, user, username, created);
+        log.debug("cities => validation result : " +result);
         System.out.println("cities => validation result : " +result);
         return result;
     }
 
     private boolean validationResult(String token, SpringSecurityUser user, String username, Date created) {
+        log.debug("cities => username.equals(user.getUsername()) : " + username.equals(user.getUsername()));
+                log.debug("cities => !(this.isTokenExpired(token)) " + !(this.isTokenExpired(token)));
         System.out.println("cities => username.equals(user.getUsername()) : " + username.equals(user.getUsername()));
         System.out.println("cities => !(this.isTokenExpired(token)) " + !(this.isTokenExpired(token)));
         boolean b = !(this.isCreatedBeforeLastPasswordReset(created, user.getLastPasswordReset()));
+        log.debug("cities => !(this.isCreatedBeforeLastPasswordReset(created, user.getLastPasswordReset())) : " + b);
         System.out.println("cities => !(this.isCreatedBeforeLastPasswordReset(created, user.getLastPasswordReset())) : " + b);
         return username.equals(user.getUsername())
                 && !(this.isTokenExpired(token))

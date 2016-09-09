@@ -1,6 +1,7 @@
 package com.cities.security;
 
 import com.cities.AppConstant;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.method.P;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFilter {
+    static Logger log = Logger.getLogger(AuthenticationTokenFilter.class.getName());
 
     @Autowired
     private TokenUtils tokenUtils;
@@ -48,10 +50,11 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String authToken = httpRequest.getHeader(AppConstant.tokenHeader);
         String username = this.tokenUtils.getUsernameFromToken(authToken);
+        log.debug("cities => doFilter username: " + username + " SecurityContextHolder.getContext().getAuthentication() " +SecurityContextHolder.getContext().getAuthentication());
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-            System.out.println("cities => " + userDetails.getAuthorities() + userDetails.getUsername() + userDetails.getPassword());
+            log.debug("cities => " + userDetails.getAuthorities() + userDetails.getUsername() + userDetails.getPassword());
             if (this.tokenUtils.validateToken(authToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));

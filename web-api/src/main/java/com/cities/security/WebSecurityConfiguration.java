@@ -1,5 +1,6 @@
 package com.cities.security;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableTransactionManagement
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+    static Logger log = Logger.getLogger(WebSecurityConfiguration.class.getName());
 
     @Autowired
     private UserDetailsService userDetailsService;

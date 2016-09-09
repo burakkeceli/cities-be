@@ -4,6 +4,8 @@ import org.apache.log4j.Logger;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import static org.apache.commons.lang.StringUtils.equalsIgnoreCase;
@@ -16,17 +18,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("cities => pass" +username);
+        log.debug("cities => pass " +username);
         if (!equalsIgnoreCase(username, "keceli")) {
             throw new UsernameNotFoundException(String.format("no found by name %s", username));
         }
-
-        System.out.println("cities => pass username");
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode("123123");
+        log.debug("cities => hashedPassword " +hashedPassword);
         Long id = 10L;
-        String password = "123123";
         return new SpringSecurityUser(id,
                                       username,
-                                      password,
+                                      hashedPassword,
                 commaSeparatedStringToAuthorityList("ROLE_ADMIN"), null);
     }
 }
