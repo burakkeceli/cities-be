@@ -28,9 +28,9 @@ public class UserDAOImpl implements UserDAO {
     public void save(User u) {
         Session session = this.sessionFactory.getCurrentSession();
         u.setId(1);
-        Transaction trans=session.beginTransaction();
+        //Transaction trans=session.beginTransaction();
         session.save(u);
-        trans.commit();
+        //trans.commit();
     }
 
     @Override
