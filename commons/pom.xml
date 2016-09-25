@@ -13,16 +13,4 @@
     <groupId>com.cities.commons</groupId>
     <artifactId>commons</artifactId>
 
-    <properties>
-        <logging.version>2.5</logging.version>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>${logging.version}</version>
-        </dependency>
-    </dependencies>
-
 </project>

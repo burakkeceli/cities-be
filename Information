@@ -8,13 +8,13 @@ Docker -> Postgre connection:
 	-> -p 5432:5432 (from which port to which port)
 	-> -v pg-data:/var/lib/postgresql/data (in which volume it will be used)
 	-> postgres:latest (container Id)
-3. docker exec -it postgre /bin/sh (get in the container inside)
+3. docker exec -it <postgre container id> /bin/sh (get in the container inside)
 4. psql -U postgres (inside the postgresql, now create table etc)
 5. docker inspect <container_id>
 6. Take IP and login via pgadmin
 
 Role creation on docker:
-1. docker exec -it postgre /bin/sh -> login to docker
+1. docker exec -it <postgre container id> /bin/sh -> login to docker
 2. psql -U postgres
 3. \l -> see list of databases
 4. CREATE ROLE burak superuser;

@@ -2,6 +2,16 @@
 # volume paths will be common later
 # read Docker LB and 2 Tomcats to understand what this is doing
 ##
+db:
+  image: 'postgres'
+  ports:
+    - '5432:5432'
+  expose:
+    - 5432
+  environment:
+    POSTGRES_USER: cities_master
+    POSTGRES_DB: cities
+
 nginx:
   image: 'nginx'
   links:

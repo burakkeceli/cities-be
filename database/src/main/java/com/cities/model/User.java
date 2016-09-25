@@ -1,11 +1,12 @@
 package com.cities.model;
 
-import javax.persistence.Column;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
+
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Set;
 
 @Entity
 @Table(name="user")
@@ -17,8 +18,12 @@ public class User {
     private int id;
 
     private String name;
-
     private String country;
+
+    @ManyToMany
+    @Cascade({CascadeType.SAVE_UPDATE})
+    @JoinColumn(name = "userRole_id")
+    private Set<UserRole> userRoleSet;
 
     public int getId() {
         return id;
@@ -42,6 +47,14 @@ public class User {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public Set<UserRole> getUserRoleSet() {
+        return userRoleSet;
+    }
+
+    public void setUserRoleSet(Set<UserRole> userRoleSet) {
+        this.userRoleSet = userRoleSet;
     }
 
     @Override

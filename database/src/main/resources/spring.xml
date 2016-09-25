@@ -24,6 +24,7 @@
         <property name="annotatedClasses">
             <list>
                 <value>com.cities.model.User</value>
+                <value>com.cities.model.UserRole</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -31,6 +32,7 @@
                 <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.default_schema">cities</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
             </props>
         </property>
     </bean>
