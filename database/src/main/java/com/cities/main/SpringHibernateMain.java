@@ -5,8 +5,6 @@ import com.cities.model.UserRole;
 import com.cities.service.UserService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import static java.util.Collections.singleton;
-
 public class SpringHibernateMain {
 
     public static void main(String[] args) {
@@ -14,15 +12,8 @@ public class SpringHibernateMain {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
 
         UserService userService = context.getBean(UserService.class);
-        UserRole uRole = new UserRole();
-        uRole.setRole("ROLE_USER");
-
-        User user = new User();
-        user.setName("Burak");
-        user.setUserRoleSet(singleton(uRole));
-        user.setCountry("Turkey");
-
-        userService.save(user);
+        UserRole uRole = userService.get(1);
+        User user = userService.get("Burak");
 
         System.out.println("Person::"+user);
         context.close();

@@ -23,8 +23,7 @@ public class UserRole implements Serializable {
     @Column(name="role", unique = true, nullable = false)
     private String role;
 
-    @ManyToMany(mappedBy = "userRole", fetch = FetchType.LAZY)
-    @Cascade({CascadeType.SAVE_UPDATE})
+    @ManyToMany(mappedBy = "userRoles", fetch = FetchType.LAZY)
     private Set<User> user;
 
     public UserRole() {

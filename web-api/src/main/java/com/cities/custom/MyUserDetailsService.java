@@ -30,7 +30,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
         User user = new User();
         //User user = userDao.find(username);
-        List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRoleSet());
+        List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRoles());
 
         buildUserForAuthentication(user, authorities);
         return null;

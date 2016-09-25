@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class SpringSecurityUser implements UserDetails {
 
-    private Long id;
+    private Integer id;
     private String username;
     private String password;
     private String email;
@@ -24,7 +24,7 @@ public class SpringSecurityUser implements UserDetails {
         super();
     }
 
-    public SpringSecurityUser(Long id, String username, String password, Date lastPasswordReset,
+    public SpringSecurityUser(Integer id, String username, String password, Date lastPasswordReset,
                               Collection<? extends GrantedAuthority> authorities) {
         this.setId(id);
         this.setUsername(username);
@@ -33,11 +33,11 @@ public class SpringSecurityUser implements UserDetails {
         this.setAuthorities(authorities);
     }
 
-    public Long getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

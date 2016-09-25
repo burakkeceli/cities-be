@@ -1,12 +1,20 @@
 package com.cities.security;
 
+import com.cities.model.User;
+import com.cities.model.UserRole;
+import com.cities.service.UserService;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.lang.StringUtils.equalsIgnoreCase;
 import static org.springframework.security.core.authority.AuthorityUtils.createAuthorityList;
@@ -16,18 +24,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     static Logger log = Logger.getLogger(UserDetailsServiceImpl.class.getName());
 
+    @Autowired
+    private UserService userService;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if (!equalsIgnoreCase(username, "keceli")) {
+        User user = userService.get(username);
+        if (user == null) {
             throw new UsernameNotFoundException(String.format("no found by name %s", username));
         }
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String hashedPassword = passwordEncoder.encode("123123");
-        Long id = 10L;
-        return new SpringSecurityUser(id,
-                                      username,
-                                      hashedPassword,
+
+        return new SpringSecurityUser(user.getId(),
+                                      user.getName(),
+                                      user.getPassword(),
                                       null,
-                                      createAuthorityList("ROLE_ADMIN", "ROLE_USER"));
+                                      createAuthorityList((String[]) user.getUserRoles().stream().map(UserRole::getRole).toArray()));
     }
 }
