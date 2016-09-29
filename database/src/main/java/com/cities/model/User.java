@@ -11,7 +11,7 @@ import java.util.Set;
 public class User {
 
     @Id
-    @Column(name="user_id")
+    @Column(name="id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     private String name;
@@ -21,8 +21,8 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     @Cascade({CascadeType.SAVE_UPDATE})
     @JoinTable(name = "user_userRole", joinColumns = {
-            @JoinColumn(name = "user_id", nullable = false, updatable = false) },
-            inverseJoinColumns = { @JoinColumn(name = "id",
+            @JoinColumn(name = "id", nullable = false, updatable = false) },
+            inverseJoinColumns = { @JoinColumn(name = "userrole_id",
                     nullable = false, updatable = false) })
     private Set<UserRole> userRoles;
 

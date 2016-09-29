@@ -6,6 +6,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @EnableWebMvc
-@ComponentScan(basePackages = "com.cities")
+@ComponentScan(basePackages = "com.*")
 public class SpringMvcConfig {
 }

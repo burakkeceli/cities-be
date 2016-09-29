@@ -1,11 +1,6 @@
 package com.cities.model;
 
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.CascadeType;
-
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -16,7 +11,7 @@ public class UserRole implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name="id")
+    @Column(name="userrole_id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
