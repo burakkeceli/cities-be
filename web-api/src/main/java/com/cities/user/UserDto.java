@@ -1,4 +1,4 @@
-package com.cities.security;
+package com.cities.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Date;
 
-public class SpringSecurityUser implements UserDetails {
+public class UserDto implements UserDetails {
 
     private Integer id;
     private String username;
@@ -20,12 +20,12 @@ public class SpringSecurityUser implements UserDetails {
     private Boolean credentialsNonExpired = true;
     private Boolean enabled = true;
 
-    public SpringSecurityUser() {
+    public UserDto() {
         super();
     }
 
-    public SpringSecurityUser(Integer id, String username, String password, Date lastPasswordReset,
-                              Collection<? extends GrantedAuthority> authorities) {
+    public UserDto(Integer id, String username, String password, Date lastPasswordReset,
+                   Collection<? extends GrantedAuthority> authorities) {
         this.setId(id);
         this.setUsername(username);
         this.setPassword(password);

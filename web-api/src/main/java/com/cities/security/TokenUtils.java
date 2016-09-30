@@ -1,5 +1,7 @@
 package com.cities.security;
 
+import com.cities.model.User;
+import com.cities.user.UserDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -97,8 +99,16 @@ public class TokenUtils {
     }
 
     public String generateToken(UserDetails userDetails) {
+        return generateToken(userDetails.getUsername());
+    }
+
+    public String generateToken(User user) {
+        return generateToken(user.getName());
+    }
+
+    private String generateToken(String name) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("sub", userDetails.getUsername());
+        claims.put("sub", name);
         claims.put("audience", "web");
         claims.put("created", this.generateCurrentDate());
         return this.generateToken(claims);
@@ -129,7 +139,7 @@ public class TokenUtils {
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
-        SpringSecurityUser user = (SpringSecurityUser) userDetails;
+        UserDto user = (UserDto) userDetails;
         final String username = this.getUsernameFromToken(token);
         final Date created = this.getCreatedDateFromToken(token);
         final Date expiration = this.getExpirationDateFromToken(token);
@@ -139,7 +149,7 @@ public class TokenUtils {
         return result;
     }
 
-    private boolean validationResult(String token, SpringSecurityUser user, String username, Date created) {
+    private boolean validationResult(String token, UserDto user, String username, Date created) {
         log.debug("cities => username.equals(user.getUsername()) : " + username.equals(user.getUsername()));
                 log.debug("cities => !(this.isTokenExpired(token)) " + !(this.isTokenExpired(token)));
         System.out.println("cities => username.equals(user.getUsername()) : " + username.equals(user.getUsername()));

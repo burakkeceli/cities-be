@@ -1,6 +1,7 @@
 package com.cities.security;
 
-import com.cities.AppConstant;
+import com.cities.constant.AppConstant;
+import com.cities.user.UserDto;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +56,7 @@ public class AuthenticationController {
     public ResponseEntity<?> authenticatinRequest(HttpServletRequest request) {
         String token = request.getHeader(AppConstant.tokenHeader);
         String username = this.tokenUtils.getUsernameFromToken(token);
-        SpringSecurityUser user = (SpringSecurityUser) this.userDetailsService.loadUserByUsername(username);
+        UserDto user = (UserDto) this.userDetailsService.loadUserByUsername(username);
         if (this.tokenUtils.canTokenBeRefreshed(token, user.getLastPasswordReset())){
             String refreshedToken = this.tokenUtils.refreshToken(token);
             return ResponseEntity.ok(new AuthenticationResponse(refreshedToken));
