@@ -1,4 +1,4 @@
-package com.cities.model;
+package com.cities.model.user;
 
 import javax.persistence.*;
 import java.io.Serializable;

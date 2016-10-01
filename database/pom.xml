@@ -17,6 +17,7 @@
         <springframework.version>4.2.6.RELEASE</springframework.version>
         <hibernate.version>4.2.7.Final</hibernate.version>
         <postgresql.version>9.3-1102-jdbc41</postgresql.version>
+        <assertj.version>3.5.2</assertj.version>
     </properties>
 
     <dependencies>
@@ -40,6 +41,12 @@
             <artifactId>spring-aspects</artifactId>
             <version>${springframework.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${springframework.version}</version>
+        </dependency>
+
 
         <!-- Spring ORM support -->
         <dependency>
@@ -64,6 +71,18 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -1,4 +1,4 @@
-package com.cities.model;
+package com.cities.model.user;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -6,14 +6,19 @@ import org.hibernate.annotations.CascadeType;
 import javax.persistence.*;
 import java.util.Set;
 
+import static javax.persistence.GenerationType.*;
+
 @Entity
 @Table(name="user")
 public class User {
 
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy= IDENTITY)
     private int id;
+
+    @Column(unique = true)
+    private String username;
     private String name;
     private String password;
     private String country;
@@ -32,6 +37,14 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getName() {

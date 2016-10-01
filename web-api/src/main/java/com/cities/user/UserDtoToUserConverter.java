@@ -1,6 +1,6 @@
 package com.cities.user;
 
-import com.cities.model.User;
+import com.cities.model.user.User;
 import com.cities.security.AuthenticationRequest;
 import org.springframework.stereotype.Component;
 

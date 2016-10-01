@@ -1,8 +1,8 @@
 package com.cities.main;
 
 import com.cities.config.PersistenceConfig;
-import com.cities.model.User;
-import com.cities.model.UserRole;
+import com.cities.model.user.User;
+import com.cities.model.user.UserRole;
 import com.cities.service.UserService;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -38,7 +38,7 @@ public class SpringHibernateMain {
         u.setCountry("Germany");
         u.setName("Burak");
         u.setUserRoles(roleSet);
-        userService.save(u);
+        userService.saveWithRoleUser(u);
 
         User user = userService.get("Burak");
 

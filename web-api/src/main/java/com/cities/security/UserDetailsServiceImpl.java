@@ -1,6 +1,6 @@
 package com.cities.security;
 
-import com.cities.model.User;
+import com.cities.model.user.User;
 import com.cities.service.UserService;
 import com.cities.user.UserDto;
 import org.apache.log4j.Logger;

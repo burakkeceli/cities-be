@@ -1,7 +1,7 @@
 package com.cities.security;
 
 import com.cities.error.ErrorResourceDto;
-import com.cities.model.User;
+import com.cities.model.user.User;
 import com.cities.service.UserService;
 import com.cities.user.UserDtoToUserConverter;
 import org.apache.log4j.Logger;
@@ -40,7 +40,7 @@ public class LoginController {
         }
 
         user = converter.fromRequest(authenticationRequest);
-        userService.save(user);
+        userService.saveWithRoleUser(user);
         String token = this.tokenUtils.generateToken(user);
 
         return ResponseEntity.ok(new AuthenticationResponse(token));

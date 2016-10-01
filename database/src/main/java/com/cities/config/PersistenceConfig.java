@@ -1,6 +1,6 @@
 package com.cities.config;
 
-import com.cities.model.UserRole;
+import com.cities.model.user.UserRole;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
