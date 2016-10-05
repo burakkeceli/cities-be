@@ -1,19 +1,19 @@
 package com.cities.model.user;
 
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import java.util.Set;
 
-import static javax.persistence.GenerationType.*;
+import static javax.persistence.GenerationType.IDENTITY;
+import static org.hibernate.annotations.CascadeType.SAVE_UPDATE;
 
 @Entity
 @Table(name="user")
 public class User {
 
     @Id
-    @Column(name="id")
+    @Column(name="user_id")
     @GeneratedValue(strategy= IDENTITY)
     private int id;
 
@@ -24,9 +24,9 @@ public class User {
     private String country;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @Cascade({CascadeType.SAVE_UPDATE})
+    @Cascade({SAVE_UPDATE})
     @JoinTable(name = "user_userRole", joinColumns = {
-            @JoinColumn(name = "id", nullable = false, updatable = false) },
+            @JoinColumn(name = "user_id", nullable = false, updatable = false) },
             inverseJoinColumns = { @JoinColumn(name = "userrole_id",
                     nullable = false, updatable = false) })
     private Set<UserRole> userRoles;

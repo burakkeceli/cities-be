@@ -36,7 +36,6 @@ public class PersistenceConfig {
         sessionFactory.setDataSource(restDataSource());
         sessionFactory.setPackagesToScan("com.*");
         sessionFactory.setHibernateProperties(hibernateProperties());
-        sessionFactory.setAnnotatedClasses(User.class, UserRole.class);
 
         return sessionFactory;
     }
@@ -71,7 +70,7 @@ public class PersistenceConfig {
     Properties hibernateProperties() {
         return new Properties() {
             {
-                setProperty("hibernate.hbm2ddl.auto", "update");
+                setProperty("hibernate.hbm2ddl.auto", "create");
                 setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
                 setProperty("hibernate.show_sql", "true");
                 setProperty("hibernate.default_schema", "cities");
