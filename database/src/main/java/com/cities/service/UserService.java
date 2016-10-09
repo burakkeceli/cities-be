@@ -24,7 +24,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void save(User user, HashSet<UserRole> roles) {
+    private void save(User user, HashSet<UserRole> roles) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setUserRoles(roles);
         userDAO.save(user);
