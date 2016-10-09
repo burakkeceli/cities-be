@@ -2,17 +2,16 @@ package com.cities.model.friend;
 
 import com.cities.model.user.User;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
 
 import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
-import static org.hibernate.annotations.CascadeType.ALL;
+import static org.hibernate.annotations.CascadeType.*;
 
 
 @Entity
-@Table(name="friendship")
+@Table(name = "friendship",
+        uniqueConstraints = @UniqueConstraint(columnNames={"user_from_id", "user_to_id"}))
 public class Friendship {
     @Id
     @Column(name="id")
@@ -23,13 +22,13 @@ public class Friendship {
     @Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
     private DateTime time = DateTime.now();*/
 
-    @OneToOne
-    @Cascade({ALL})
+    @ManyToOne
+    @Cascade({PERSIST})
     @JoinColumn(name = "user_from_id")
     private User userFrom;
 
-    @OneToOne
-    @Cascade({ALL})
+    @ManyToOne
+    @Cascade({PERSIST})
     @JoinColumn(name = "user_to_id")
     private User userTo;
 

@@ -22,6 +22,16 @@ public class UserDAO {
         session.save(user);
     }
 
+    public void save(UserRole role) {
+        Session session = this.sessionFactory.getCurrentSession();
+        session.save(role);
+    }
+
+    public List<User> getAll(){
+        Session session = this.sessionFactory.getCurrentSession();
+        return session.createCriteria(User.class).list();
+    }
+
     public User get(String name) {
         Session session = this.sessionFactory.getCurrentSession();
         Criteria cr = session.createCriteria(User.class);
