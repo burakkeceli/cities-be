@@ -1,4 +1,4 @@
-package com.cities.service;
+package com.cities.dao;
 
 import com.cities.config.PersistenceConfig;
 import com.cities.dao.FriendshipDAO;
@@ -36,10 +36,10 @@ public class FriendshipDAOITest {
     private UserDAO userDAO;
 
     @Test
-    public void shouldCreateUserWithUserRole() {
+    public void shouldCreateUserWithUserRole() throws InterruptedException {
         // given
         UserRole role = new UserRole();
-        role.setRole("ROLE_ADMIN");
+        role.setRole("ROLE_USER");
 
         User userFrom = createUser(role, UUID.randomUUID().toString(), "123", "Turkey");
         User userTo = createUser(role, UUID.randomUUID().toString(), "123", "Turkey");

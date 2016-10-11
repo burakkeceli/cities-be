@@ -30,14 +30,19 @@ public class UserService {
         userDAO.save(user);
     }
 
-    public void saveWithRoleUser(User user) {
+    public User saveWithRoleUser(User user) {
         UserRole userRole = getRole(ROLE_USER.getName());
         save(user, new HashSet<>(singletonList(userRole)));
+        return user;
     }
 
     public void saveWithRoleAdmin(User user) {
         UserRole userRole = getRole(ROLE_ADMIN.getName());
         save(user, new HashSet<>(singletonList(userRole)));
+    }
+
+    public void saveUserRole(UserRole userRole) {
+        userDAO.save(userRole);
     }
 
     public User get(String name) {

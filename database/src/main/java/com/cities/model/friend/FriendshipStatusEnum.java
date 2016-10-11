@@ -2,7 +2,8 @@ package com.cities.model.friend;
 
 public enum FriendshipStatusEnum {
     ACTIVE(1, "ACTIVE"),
-    BLOCKED(2, "BLOCKED");
+    BLOCKED(2, "BLOCKED"),
+    PENDING(3, "PENDING");
 
     private Integer id;
     private String name;

@@ -1,4 +1,4 @@
-package com.cities.service;
+package com.cities.dao;
 
 import com.cities.config.PersistenceConfig;
 import com.cities.dao.UserDAO;
