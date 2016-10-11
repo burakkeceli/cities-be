@@ -37,7 +37,7 @@ public class AuthenticationController {
     public ResponseEntity<?> authenticationRequest(@RequestBody AuthenticationRequest authenticationRequest)
         throws AuthenticationException {
 
-        Authentication authentication = this.authenticationManager.authenticate(
+        Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authenticationRequest.getUsername(),
                         authenticationRequest.getPassword()
@@ -45,8 +45,8 @@ public class AuthenticationController {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        String token = this.tokenUtils.generateToken(userDetails);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        String token = tokenUtils.generateToken(userDetails);
 
         // Return token
         return ResponseEntity.ok(new AuthenticationResponse(token));
@@ -55,10 +55,10 @@ public class AuthenticationController {
     @RequestMapping(value = "refresh", method = GET)
     public ResponseEntity<?> authenticatinRequest(HttpServletRequest request) {
         String token = request.getHeader(AppConstant.tokenHeader);
-        String username = this.tokenUtils.getUsernameFromToken(token);
-        UserDto user = (UserDto) this.userDetailsService.loadUserByUsername(username);
-        if (this.tokenUtils.canTokenBeRefreshed(token, user.getLastPasswordReset())){
-            String refreshedToken = this.tokenUtils.refreshToken(token);
+        String username = tokenUtils.getUsernameFromToken(token);
+        UserDto user = (UserDto) userDetailsService.loadUserByUsername(username);
+        if (tokenUtils.canTokenBeRefreshed(token, user.getLastPasswordReset())){
+            String refreshedToken = tokenUtils.refreshToken(token);
             return ResponseEntity.ok(new AuthenticationResponse(refreshedToken));
         } else {
             return ResponseEntity.badRequest().body(null);
