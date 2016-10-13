@@ -24,7 +24,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private void save(User user, HashSet<UserRole> roles) {
+    public void save(User user, HashSet<UserRole> roles) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setUserRoles(roles);
         userDAO.save(user);
@@ -49,7 +49,7 @@ public class UserService {
         return userDAO.get(name);
     }
 
-    public UserRole get(Integer id) {
+    public UserRole getRole(Integer id) {
         return userDAO.getRole(id);
     }
 
