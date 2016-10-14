@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -14,11 +15,12 @@ public class UserDto implements UserDetails {
     private String password;
     private String email;
     private Date lastPasswordReset;
-    private Collection<? extends GrantedAuthority> authorities;
+    private Collection<? extends GrantedAuthority> authorities = new ArrayList<>();
     private Boolean accountNonExpired = true;
     private Boolean accountNonLocked = true;
     private Boolean credentialsNonExpired = true;
     private Boolean enabled = true;
+    private String country;
 
     public UserDto() {
         super();
@@ -140,4 +142,11 @@ public class UserDto implements UserDetails {
         return this.getEnabled();
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 }

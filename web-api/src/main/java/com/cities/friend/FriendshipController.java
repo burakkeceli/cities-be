@@ -1,8 +1,6 @@
 package com.cities.friend;
 
 
-import com.cities.model.user.User;
-import com.cities.service.FriendshipService;
 import com.cities.user.UserDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.log4j.Logger;
@@ -21,16 +19,16 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @RestController
 @RequestMapping(value = "/user/friend")
 @PreAuthorize("hasAnyRole('ROLE_USER')")
-public class FriendController {
+public class FriendshipController {
 
-    static Logger log = Logger.getLogger(FriendController.class.getName());
+    static Logger log = Logger.getLogger(FriendshipController.class.getName());
 
     @Autowired
-    private FriendshipService friendshipService;
+    private FriendshipLogic friendshipLogic;
 
     @RequestMapping(value = "request", method = GET)
     public ResponseEntity getFriendRequets(@AuthenticationPrincipal UserDto userDto) throws JsonProcessingException {
-        List<User> users = friendshipService.getPendingRequests(userDto.getId());
-        return new ResponseEntity<>(users, OK);
+        List<UserDto> userDtoList = friendshipLogic.getPendingRequestUserList(userDto.getId());
+        return new ResponseEntity<>(userDtoList, OK);
     }
 }

@@ -37,6 +37,8 @@ public class AuthenticationController {
     public ResponseEntity<?> authenticationRequest(@RequestBody AuthenticationRequest authenticationRequest)
         throws AuthenticationException {
 
+        SecurityContextHolder.getContext().setAuthentication(null);
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authenticationRequest.getUsername(),

@@ -1,5 +1,6 @@
 package com.cities.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
