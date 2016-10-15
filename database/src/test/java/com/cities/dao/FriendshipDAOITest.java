@@ -1,5 +1,6 @@
 package com.cities.dao;
 
+import com.cities.base.AbstractBaseITest;
 import com.cities.config.PersistenceConfig;
 import com.cities.dao.FriendshipDAO;
 import com.cities.dao.UserDAO;
@@ -25,10 +26,7 @@ import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = PersistenceConfig.class, loader = AnnotationConfigContextLoader.class)
-@Transactional
-public class FriendshipDAOITest {
+public class FriendshipDAOITest extends AbstractBaseITest{
 
     @Autowired
     private FriendshipDAO friendshipDAO;
@@ -36,37 +34,9 @@ public class FriendshipDAOITest {
     private UserDAO userDAO;
 
     @Test
-    public void shouldCreateUserWithUserRole() throws InterruptedException {
-        // given
-        UserRole role = new UserRole();
-        role.setRole("ROLE_USER");
-
-        User userFrom = createUser(role, UUID.randomUUID().toString(), "123", "Turkey");
-        User userTo = createUser(role, UUID.randomUUID().toString(), "123", "Turkey");
-
-        // when
-        userDAO.save(userFrom);
-        userDAO.save(userTo);
-
-        Friendship friendship = new Friendship();
-        friendship.setFriendshipStatusEnum(ACTIVE);
-        friendship.setUserTo(userTo);
-        friendship.setUserFrom(userFrom);
-
-        // when
-        friendshipDAO.save(friendship);
-
-        // then
-        friendship = friendshipDAO.get(1);
-        assertThat(friendship.getUserFrom().getName()).isEqualToIgnoringCase(userFrom.getName());
-        assertThat(friendship.getUserTo().getName()).isEqualToIgnoringCase(userTo.getName());
-    }
-
-    @Test
     public void shouldAddSeveralUsersAsFriends() {
         // given
-        UserRole role = new UserRole();
-        role.setRole("ROLE_ADMIN");
+        UserRole role = userDAO.getRole(1);
 
         User userFrom = createUser(role, UUID.randomUUID().toString(), "123", "Turkey");
         User userTo1 = createUser(role, UUID.randomUUID().toString(), "123", "Turkey");
@@ -92,8 +62,6 @@ public class FriendshipDAOITest {
 
         // then
         List<Friendship> friendshipList = friendshipDAO.getAll();
-        assertThat(friendshipList).hasSize(2);
-
         friendshipList = friendshipDAO.getFriendsOfUser(userFrom.getId());
         List<User> collect = friendshipList.stream().filter(friendShip -> friendShip.getUserFrom().getId() == userFrom.getId()).map(Friendship::getUserTo).collect(toList());
         assertThat(collect).contains(userTo1);
@@ -103,8 +71,7 @@ public class FriendshipDAOITest {
     @Test
     public void shouldNotDeleteUserWhenFriendshipDeleted() {
         // given
-        UserRole role = new UserRole();
-        role.setRole("ROLE_ADMIN");
+        UserRole role = userDAO.getRole(1);
 
         User userFrom = createUser(role, UUID.randomUUID().toString(), "123", "Turkey");
         User userTo = createUser(role, UUID.randomUUID().toString(), "123", "Turkey");
@@ -122,13 +89,7 @@ public class FriendshipDAOITest {
 
         // when
         friendship = friendshipDAO.getByUserIds(userFrom.getId(), userTo.getId());
-        List<Friendship> friendshipList = friendshipDAO.getAll();
-        assertThat(friendshipList).hasSize(1);
-
         friendshipDAO.delete(friendship);
-        friendshipList = friendshipDAO.getAll();
-        assertThat(friendshipList).hasSize(0);
-
         friendship = friendshipDAO.getByUserIds(userFrom.getId(), userTo.getId());
         assertThat(friendship).isNull();
 
@@ -146,8 +107,7 @@ public class FriendshipDAOITest {
     @Test
     public void shouldNotAddTwoSameUserAsFriends() {
         // given
-        UserRole role = new UserRole();
-        role.setRole("ROLE_ADMIN");
+        UserRole role = userDAO.getRole(1);
 
         User userFrom = createUser(role, UUID.randomUUID().toString(), "123", "Turkey");
         User userTo = createUser(role, UUID.randomUUID().toString(), "123", "Turkey");

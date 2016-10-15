@@ -4,6 +4,7 @@ import com.cities.model.friend.Friendship;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.SimpleExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,22 +22,22 @@ public class FriendshipDAO {
     private SessionFactory sessionFactory;
 
     public void save(Friendship friendship) {
-        Session session = this.sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         session.save(friendship);
     }
 
     public void delete (Friendship friendship) {
-        Session session = this.sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         session.delete(friendship);
     }
 
     public List<Friendship> getAll(){
-        Session session = this.sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         return session.createCriteria(Friendship.class).list();
     }
 
     public Friendship get(Integer id) {
-        Session session = this.sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         Criteria cr = session.createCriteria(Friendship.class);
         cr.add(eq("id", id));
         if(cr.list().isEmpty())
@@ -62,7 +63,7 @@ public class FriendshipDAO {
     }
 
     private Criteria getCriteria(SimpleExpression expression, SimpleExpression simpleExpression) {
-        Session session = this.sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         Criteria cr = session.createCriteria(Friendship.class);
         cr.add(simpleExpression)
                 .add(expression);

@@ -1,5 +1,6 @@
 package com.cities.service;
 
+import com.cities.base.AbstractBaseITest;
 import com.cities.config.PersistenceConfig;
 import com.cities.dao.FriendshipDAO;
 import com.cities.dao.UserDAO;
@@ -28,10 +29,7 @@ import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = PersistenceConfig.class, loader = AnnotationConfigContextLoader.class)
-@Transactional
-public class FriendshipServiceITest {
+public class FriendshipServiceITest extends AbstractBaseITest {
 
     @Autowired
     private FriendshipService friendshipService;
@@ -43,9 +41,7 @@ public class FriendshipServiceITest {
     @Test
     public void shouldSendPendingRequest() {
         // given
-        UserRole role = new UserRole();
-        role.setRole(ROLE_USER.getName());
-        userService.saveUserRole(role);
+        UserRole role = userService.getRole(1);
 
         User userFrom = createUser(role, UUID.randomUUID().toString(), "123", "Turkey");
         User userTo = createUser(role, UUID.randomUUID().toString(), "123", "Turkey");
@@ -70,9 +66,7 @@ public class FriendshipServiceITest {
     @Test
     public void shouldAcceptPendingRequest() {
         // given
-        UserRole role = new UserRole();
-        role.setRole(ROLE_USER.getName());
-        userService.saveUserRole(role);
+        UserRole role = userService.getRole(1);
 
         User userFrom = createUser(role, UUID.randomUUID().toString(), "123", "Turkey");
         User userTo = createUser(role, UUID.randomUUID().toString(), "123", "Turkey");

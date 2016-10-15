@@ -5,6 +5,7 @@ import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.IDENTITY;
 import static org.hibernate.annotations.CascadeType.*;
 
@@ -22,12 +23,12 @@ public class Friendship {
     @Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
     private DateTime time = DateTime.now();*/
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @Cascade({PERSIST})
     @JoinColumn(name = "user_from_id")
     private User userFrom;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @Cascade({PERSIST})
     @JoinColumn(name = "user_to_id")
     private User userTo;

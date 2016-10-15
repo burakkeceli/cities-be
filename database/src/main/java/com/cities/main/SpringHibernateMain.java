@@ -1,6 +1,7 @@
 package com.cities.main;
 
 import com.cities.config.PersistenceConfig;
+import com.cities.dao.FriendshipDAO;
 import com.cities.model.friend.Friendship;
 import com.cities.model.user.User;
 import com.cities.model.user.UserRole;
@@ -13,6 +14,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.HashSet;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 
@@ -20,7 +22,6 @@ public class SpringHibernateMain {
 
     @Autowired
     private SessionFactory sessionFactory;
-
     @Autowired
     private PersistenceConfig persistenceConfig;
 
@@ -32,8 +33,15 @@ public class SpringHibernateMain {
         //session = sessionFactory.openSession();
         UserService userService = context.getBean(UserService.class);
         FriendshipService friendshipService = context.getBean(FriendshipService.class);
+        FriendshipDAO friendshipDAO = context.getBean(FriendshipDAO.class);
         //initialize2Users(userService);
         //createPendingRequest(userService, friendshipService);
+        //getPendingRequestList(userService, friendshipService);
+    }
+
+    private static void getPendingRequestList(UserService userService, FriendshipService friendshipService) {
+        User user1 = userService.get("Burak");
+        List<User> userList = friendshipService.getPendingRequests(user1.getId());
     }
 
     private static void createPendingRequest(UserService userService, FriendshipService friendshipService) {
@@ -44,6 +52,11 @@ public class SpringHibernateMain {
         friendship.setUserTo(user2);
         friendship.setUserFrom(user1);
         friendshipService.savePendingRequest(friendship);
+/*
+        Friendship friendship2 = new Friendship();
+        friendship2.setUserTo(user1);
+        friendship2.setUserFrom(user2);
+        friendshipService.savePendingRequest(friendship2);*/
     }
 
     private static void initialize2Users(UserService userService) {
