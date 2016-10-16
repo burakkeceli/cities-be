@@ -1,4 +1,4 @@
-package com.cities.user;
+package com.cities.user.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,7 +1,7 @@
 package com.cities.security;
 
 import com.cities.model.user.User;
-import com.cities.user.UserDto;
+import com.cities.user.model.UserDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

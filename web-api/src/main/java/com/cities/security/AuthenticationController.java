@@ -1,7 +1,7 @@
 package com.cities.security;
 
 import com.cities.constant.AppConstant;
-import com.cities.user.UserDto;
+import com.cities.user.model.UserDto;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

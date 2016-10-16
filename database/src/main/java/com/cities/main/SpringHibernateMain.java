@@ -34,9 +34,9 @@ public class SpringHibernateMain {
         UserService userService = context.getBean(UserService.class);
         FriendshipService friendshipService = context.getBean(FriendshipService.class);
         FriendshipDAO friendshipDAO = context.getBean(FriendshipDAO.class);
-        //initialize2Users(userService);
-        //createPendingRequest(userService, friendshipService);
-        //getPendingRequestList(userService, friendshipService);
+        initialize2Users(userService);
+        createPendingRequest(userService, friendshipService);
+        getPendingRequestList(userService, friendshipService);
     }
 
     private static void getPendingRequestList(UserService userService, FriendshipService friendshipService) {

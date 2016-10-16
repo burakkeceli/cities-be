@@ -1,15 +1,13 @@
 package com.cities.user;
 
 import com.cities.model.user.User;
-import com.cities.model.user.UserRole;
 import com.cities.security.AuthenticationRequest;
+import com.cities.user.model.UserDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -25,6 +23,7 @@ public class UserDtoToUserConverter {
 
     public UserDto fromUser(User user) {
         UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
         userDto.setUsername(user.getName());
         setUserRoles(user, userDto);
         userDto.setCountry(user.getCountry());

@@ -50,6 +50,11 @@ public class FriendshipService {
         return friendshipList.stream().map(Friendship::getUserTo).collect(toList());
     }
 
+    public boolean doesUserHaveFriend(Integer userFromId, Integer userToId) {
+        Friendship friendship = friendshipDAO.getByUserIds(userFromId, userToId, ACTIVE);
+        return friendship != null;
+    }
+
     private void changeFriendships(Friendship friendship) {
         User userFrom = friendship.getUserFrom();
         friendship.setUserFrom(friendship.getUserTo());

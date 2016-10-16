@@ -1,6 +1,7 @@
 package com.cities.dao;
 
 import com.cities.model.friend.Friendship;
+import com.cities.model.friend.FriendshipStatusEnum;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -40,13 +41,20 @@ public class FriendshipDAO {
         Session session = sessionFactory.getCurrentSession();
         Criteria cr = session.createCriteria(Friendship.class);
         cr.add(eq("id", id));
-        if(cr.list().isEmpty())
-            return null;
-        return (Friendship)cr.list().get(0);
+        return getFriendship(cr);
+    }
+
+    public Friendship getByUserIds(Integer userFromId, Integer userToId, FriendshipStatusEnum status) {
+        Criteria cr = getCriteria(eq("userTo.id", userToId), eq("userFrom.id", userFromId), eq("friendshipStatusEnum", status));
+        return getFriendship(cr);
     }
 
     public Friendship getByUserIds(Integer userFromId, Integer userToId) {
         Criteria cr = getCriteria(eq("userTo.id", userToId), eq("userFrom.id", userFromId));
+        return getFriendship(cr);
+    }
+
+    private Friendship getFriendship(Criteria cr) {
         if(cr.list().isEmpty())
             return null;
         return (Friendship)cr.list().get(0);
@@ -62,11 +70,12 @@ public class FriendshipDAO {
         return cr.list();
     }
 
-    private Criteria getCriteria(SimpleExpression expression, SimpleExpression simpleExpression) {
+    private Criteria getCriteria(SimpleExpression... expressions) {
         Session session = sessionFactory.getCurrentSession();
         Criteria cr = session.createCriteria(Friendship.class);
-        cr.add(simpleExpression)
-                .add(expression);
+        for (SimpleExpression expression : expressions) {
+            cr.add(expression);
+        }
         return cr;
     }
 }

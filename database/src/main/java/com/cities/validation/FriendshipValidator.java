@@ -21,4 +21,8 @@ public class FriendshipValidator {
         }
         return true;
     }
+
+    public boolean validateUserHasFriend(Integer userFromId, Integer userToId) {
+        return friendshipService.doesUserHaveFriend(userFromId, userToId);
+    }
 }
