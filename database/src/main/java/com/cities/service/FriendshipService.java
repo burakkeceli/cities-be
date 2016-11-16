@@ -23,8 +23,6 @@ public class FriendshipService {
 
     private void save(Friendship friendship) {
         save(friendship, ACTIVE);
-        //changeFriendships(friendship);
-        //friendshipDAO.save(friendship);
     }
 
     public void createFriendship(Integer userFromId, Integer userToId) {
@@ -59,5 +57,10 @@ public class FriendshipService {
         User userFrom = friendship.getUserFrom();
         friendship.setUserFrom(friendship.getUserTo());
         friendship.setUserTo(userFrom);
+    }
+
+    public void acceptFriendshipRequest(Integer userFromId, Integer userToId) {
+        Friendship friendship = getFriendship(userFromId, userToId);
+        save(friendship, ACTIVE);
     }
 }

@@ -1,9 +1,5 @@
 Information:
 
-HOW TO RUN DOCKER COMPOSE:
-docker-compose -f docker-compose.yaml up -d
-
-
 Docker -> Postgre connection:
 1. Install image of docker
 2. docker run -d --name postgre -p 5432:5432 -v pg-data:/var/lib/postgresql/data postgres:latest

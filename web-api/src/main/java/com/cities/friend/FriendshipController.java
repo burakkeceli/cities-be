@@ -45,6 +45,10 @@ public class FriendshipController {
         if (friendshipValidator.validateUserHasFriend(userDto.getId(), userPropertiesView.getId())) {
             return new ResponseEntity<>(FORBIDDEN);
         }
+        if (!friendshipValidator.hasFriendshipRequest(userDto.getId(), userPropertiesView.getId())) {
+            return new ResponseEntity<>(FORBIDDEN);
+        }
+        friendshipLogic.acceptFriendshipRequest(userDto.getId(), userPropertiesView.getId());
         return new ResponseEntity<>(OK);
     }
 }

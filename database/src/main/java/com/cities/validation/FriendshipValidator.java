@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class FriendshipValidator {
@@ -13,16 +14,13 @@ public class FriendshipValidator {
     @Autowired
     private FriendshipService friendshipService;
 
-    public boolean validateConflictRequest(User userFrom, User userTo) {
-
-        List<User> userList = friendshipService.getPendingRequests(userTo.getId());
-        if (userList.stream().filter(x -> x.getId() == userFrom.getId()).findFirst().isPresent()) {
-            return false;
-        }
-        return true;
-    }
-
     public boolean validateUserHasFriend(Integer userFromId, Integer userToId) {
         return friendshipService.doesUserHaveFriend(userFromId, userToId);
+    }
+
+    public boolean hasFriendshipRequest(Integer userFromId, Integer userToId) {
+        List<User> users = friendshipService.getPendingRequests(userFromId);
+        Optional fetchedUser = users.stream().filter(user -> user.getId().equals(userToId)).findFirst();
+        return fetchedUser.isPresent();
     }
 }

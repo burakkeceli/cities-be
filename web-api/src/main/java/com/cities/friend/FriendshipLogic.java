@@ -1,5 +1,6 @@
 package com.cities.friend;
 
+import com.cities.model.friend.Friendship;
 import com.cities.model.user.User;
 import com.cities.service.FriendshipService;
 import com.cities.user.UserDtoToUserConverter;
@@ -25,6 +26,6 @@ public class FriendshipLogic {
     }
 
     public void acceptFriendshipRequest(Integer userFromId, Integer userToId) {
-        //TODO
+        friendshipService.acceptFriendshipRequest(userFromId, userToId);
     }
 }

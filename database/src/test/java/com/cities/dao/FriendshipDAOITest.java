@@ -7,6 +7,8 @@ import com.cities.model.user.UserRole;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -16,8 +18,9 @@ import static com.cities.model.friend.FriendshipStatusEnum.ACTIVE;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.transaction.annotation.Propagation.NOT_SUPPORTED;
 
-public class FriendshipDAOITest extends AbstractBaseITest{
+public class FriendshipDAOITest extends AbstractBaseITest {
 
     @Autowired
     private FriendshipDAO friendshipDAO;
