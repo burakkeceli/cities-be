@@ -1,0 +1,12 @@
+Friendship Related:
+- Remove from friendship
+
+
+User:
+- Search
+
+
+City:
+- Seach city
+- Create city
+- Fetch city list
