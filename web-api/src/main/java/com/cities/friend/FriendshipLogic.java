@@ -2,8 +2,8 @@ package com.cities.friend;
 
 import com.cities.model.user.User;
 import com.cities.service.FriendshipService;
-import com.cities.user.model.UserDto;
 import com.cities.user.UserDtoToUserConverter;
+import com.cities.user.model.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

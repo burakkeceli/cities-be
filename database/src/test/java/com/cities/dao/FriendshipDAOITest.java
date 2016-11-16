@@ -1,25 +1,16 @@
 package com.cities.dao;
 
 import com.cities.base.AbstractBaseITest;
-import com.cities.config.PersistenceConfig;
-import com.cities.dao.FriendshipDAO;
-import com.cities.dao.UserDAO;
 import com.cities.model.friend.Friendship;
 import com.cities.model.user.User;
 import com.cities.model.user.UserRole;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static com.cities.model.friend.FriendshipStatusEnum.ACTIVE;
 import static java.util.Collections.singletonList;

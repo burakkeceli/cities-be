@@ -5,9 +5,9 @@ import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 
-import static javax.persistence.FetchType.*;
+import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
-import static org.hibernate.annotations.CascadeType.*;
+import static org.hibernate.annotations.CascadeType.PERSIST;
 
 
 @Entity
