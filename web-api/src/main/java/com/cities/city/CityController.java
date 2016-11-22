@@ -13,7 +13,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
 @RequestMapping(value = "/city")
-@PreAuthorize("hasAnyRole('ROLE_USER')")
 public class CityController {
 
     @RequestMapping(value = "liked", method = GET)

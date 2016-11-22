@@ -7,6 +7,7 @@ import com.cities.dao.UserDAO;
 import com.cities.model.friend.Friendship;
 import com.cities.model.user.User;
 import com.cities.model.user.UserRole;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,11 @@ public class FriendshipServiceITest extends AbstractBaseITest {
     private UserService userService;
     @Autowired
     private FriendshipDAO friendshipDAO;
+
+    @Before
+    public void setup() {
+
+    }
 
     @Test
     public void shouldSendPendingRequest() {
