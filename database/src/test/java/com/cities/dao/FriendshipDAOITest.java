@@ -7,8 +7,6 @@ import com.cities.model.user.UserRole;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -18,7 +16,6 @@ import static com.cities.model.friend.FriendshipStatusEnum.ACTIVE;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.transaction.annotation.Propagation.NOT_SUPPORTED;
 
 public class FriendshipDAOITest extends AbstractBaseITest {
 
@@ -55,8 +52,7 @@ public class FriendshipDAOITest extends AbstractBaseITest {
         friendshipDAO.save(friendship2);
 
         // then
-        List<Friendship> friendshipList = friendshipDAO.getAll();
-        friendshipList = friendshipDAO.getFriendsOfUser(userFrom.getId());
+        List<Friendship> friendshipList = friendshipDAO.getFriendsOfUser(userFrom.getId());
         List<User> collect = friendshipList.stream().filter(friendShip -> friendShip.getUserFrom().getId() == userFrom.getId()).map(Friendship::getUserTo).collect(toList());
         assertThat(collect).contains(userTo1);
         assertThat(collect).contains(userTo2);
@@ -89,13 +85,13 @@ public class FriendshipDAOITest extends AbstractBaseITest {
 
         // then
         assertThat(userDAO.getAll()).isNotEmpty();
-        User fetchedUserTo = userDAO.get(userTo.getName());
-        User fetchedUserFrom = userDAO.get(userFrom.getName());
+        User fetchedUserTo = userDAO.get(userTo.getUsername());
+        User fetchedUserFrom = userDAO.get(userFrom.getUsername());
 
         assertThat(fetchedUserFrom).isNotNull();
-        assertThat(fetchedUserFrom.getName()).isEqualToIgnoringCase(userFrom.getName());
+        assertThat(fetchedUserFrom.getUsername()).isEqualToIgnoringCase(userFrom.getUsername());
         assertThat(fetchedUserTo).isNotNull();
-        assertThat(fetchedUserTo.getName()).isEqualToIgnoringCase(userTo.getName());
+        assertThat(fetchedUserTo.getUsername()).isEqualToIgnoringCase(userTo.getUsername());
     }
 
     @Test
@@ -131,7 +127,7 @@ public class FriendshipDAOITest extends AbstractBaseITest {
 
     private User createUser(UserRole role, String name, String password, String country) {
         User user = new User();
-        user.setName(name);
+        user.setFirstName(name);
         user.setUsername(name);
         user.setPassword(password);
         user.setUserRoles(new HashSet<>(singletonList(role)));

@@ -20,7 +20,6 @@ public class UserService {
 
     @Autowired
     private UserDAO userDAO;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -47,6 +46,9 @@ public class UserService {
 
     public User get(String name) {
         return userDAO.get(name);
+    }
+    public User get(Integer id) {
+        return userDAO.get(id);
     }
 
     public UserRole getRole(Integer id) {

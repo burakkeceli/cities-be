@@ -32,6 +32,7 @@
         <assertj.version>3.5.2</assertj.version>
         <jodatime.version>2.9.4</jodatime.version>
         <jodatimehibernate.version>1.4</jodatimehibernate.version>
+        <googlecollections.version>1.0-rc2</googlecollections.version>
     </properties>
 
     <dependencies>
@@ -93,6 +94,11 @@
             <version>${jodatimehibernate.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.collections</groupId>
+            <artifactId>google-collections</artifactId>
+            <version>${googlecollections.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>junit</groupId>
