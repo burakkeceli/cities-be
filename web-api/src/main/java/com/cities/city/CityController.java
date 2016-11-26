@@ -16,6 +16,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 public class CityController {
 
     @RequestMapping(value = "liked", method = GET)
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity getLikedCities() {
         List cities = Arrays.asList("Berlin", "Istanbul");
         return new ResponseEntity<>(cities, OK);
