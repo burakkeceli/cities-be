@@ -1,7 +1,6 @@
 package com.cities.dao;
 
 import com.cities.config.PersistenceConfig;
-import com.cities.dao.UserDAO;
 import com.cities.model.user.User;
 import com.cities.model.user.UserRole;
 import org.junit.Test;
@@ -35,7 +34,7 @@ public class UserDAOITest {
         String name = UUID.randomUUID().toString();
         String password = "123";
         String country = "Turkey";
-        user.setName(name);
+        user.setFirstName(name);
         user.setUsername(name);
         user.setPassword(password);
         user.setUserRoles(new HashSet<>(singletonList(role)));
@@ -46,7 +45,7 @@ public class UserDAOITest {
 
         // then
         user = userDAO.get(name);
-        assertThat(user.getName()).isEqualToIgnoringCase(name);
+        assertThat(user.getFirstName()).isEqualToIgnoringCase(name);
         assertThat(user.getUsername()).isEqualToIgnoringCase(name);
         assertThat(user.getUserRoles()).contains(role);
         assertThat(user.getCountry()).isEqualToIgnoringCase(country);
@@ -61,7 +60,7 @@ public class UserDAOITest {
         String name = UUID.randomUUID().toString();
         String password = "123";
         String country = "Turkey";
-        user.setName(name);
+        user.setFirstName(name);
         user.setUsername(name);
         user.setPassword(password);
         user.setUserRoles(new HashSet<>(singletonList(role)));

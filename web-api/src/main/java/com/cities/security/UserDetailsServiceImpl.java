@@ -32,7 +32,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         return new UserDto(user.getId(),
-                           user.getName(),
+                           user.getUsername(),
                            user.getPassword(),
                            null,
                            createAuthorityList(getRoles(user)));

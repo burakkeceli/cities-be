@@ -1,6 +1,7 @@
 package com.cities.friend;
 
 
+import com.cities.service.FriendshipService;
 import com.cities.user.model.UserDto;
 import com.cities.user.model.UserPropertiesView;
 import com.cities.validation.FriendshipValidator;
@@ -16,13 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.cities.constant.ApiConstants.Urls.USER_FRIENDSHIP;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
-@RequestMapping(value = "/user/friend")
+@RequestMapping(value = USER_FRIENDSHIP, produces = APPLICATION_JSON_UTF8_VALUE)
 @PreAuthorize("hasAnyRole('ROLE_USER')")
 public class FriendshipController {
 
@@ -32,23 +35,35 @@ public class FriendshipController {
     private FriendshipLogic friendshipLogic;
     @Autowired
     private FriendshipValidator friendshipValidator;
+    @Autowired
+    private FriendshipService friendshipService;
 
-    @RequestMapping(value = "request", method = GET)
+    @RequestMapping(value = "/pending", method = GET)
     public ResponseEntity getFriendRequets(@AuthenticationPrincipal UserDto userDto) throws JsonProcessingException {
         List<UserDto> userDtoList = friendshipLogic.getPendingRequestUserList(userDto.getId());
         return new ResponseEntity<>(userDtoList, OK);
     }
 
-    @RequestMapping(value = "accept", method = POST)
+    @RequestMapping(value = "/accept", method = POST)
     public ResponseEntity acceptFriendshipRequest(@AuthenticationPrincipal UserDto userDto,
                                                   @RequestBody UserPropertiesView userPropertiesView) throws JsonProcessingException {
-        if (friendshipValidator.validateUserHasFriend(userDto.getId(), userPropertiesView.getId())) {
+        if (friendshipValidator.hasUserFriend(userDto.getId(), userPropertiesView.getId())) {
             return new ResponseEntity<>(FORBIDDEN);
         }
         if (!friendshipValidator.hasFriendshipRequest(userDto.getId(), userPropertiesView.getId())) {
             return new ResponseEntity<>(FORBIDDEN);
         }
-        friendshipLogic.acceptFriendshipRequest(userDto.getId(), userPropertiesView.getId());
+        friendshipService.acceptFriendshipRequest(userDto.getId(), userPropertiesView.getId());
+        return new ResponseEntity<>(OK);
+    }
+
+    @RequestMapping(value = "/request", method = POST)
+    public ResponseEntity sendFriendshipRequest(@AuthenticationPrincipal UserDto userDto,
+                                                @RequestBody UserPropertiesView userPropertiesView) throws JsonProcessingException {
+        if (friendshipValidator.hasUserFriend(userDto.getId(), userPropertiesView.getId())) {
+            return new ResponseEntity<>(FORBIDDEN);
+        }
+        friendshipService.savePendingRequest(userDto.getId(), userPropertiesView.getId());
         return new ResponseEntity<>(OK);
     }
 }

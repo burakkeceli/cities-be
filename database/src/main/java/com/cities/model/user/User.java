@@ -21,9 +21,11 @@ public class User {
 
     @Column(unique = true)
     private String username;
-    private String name;
+    private String firstName;
+    private String lastName;
     private String password;
     private String country;
+    private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @Cascade({SAVE_UPDATE})
@@ -32,9 +34,4 @@ public class User {
             inverseJoinColumns = { @JoinColumn(name = "userrole_id",
                     nullable = false, updatable = false) })
     private Set<UserRole> userRoles;
-
-    @Override
-    public String toString(){
-        return "id="+id+", name="+name+", country="+country;
-    }
 }

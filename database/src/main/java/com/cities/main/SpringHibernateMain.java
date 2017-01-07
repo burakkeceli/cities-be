@@ -79,7 +79,7 @@ public class SpringHibernateMain {
         User u = new User();
         u.setPassword("123");
         u.setCountry("Germany");
-        u.setName(burak);
+        u.setFirstName(burak);
         userService.save(u, roles);
     }
 }

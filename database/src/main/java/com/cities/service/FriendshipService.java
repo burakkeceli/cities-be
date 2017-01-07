@@ -20,14 +20,17 @@ public class FriendshipService {
 
     @Autowired
     private FriendshipDAO friendshipDAO;
+    @Autowired
+    private UserService userService;
 
-    private void save(Friendship friendship) {
-        save(friendship, ACTIVE);
+    private void save(Friendship friendship, FriendshipStatusEnum statusEnum) {
+        friendship.setFriendshipStatusEnum(statusEnum);
+        friendshipDAO.save(friendship);
     }
 
-    public void createFriendship(Integer userFromId, Integer userToId) {
+    public void saveFriendship(Integer userFromId, Integer userToId) {
         Friendship friendship = getFriendship(userFromId, userToId);
-        save(friendship);
+        save(friendship, ACTIVE);
     }
 
     public Friendship getFriendship(Integer userFromId, Integer userToId) {
@@ -38,9 +41,9 @@ public class FriendshipService {
         save(friendship, PENDING);
     }
 
-    private void save(Friendship friendship, FriendshipStatusEnum statusEnum) {
-        friendship.setFriendshipStatusEnum(statusEnum);
-        friendshipDAO.save(friendship);
+    public void savePendingRequest(Integer userFromId, Integer userToId) {
+        Friendship friendship = createFriendship(userFromId, userToId);
+        savePendingRequest(friendship);
     }
 
     public List<User> getPendingRequests(Integer userId) {
@@ -53,14 +56,17 @@ public class FriendshipService {
         return friendship != null;
     }
 
-    private void changeFriendships(Friendship friendship) {
-        User userFrom = friendship.getUserFrom();
-        friendship.setUserFrom(friendship.getUserTo());
-        friendship.setUserTo(userFrom);
-    }
-
     public void acceptFriendshipRequest(Integer userFromId, Integer userToId) {
         Friendship friendship = getFriendship(userFromId, userToId);
         save(friendship, ACTIVE);
+    }
+
+    private Friendship createFriendship(Integer userFromId, Integer userToId) {
+        Friendship friendship = new Friendship();
+        User userFrom = userService.get(userFromId);
+        User userTo = userService.get(userToId);
+        friendship.setUserTo(userTo);
+        friendship.setUserFrom(userFrom);
+        return friendship;
     }
 }

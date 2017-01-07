@@ -1,33 +1,20 @@
 package com.cities.service;
 
 import com.cities.base.AbstractBaseITest;
-import com.cities.config.PersistenceConfig;
 import com.cities.dao.FriendshipDAO;
-import com.cities.dao.UserDAO;
 import com.cities.model.friend.Friendship;
 import com.cities.model.user.User;
 import com.cities.model.user.UserRole;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static com.cities.model.friend.FriendshipStatusEnum.ACTIVE;
-import static com.cities.model.user.UserRoleEnum.ROLE_USER;
-import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
-import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class FriendshipServiceITest extends AbstractBaseITest {
@@ -88,7 +75,7 @@ public class FriendshipServiceITest extends AbstractBaseITest {
         friendshipService.savePendingRequest(friendship);
 
         // when
-        friendshipService.createFriendship(userFrom.getId(), userTo.getId());
+        friendshipService.saveFriendship(userFrom.getId(), userTo.getId());
 
         // then
         friendship = friendshipService.getFriendship(userFrom.getId(), userTo.getId());
@@ -97,7 +84,7 @@ public class FriendshipServiceITest extends AbstractBaseITest {
 
     private User createUser(UserRole role, String name, String password, String country) {
         User user = new User();
-        user.setName(name);
+        user.setFirstName(name);
         user.setUsername(name);
         user.setPassword(password);
         user.setUserRoles(new HashSet<>(singletonList(role)));

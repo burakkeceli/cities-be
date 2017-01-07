@@ -16,7 +16,7 @@ public class UserDtoToUserConverter {
 
     public User fromUserDto(UserDto userDto) {
         User user = new User();
-        user.setName(userDto.getUsername());
+        user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
         return user;
     }
@@ -24,7 +24,8 @@ public class UserDtoToUserConverter {
     public UserDto fromUser(User user) {
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
-        userDto.setUsername(user.getName());
+        userDto.setUsername(user.getUsername());
+        userDto.setEmail(user.getEmail());
         setUserRoles(user, userDto);
         userDto.setCountry(user.getCountry());
         return userDto;
@@ -37,7 +38,7 @@ public class UserDtoToUserConverter {
 
     public User fromRequest(AuthenticationRequest authenticationRequest) {
         User user = new User();
-        user.setName(authenticationRequest.getUsername());
+        user.setUsername(authenticationRequest.getUsername());
         user.setPassword(authenticationRequest.getPassword());
         return user;
     }

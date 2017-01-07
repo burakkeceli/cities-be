@@ -54,8 +54,9 @@ public class FriendshipDAO {
     }
 
     private Friendship getFriendship(Criteria cr) {
-        if(cr.list().isEmpty())
+        if (cr.list().isEmpty()) {
             return null;
+        }
         return (Friendship)cr.list().get(0);
     }
 

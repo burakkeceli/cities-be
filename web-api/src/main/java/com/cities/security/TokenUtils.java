@@ -103,7 +103,7 @@ public class TokenUtils {
     }
 
     public String generateToken(User user) {
-        return generateToken(user.getName());
+        return generateToken(user.getUsername());
     }
 
     private String generateToken(String name) {
