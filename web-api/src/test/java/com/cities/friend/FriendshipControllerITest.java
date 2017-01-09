@@ -2,15 +2,21 @@ package com.cities.friend;
 
 import com.cities.base.AbstractBaseControllerITest;
 import com.cities.helper.BaseTestHelper;
+import com.cities.helper.JacksonService;
 import com.cities.model.user.User;
 import com.cities.service.FriendshipService;
 import com.cities.service.UserService;
+import com.cities.user.model.UserDto;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.List;
+
 import static com.cities.constant.ApiConstants.Urls.USER_FRIENDSHIP;
 import static java.util.UUID.randomUUID;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
@@ -27,6 +33,8 @@ public class FriendshipControllerITest extends AbstractBaseControllerITest {
     private UserService userService;
     @Autowired
     private BaseTestHelper baseTestHelper;
+    @Autowired
+    private JacksonService jacksonService;
 
     @Test
     public void shouldGetFriendshipRequests() throws Exception {
@@ -36,11 +44,18 @@ public class FriendshipControllerITest extends AbstractBaseControllerITest {
 
         baseTestHelper.createFriendshipRequest(userFrom, userTo);
 
-        MvcResult mvcResult = mockMvc.perform(get(USER_FRIENDSHIP + "/pending").with(user(getUserToRequest(userFrom))))
+        // when
+        MvcResult mvcResult = mockMvc.perform(get(USER_FRIENDSHIP + "/pending").with(user(getUserToRequest(userTo))))
                 .andExpect(status().isOk())
                 .andExpect(header().string(CONTENT_TYPE, equalTo(APPLICATION_JSON_UTF8_VALUE)))
                 .andReturn();
 
-        mvcResult.getResponse();
+        // then
+        String jsonResult = mvcResult.getResponse().getContentAsString();
+        List<UserDto> userDtoList = jacksonService.fromJson(jsonResult, new TypeReference<List<UserDto>>() {});
+        assertThat(userDtoList).hasSize(1);
+        assertThat(userDtoList.get(0).getEmail()).isEqualTo(userFrom.getEmail());
+        assertThat(userDtoList.get(0).getUsername()).isEqualTo(userFrom.getUsername());
+        assertThat(userDtoList.get(0).getPassword()).isEqualTo(userFrom.getEmail());
     }
 }

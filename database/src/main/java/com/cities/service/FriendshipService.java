@@ -48,7 +48,7 @@ public class FriendshipService {
 
     public List<User> getPendingRequests(Integer userId) {
         List<Friendship> friendshipList = friendshipDAO.getFriendRequestsOfUser(userId);
-        return friendshipList.stream().map(Friendship::getUserTo).collect(toList());
+        return friendshipList.stream().map(Friendship::getUserFrom).collect(toList());
     }
 
     public boolean doesUserHaveFriend(Integer userFromId, Integer userToId) {

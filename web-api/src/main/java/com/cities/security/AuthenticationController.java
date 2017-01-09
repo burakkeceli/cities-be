@@ -59,7 +59,7 @@ public class AuthenticationController {
         String token = request.getHeader(AppConstant.tokenHeader);
         String username = tokenUtils.getUsernameFromToken(token);
         UserDto user = (UserDto) userDetailsService.loadUserByUsername(username);
-        if (tokenUtils.canTokenBeRefreshed(token, user.getLastPasswordReset())){
+        if (tokenUtils.canTokenBeRefreshed(token, user.getLastPasswordReset().toDate())){
             String refreshedToken = tokenUtils.refreshToken(token);
             return ResponseEntity.ok(new AuthenticationResponse(refreshedToken));
         } else {
