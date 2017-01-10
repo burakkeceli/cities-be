@@ -1,9 +1,0 @@
-Setup:
-
-Docker uses 2 tomcat servers and 1 nginx for LB.
-
-Before running docker-compese.yaml, either 
-
-- dockerVolume should be saved on local and the path for the files should be changed in docker-compose.yaml.
-or
-- in the tomcat containers and nginx container the files should be changed with the files in dockerVolume

@@ -19,7 +19,8 @@ db:
 cassandra:
   image: 'cassandra:latest'
   ports:
-    - '7000:7000'
+    - '9042:9042'
+    - '7199:7199'
 
 nginx:
   image: 'nginx'
@@ -27,18 +28,18 @@ nginx:
     - tomcatOne:tomcat1
     - tomcatTwo:tomcat2
   volumes:
-    - ${PWD}/dockerVolume/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+    - ${PWD}/docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
 
 tomcatOne:
   image: 'tomcat'
   volumes:
-    - ${PWD}/dockerVolume/tomcat/server.xml:/usr/local/tomcat/conf/server.xml
-    - ${PWD}/dockerVolume/tomcat/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
-    - ${PWD}/dockerVolume/tomcat/ROOT/index.jsp:/usr/local/tomcat/webapps/ROOT/index.jsp
+    - ${PWD}/docker/tomcat/server.xml:/usr/local/tomcat/conf/server.xml
+    - ${PWD}/docker/tomcat/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
+    - ${PWD}/docker/tomcat/ROOT/index.jsp:/usr/local/tomcat/webapps/ROOT/index.jsp
 
 tomcatTwo:
   image: 'tomcat'
   volumes:
-    - ${PWD}/dockerVolume/tomcat/server.xml:/usr/local/tomcat/conf/server.xml
-    - ${PWD}/dockerVolume/tomcat/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
-    - ${PWD}/dockerVolume/tomcat/ROOT/index.jsp:/usr/local/tomcat/webapps/ROOT/index.jsp
+    - ${PWD}/docker/tomcat/server.xml:/usr/local/tomcat/conf/server.xml
+    - ${PWD}/docker/tomcat/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
+    - ${PWD}/docker/tomcat/ROOT/index.jsp:/usr/local/tomcat/webapps/ROOT/index.jsp
