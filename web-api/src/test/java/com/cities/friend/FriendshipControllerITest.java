@@ -18,6 +18,7 @@ import java.util.List;
 
 import static com.cities.constant.ApiConstants.Urls.USER_FRIENDSHIP;
 import static com.cities.model.friend.FriendshipStatusEnum.ACTIVE;
+import static com.cities.model.friend.FriendshipStatusEnum.REJECTED;
 import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -80,5 +81,24 @@ public class FriendshipControllerITest extends AbstractBaseControllerITest {
         // then
         Friendship friendship = friendshipService.getFriendship(userFrom.getId(), userTo.getId());
         assertThat(friendship.getFriendshipStatusEnum()).isEqualTo(ACTIVE);
+    }
+
+    @Test
+    public void shouldRejectFriendshipRequest() throws Exception {
+        // given
+        User userFrom = baseTestHelper.createUserWithUserRole(randomUUID().toString(), randomUUID().toString());
+        User userTo = baseTestHelper.createUserWithUserRole(randomUUID().toString(), randomUUID().toString());
+
+        baseTestHelper.createFriendshipRequest(userFrom, userTo);
+
+        // when
+        mockMvc.perform(post(USER_FRIENDSHIP).requestAttr("accept", "false").with(user(getUserToRequest(userTo))))
+                .andExpect(status().isOk())
+                .andExpect(header().string(CONTENT_TYPE, equalTo(APPLICATION_JSON_UTF8_VALUE)))
+                .andReturn();
+
+        // then
+        Friendship friendship = friendshipService.getFriendship(userFrom.getId(), userTo.getId());
+        assertThat(friendship.getFriendshipStatusEnum()).isEqualTo(REJECTED);
     }
 }

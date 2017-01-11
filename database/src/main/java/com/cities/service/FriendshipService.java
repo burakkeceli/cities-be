@@ -10,9 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.cities.model.friend.FriendshipStatusEnum.ACTIVE;
-import static com.cities.model.friend.FriendshipStatusEnum.PENDING;
-import static com.cities.model.friend.FriendshipStatusEnum.REJECTED;
+import static com.cities.model.friend.FriendshipStatusEnum.*;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -54,6 +52,11 @@ public class FriendshipService {
 
     public boolean doesUserHaveFriend(Integer userFromId, Integer userToId) {
         Friendship friendship = friendshipDAO.getByUserIds(userFromId, userToId, ACTIVE);
+        return friendship != null;
+    }
+
+    public boolean isUserBlocked(Integer userId, Integer checkedUserId) {
+        Friendship friendship = friendshipDAO.getByUserIds(userId, checkedUserId, BLOCKED);
         return friendship != null;
     }
 

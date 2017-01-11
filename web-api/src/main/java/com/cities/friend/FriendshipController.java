@@ -65,6 +65,9 @@ public class FriendshipController {
         if (friendshipValidator.hasUserFriend(userDto.getId(), userPropertiesView.getId())) {
             return new ResponseEntity<>(FORBIDDEN);
         }
+        if (friendshipService.isUserBlocked(userPropertiesView.getId(), userDto.getId())) {
+            return new ResponseEntity<>(FORBIDDEN);
+        }
         friendshipService.savePendingRequest(userDto.getId(), userPropertiesView.getId());
         return new ResponseEntity<>(OK);
     }

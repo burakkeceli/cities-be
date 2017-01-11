@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.cities.constant.ApiConstants.Urls.LOGIN;
 import static java.util.Collections.singletonList;
 import static org.springframework.http.HttpStatus.CONFLICT;
 
 @RestController
-@RequestMapping("login")
+@RequestMapping(LOGIN)
 public class LoginController {
     static Logger log = Logger.getLogger(LoginController.class.getName());
 
