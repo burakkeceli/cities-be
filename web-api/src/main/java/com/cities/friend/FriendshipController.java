@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -44,16 +45,17 @@ public class FriendshipController {
         return new ResponseEntity<>(userDtoList, OK);
     }
 
-    @RequestMapping(value = "/accept", method = POST)
-    public ResponseEntity acceptFriendshipRequest(@AuthenticationPrincipal UserDto userDto,
-                                                  @RequestBody UserPropertiesView userPropertiesView) throws JsonProcessingException {
+    @RequestMapping(method = POST)
+    public ResponseEntity processFriendshipRequest(@AuthenticationPrincipal UserDto userDto,
+                                                   @RequestBody UserPropertiesView userPropertiesView,
+                                                   @RequestParam("accept") boolean accept) throws JsonProcessingException {
         if (friendshipValidator.hasUserFriend(userDto.getId(), userPropertiesView.getId())) {
             return new ResponseEntity<>(FORBIDDEN);
         }
         if (!friendshipValidator.hasFriendshipRequest(userDto.getId(), userPropertiesView.getId())) {
             return new ResponseEntity<>(FORBIDDEN);
         }
-        friendshipService.acceptFriendshipRequest(userDto.getId(), userPropertiesView.getId());
+        friendshipService.processFriendshipRequest(userDto.getId(), userPropertiesView.getId(), accept);
         return new ResponseEntity<>(OK);
     }
 

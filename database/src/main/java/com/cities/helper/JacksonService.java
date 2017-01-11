@@ -4,6 +4,7 @@ import com.cities.exception.JsonException;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 
@@ -37,6 +38,15 @@ public class JacksonService {
         try {
             ObjectMapper mapper = new ObjectMapper();
             return mapper.readValue(json, type);
+        } catch (IOException e) {
+            throw new JsonException(e);
+        }
+    }
+
+    public JsonNode toJsonNode(String json) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readTree(json);
         } catch (IOException e) {
             throw new JsonException(e);
         }

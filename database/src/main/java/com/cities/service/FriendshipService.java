@@ -12,6 +12,7 @@ import java.util.List;
 
 import static com.cities.model.friend.FriendshipStatusEnum.ACTIVE;
 import static com.cities.model.friend.FriendshipStatusEnum.PENDING;
+import static com.cities.model.friend.FriendshipStatusEnum.REJECTED;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -59,6 +60,19 @@ public class FriendshipService {
     public void acceptFriendshipRequest(Integer userFromId, Integer userToId) {
         Friendship friendship = getFriendship(userFromId, userToId);
         save(friendship, ACTIVE);
+    }
+
+    public void rejectFriendshipRequest(Integer userFromId, Integer userToId) {
+        Friendship friendship = getFriendship(userFromId, userToId);
+        save(friendship, REJECTED);
+    }
+
+    public void processFriendshipRequest(Integer userFromId, Integer userToId, boolean accept) {
+        if (accept) {
+            acceptFriendshipRequest(userFromId, userToId);
+        } else {
+            rejectFriendshipRequest(userFromId, userToId);
+        }
     }
 
     private Friendship createFriendship(Integer userFromId, Integer userToId) {
