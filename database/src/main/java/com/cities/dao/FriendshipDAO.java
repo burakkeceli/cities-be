@@ -65,8 +65,8 @@ public class FriendshipDAO {
         return cr.list();
     }
 
-    public List<Friendship> getFriendRequestsOfUser(Integer userFromId) {
-        Criteria cr = getCriteria(eq("friendshipStatusEnum", PENDING), eq("userFrom.id", userFromId));
+    public List<Friendship> getFriendRequestsOfUser(Integer userToId) {
+        Criteria cr = getCriteria(eq("friendshipStatusEnum", PENDING), eq("userTo.id", userToId));
         return cr.list();
     }
 

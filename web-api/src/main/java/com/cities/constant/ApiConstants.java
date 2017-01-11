@@ -6,5 +6,6 @@ public interface ApiConstants {
         String FRIENDSHIP = "/friendship";
         String USER_FRIENDSHIP = USER + FRIENDSHIP;
         String PENDING = USER_FRIENDSHIP + "/pending";
+        String LOGIN = "/login";
     }
 }

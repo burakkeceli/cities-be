@@ -18,7 +18,7 @@ public class FriendshipValidator {
         return friendshipService.doesUserHaveFriend(userFromId, userToId);
     }
 
-    public boolean hasFriendshipRequest(Integer userFromId, Integer userToId) {
+    public boolean hasFriendshipRequest(Integer userToId, Integer userFromId) {
         List<User> users = friendshipService.getPendingRequests(userFromId);
         Optional<User> fetchedUser = users.stream().filter(user -> user.getId().equals(userToId)).findFirst();
         return fetchedUser.isPresent();

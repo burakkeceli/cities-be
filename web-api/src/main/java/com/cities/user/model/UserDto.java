@@ -1,12 +1,12 @@
 package com.cities.user.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 public class UserDto implements UserDetails {
 
@@ -14,7 +14,8 @@ public class UserDto implements UserDetails {
     private String username;
     private String password;
     private String email;
-    private Date lastPasswordReset;
+    private DateTime lastPasswordReset;
+    @JsonIgnore
     private Collection<? extends GrantedAuthority> authorities = new ArrayList<>();
     private Boolean accountNonExpired = true;
     private Boolean accountNonLocked = true;
@@ -23,20 +24,19 @@ public class UserDto implements UserDetails {
     private String country;
 
     public UserDto() {
-        super();
     }
 
-    public UserDto(Integer id, String username, String password, Date lastPasswordReset,
+    public UserDto(Integer id, String username, String password, DateTime lastPasswordReset,
                    Collection<? extends GrantedAuthority> authorities) {
-        this.setId(id);
-        this.setUsername(username);
-        this.setPassword(password);
-        this.setLastPasswordReset(lastPasswordReset);
-        this.setAuthorities(authorities);
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.lastPasswordReset = lastPasswordReset;
+        this.authorities = authorities;
     }
 
     public Integer getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Integer id) {
@@ -44,7 +44,7 @@ public class UserDto implements UserDetails {
     }
 
     public String getUsername() {
-        return this.username;
+        return username;
     }
 
     public void setUsername(String username) {
@@ -53,15 +53,11 @@ public class UserDto implements UserDetails {
 
     @JsonIgnore
     public String getPassword() {
-        return this.password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+        return password;
     }
 
     public String getEmail() {
-        return this.email;
+        return email;
     }
 
     public void setEmail(String email) {
@@ -69,17 +65,13 @@ public class UserDto implements UserDetails {
     }
 
     @JsonIgnore
-    public Date getLastPasswordReset() {
-        return this.lastPasswordReset;
-    }
-
-    public void setLastPasswordReset(Date lastPasswordReset) {
-        this.lastPasswordReset = lastPasswordReset;
+    public DateTime getLastPasswordReset() {
+        return lastPasswordReset;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.authorities;
+        return authorities;
     }
 
     public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
@@ -87,7 +79,7 @@ public class UserDto implements UserDetails {
     }
 
     @JsonIgnore
-    public Boolean getAccountNonExpired() {
+    private Boolean getAccountNonExpired() {
         return this.accountNonExpired;
     }
 
@@ -97,12 +89,12 @@ public class UserDto implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return this.getAccountNonExpired();
+        return getAccountNonExpired();
     }
 
     @JsonIgnore
-    public Boolean getAccountNonLocked() {
-        return this.accountNonLocked;
+    private Boolean getAccountNonLocked() {
+        return accountNonLocked;
     }
 
     public void setAccountNonLocked(Boolean accountNonLocked) {
@@ -111,12 +103,12 @@ public class UserDto implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return this.getAccountNonLocked();
+        return getAccountNonLocked();
     }
 
     @JsonIgnore
-    public Boolean getCredentialsNonExpired() {
-        return this.credentialsNonExpired;
+    private Boolean getCredentialsNonExpired() {
+        return credentialsNonExpired;
     }
 
     public void setCredentialsNonExpired(Boolean credentialsNonExpired) {
@@ -125,12 +117,12 @@ public class UserDto implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return this.getCredentialsNonExpired();
+        return getCredentialsNonExpired();
     }
 
     @JsonIgnore
-    public Boolean getEnabled() {
-        return this.enabled;
+    private Boolean getEnabled() {
+        return enabled;
     }
 
     public void setEnabled(Boolean enabled) {
@@ -139,7 +131,7 @@ public class UserDto implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.getEnabled();
+        return getEnabled();
     }
 
     public String getCountry() {

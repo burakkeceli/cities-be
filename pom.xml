@@ -28,6 +28,16 @@
         <hibernate.version>4.2.7.Final</hibernate.version>
         <postgresql.version>9.3-1102-jdbc41</postgresql.version>
         <cassandra.driver.version>3.1.2</cassandra.driver.version>
+
+        <!-- TOMCAT -->
+        <tomcat8.download.url>http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.30/bin/apache-tomcat-8.0.30.zip</tomcat8.download.url>
+        <basePort>8080</basePort>
+        <local.debug.wait>n</local.debug.wait>
+        <local.servlet.port>3${basePort}</local.servlet.port>
+        <local.ajp.port>1${basePort}</local.ajp.port>
+        <local.rmi.port>2${basePort}</local.rmi.port>
+        <local.debug.port>5${basePort}</local.debug.port>
+
     </properties>
 
     <build>
