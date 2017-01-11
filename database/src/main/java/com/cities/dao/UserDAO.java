@@ -35,7 +35,7 @@ public class UserDAO {
     public User get(String name) {
         Session session = sessionFactory.getCurrentSession();
         Criteria cr = session.createCriteria(User.class);
-        cr.add(Restrictions.eq("name", name));
+        cr.add(Restrictions.eq("username", name));
         if(cr.list().isEmpty())
             return null;
         return (User)cr.list().get(0);

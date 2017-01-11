@@ -20,8 +20,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 
-import static com.cities.model.user.UserRoleEnum.ROLE_USER;
-import static com.google.common.collect.ImmutableList.of;
 import static java.util.UUID.randomUUID;
 import static java.util.stream.Collectors.toList;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -59,8 +57,8 @@ public abstract class AbstractBaseControllerITest {
         UserDto userDto = new UserDto();
         userDto.setEmail(randomUUID().toString());
         userDto.setUsername(randomUUID().toString());
-        List<GrantedAuthority> authorities = of(new SimpleGrantedAuthority(ROLE_USER.getName()));
-        userDto.setAuthorities(authorities);
+        //List<GrantedAuthority> authorities = ImmutableList.of(new SimpleGrantedAuthority(ROLE_USER.getName()));
+        //userDto.setAuthorities(authorities);
         return userDto;
     }
 }
