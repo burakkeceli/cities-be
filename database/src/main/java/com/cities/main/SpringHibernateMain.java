@@ -40,13 +40,13 @@ public class SpringHibernateMain {
     }
 
     private static void getPendingRequestList(UserService userService, FriendshipService friendshipService) {
-        User user1 = userService.get("Burak");
+        User user1 = userService.getUserByName("Burak");
         List<User> userList = friendshipService.getPendingRequests(user1.getId());
     }
 
     private static void createPendingRequest(UserService userService, FriendshipService friendshipService) {
-        User user1 = userService.get("Burak");
-        User user2 = userService.get("Deneme");
+        User user1 = userService.getUserByName("Burak");
+        User user2 = userService.getUserByName("Deneme");
 
         Friendship friendship = new Friendship();
         friendship.setUserTo(user2);
@@ -80,6 +80,6 @@ public class SpringHibernateMain {
         u.setPassword("123");
         u.setCountry("Germany");
         u.setFirstName(burak);
-        userService.save(u, roles);
+        userService.saveUser(u, roles);
     }
 }

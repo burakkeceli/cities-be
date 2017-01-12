@@ -6,6 +6,8 @@ import com.cities.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import static com.cities.model.user.UserRoleEnum.ROLE_USER;
+
 @Component
 public class BaseTestHelper {
 
@@ -18,7 +20,7 @@ public class BaseTestHelper {
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
-        userService.saveWithRoleUser(user);
+        userService.saveUser(user, ROLE_USER);
         return user;
     }
 

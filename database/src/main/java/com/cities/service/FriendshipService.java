@@ -80,8 +80,8 @@ public class FriendshipService {
 
     private Friendship createFriendship(Integer userFromId, Integer userToId) {
         Friendship friendship = new Friendship();
-        User userFrom = userService.get(userFromId);
-        User userTo = userService.get(userToId);
+        User userFrom = userService.getUserById(userFromId);
+        User userTo = userService.getUserById(userToId);
         friendship.setUserTo(userTo);
         friendship.setUserFrom(userFrom);
         return friendship;

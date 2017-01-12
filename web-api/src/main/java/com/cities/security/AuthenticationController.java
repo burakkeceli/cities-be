@@ -10,7 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static com.cities.constant.ApiConstants.Urls.LOGIN;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
-@RequestMapping("auth")
+@RequestMapping(LOGIN)
 public class AuthenticationController {
     static Logger log = Logger.getLogger(AuthenticationController.class.getName());
 
@@ -47,11 +47,11 @@ public class AuthenticationController {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        String token = tokenUtils.generateToken(userDetails);
+        UserDto user = (UserDto)userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        String token = tokenUtils.generateToken(user);
 
         // Return token
-        return ResponseEntity.ok(new AuthenticationResponse(token));
+        return ResponseEntity.ok(new AuthenticationResponse(user.getId(), user.getUsername(), token));
     }
 
     @RequestMapping(value = "refresh", method = GET)
@@ -61,7 +61,7 @@ public class AuthenticationController {
         UserDto user = (UserDto) userDetailsService.loadUserByUsername(username);
         if (tokenUtils.canTokenBeRefreshed(token, user.getLastPasswordReset().toDate())){
             String refreshedToken = tokenUtils.refreshToken(token);
-            return ResponseEntity.ok(new AuthenticationResponse(refreshedToken));
+            return ResponseEntity.ok(new AuthenticationResponse(user.getId(), user.getUsername(), refreshedToken));
         } else {
             return ResponseEntity.badRequest().body(null);
         }

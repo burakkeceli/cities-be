@@ -13,14 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.cities.constant.ApiConstants.Urls.LOGIN;
+import static com.cities.constant.ApiConstants.Urls.REGISTER;
+import static com.cities.model.user.UserRoleEnum.ROLE_USER;
 import static java.util.Collections.singletonList;
 import static org.springframework.http.HttpStatus.CONFLICT;
 
 @RestController
-@RequestMapping(LOGIN)
-public class LoginController {
-    static Logger log = Logger.getLogger(LoginController.class.getName());
+@RequestMapping(REGISTER)
+public class RegisterController {
+    static Logger log = Logger.getLogger(RegisterController.class.getName());
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -34,16 +35,16 @@ public class LoginController {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> authenticationRequest(@RequestBody AuthenticationRequest authenticationRequest) {
 
-        User user = userService.get(authenticationRequest.getUsername());
+        User user = userService.getUserByName(authenticationRequest.getUsername());
         if (user != null) {
             // TODO: add constants
             return new ResponseEntity<>(singletonList(new ErrorResourceDto("already exists", "user is already exists")), CONFLICT);
         }
 
         user = converter.fromRequest(authenticationRequest);
-        userService.saveWithRoleUser(user);
-        String token = this.tokenUtils.generateToken(user);
+        userService.saveUser(user, ROLE_USER);
+        String token = tokenUtils.generateToken(user);
 
-        return ResponseEntity.ok(new AuthenticationResponse(token));
+        return ResponseEntity.ok(new AuthenticationResponse(user.getId(), user.getUsername(), token));
     }
 }

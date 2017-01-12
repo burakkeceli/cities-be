@@ -9,10 +9,12 @@ import com.cities.model.user.User;
 import com.cities.service.FriendshipService;
 import com.cities.service.UserService;
 import com.cities.user.model.UserDto;
+import com.cities.user.model.UserPropertiesView;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import java.util.List;
 
@@ -73,7 +75,7 @@ public class FriendshipControllerITest extends AbstractBaseControllerITest {
         baseTestHelper.createFriendshipRequest(userFrom, userTo);
 
         // when
-        mockMvc.perform(post(USER_FRIENDSHIP).requestAttr("accept", "true").with(user(getUserToRequest(userTo))))
+        mockMvc.perform(post(USER_FRIENDSHIP).param("accept", "true").with(user(getUserToRequest(userTo))))
                 .andExpect(status().isOk())
                 .andExpect(header().string(CONTENT_TYPE, equalTo(APPLICATION_JSON_UTF8_VALUE)))
                 .andReturn();
@@ -86,19 +88,25 @@ public class FriendshipControllerITest extends AbstractBaseControllerITest {
     @Test
     public void shouldRejectFriendshipRequest() throws Exception {
         // given
-        User userFrom = baseTestHelper.createUserWithUserRole(randomUUID().toString(), randomUUID().toString());
-        User userTo = baseTestHelper.createUserWithUserRole(randomUUID().toString(), randomUUID().toString());
+        User userMakingRequest = baseTestHelper.createUserWithUserRole(randomUUID().toString(), randomUUID().toString());
+        User userRejectingRequest = baseTestHelper.createUserWithUserRole(randomUUID().toString(), randomUUID().toString());
 
-        baseTestHelper.createFriendshipRequest(userFrom, userTo);
+        baseTestHelper.createFriendshipRequest(userMakingRequest, userRejectingRequest);
+
+        // and requested user id
+        UserPropertiesView userView = new UserPropertiesView();
+        userView.setId(userMakingRequest.getId());
 
         // when
-        mockMvc.perform(post(USER_FRIENDSHIP).requestAttr("accept", "false").with(user(getUserToRequest(userTo))))
+        MockHttpServletRequestBuilder request = post(USER_FRIENDSHIP).param("accept", "false").with(user(getUserToRequest(userRejectingRequest)));
+        request.content(jacksonService.toJson(userView));
+        mockMvc.perform(request)
                 .andExpect(status().isOk())
                 .andExpect(header().string(CONTENT_TYPE, equalTo(APPLICATION_JSON_UTF8_VALUE)))
                 .andReturn();
 
         // then
-        Friendship friendship = friendshipService.getFriendship(userFrom.getId(), userTo.getId());
+        Friendship friendship = friendshipService.getFriendship(userMakingRequest.getId(), userRejectingRequest.getId());
         assertThat(friendship.getFriendshipStatusEnum()).isEqualTo(REJECTED);
     }
 }

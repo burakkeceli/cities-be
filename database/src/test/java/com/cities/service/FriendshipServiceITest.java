@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.cities.model.friend.FriendshipStatusEnum.ACTIVE;
+import static com.cities.model.user.UserRoleEnum.ROLE_USER;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -34,14 +35,14 @@ public class FriendshipServiceITest extends AbstractBaseITest {
     @Test
     public void shouldSendPendingRequest() {
         // given
-        UserRole role = userService.getRole(1);
+        UserRole role = userService.getRoleById(1);
 
         User userFrom = createUser(role, UUID.randomUUID().toString(), "123", "Turkey");
         User userTo = createUser(role, UUID.randomUUID().toString(), "123", "Turkey");
 
         // and
-        userService.saveWithRoleUser(userFrom);
-        userService.saveWithRoleUser(userTo);
+        userService.saveUser(userFrom, ROLE_USER);
+        userService.saveUser(userTo, ROLE_USER);
 
         // and
         Friendship friendship = new Friendship();
@@ -50,23 +51,23 @@ public class FriendshipServiceITest extends AbstractBaseITest {
         friendshipService.savePendingRequest(friendship);
 
         // when
-        List<User> users = friendshipService.getPendingRequests(userFrom.getId());
+        List<User> users = friendshipService.getPendingRequests(userTo.getId());
 
         // then
-        assertThat(users).contains(userTo);
+        assertThat(users).contains(userFrom);
     }
 
     @Test
     public void shouldAcceptPendingRequest() {
         // given
-        UserRole role = userService.getRole(1);
+        UserRole role = userService.getRoleById(1);
 
         User userFrom = createUser(role, UUID.randomUUID().toString(), "123", "Turkey");
         User userTo = createUser(role, UUID.randomUUID().toString(), "123", "Turkey");
 
         // and
-        userService.saveWithRoleUser(userFrom);
-        userService.saveWithRoleUser(userTo);
+        userService.saveUser(userFrom, ROLE_USER);
+        userService.saveUser(userTo, ROLE_USER);
 
         // and
         Friendship friendship = new Friendship();

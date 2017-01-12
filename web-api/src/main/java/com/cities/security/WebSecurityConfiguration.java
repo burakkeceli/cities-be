@@ -18,6 +18,9 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import static com.cities.constant.ApiConstants.Urls.LOGIN;
+import static com.cities.constant.ApiConstants.Urls.REGISTER;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -60,8 +63,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
         .authorizeRequests()
         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-        .antMatchers("/auth/**").permitAll()
-        .antMatchers("/login/**").permitAll()
+        .antMatchers(REGISTER + "/**").permitAll()
+        .antMatchers(LOGIN + "/**").permitAll()
         .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
