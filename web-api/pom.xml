@@ -41,6 +41,8 @@
         <assertj.version>3.5.2</assertj.version>
         <spring-security-test.version>4.0.0.RELEASE</spring-security-test.version>
         <google.guava.version>20.0</google.guava.version>
+        <springfox.swagger2.version>2.4.0</springfox.swagger2.version>
+        <springfox.swagger.ui.version>2.4.0</springfox.swagger.ui.version>
     </properties>
 
     <dependencies>
@@ -123,6 +125,18 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox.swagger2.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${springfox.swagger.ui.version}</version>
         </dependency>
 
         <!--<dependency>
