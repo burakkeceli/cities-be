@@ -8,5 +8,6 @@ public interface ApiConstants {
         String PENDING = USER_FRIENDSHIP + "/pending";
         String LOGIN = "/login";
         String REGISTER = "/register";
+        String CITY = "/city";
     }
 }
