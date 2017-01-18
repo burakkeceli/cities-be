@@ -1,16 +1,16 @@
-package com.cities.service;
+package com.cities.service.friendship;
 
 import com.cities.dao.FriendshipDAO;
 import com.cities.model.friend.Friendship;
 import com.cities.model.friend.FriendshipStatusEnum;
 import com.cities.model.user.User;
+import com.cities.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.cities.model.friend.FriendshipStatusEnum.*;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -29,7 +29,7 @@ public class FriendshipService {
 
     public void saveFriendship(Integer userFromId, Integer userToId) {
         Friendship friendship = getFriendship(userFromId, userToId);
-        save(friendship, ACTIVE);
+        save(friendship, FriendshipStatusEnum.ACTIVE);
     }
 
     public Friendship getFriendship(Integer userFromId, Integer userToId) {
@@ -37,7 +37,7 @@ public class FriendshipService {
     }
 
     public void savePendingRequest(Friendship friendship) {
-        save(friendship, PENDING);
+        save(friendship, FriendshipStatusEnum.PENDING);
     }
 
     public void savePendingRequest(Integer userFromId, Integer userToId) {
@@ -51,23 +51,23 @@ public class FriendshipService {
     }
 
     public boolean doesUserHaveFriend(Integer userFromId, Integer userToId) {
-        Friendship friendship = friendshipDAO.getByUserIds(userFromId, userToId, ACTIVE);
+        Friendship friendship = friendshipDAO.getByUserIds(userFromId, userToId, FriendshipStatusEnum.ACTIVE);
         return friendship != null;
     }
 
     public boolean isUserBlocked(Integer userId, Integer checkedUserId) {
-        Friendship friendship = friendshipDAO.getByUserIds(userId, checkedUserId, BLOCKED);
+        Friendship friendship = friendshipDAO.getByUserIds(userId, checkedUserId, FriendshipStatusEnum.BLOCKED);
         return friendship != null;
     }
 
     public void acceptFriendshipRequest(Integer userFromId, Integer userToId) {
         Friendship friendship = getFriendship(userFromId, userToId);
-        save(friendship, ACTIVE);
+        save(friendship, FriendshipStatusEnum.ACTIVE);
     }
 
     public void rejectFriendshipRequest(Integer userFromId, Integer userToId) {
         Friendship friendship = getFriendship(userFromId, userToId);
-        save(friendship, REJECTED);
+        save(friendship, FriendshipStatusEnum.REJECTED);
     }
 
     public void processFriendshipRequest(Integer userFromId, Integer userToId, boolean accept) {

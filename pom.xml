@@ -13,6 +13,7 @@
         <module>database</module>
         <module>commons</module>
         <module>web-api</module>
+        <module>service</module>
     </modules>
 
     <properties>

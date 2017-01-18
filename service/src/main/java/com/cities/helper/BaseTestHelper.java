@@ -1,8 +1,8 @@
 package com.cities.helper;
 
 import com.cities.model.user.User;
-import com.cities.service.FriendshipService;
-import com.cities.service.UserService;
+import com.cities.service.friendship.FriendshipService;
+import com.cities.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

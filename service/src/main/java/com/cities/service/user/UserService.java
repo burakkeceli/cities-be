@@ -1,4 +1,4 @@
-package com.cities.service;
+package com.cities.service.user;
 
 import com.cities.dao.UserDAO;
 import com.cities.model.user.User;

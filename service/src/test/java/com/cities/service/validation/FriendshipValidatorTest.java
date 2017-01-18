@@ -1,14 +1,17 @@
-package com.cities.validation;
+package com.cities.service.validation;
 
-import com.cities.service.FriendshipService;
+import com.cities.service.friendship.FriendshipService;
+import com.cities.service.friendship.validation.FriendshipValidator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FriendshipValidatorTest {
@@ -30,7 +33,7 @@ public class FriendshipValidatorTest {
 
         // then
             assertThat(result).isTrue();
-            verify(friendshipService).doesUserHaveFriend(userFromId, userToId);
+            Mockito.verify(friendshipService).doesUserHaveFriend(userFromId, userToId);
             verifyNoMoreInteractions(friendshipService);
     }
 }

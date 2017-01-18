@@ -3,7 +3,7 @@ package com.cities.security;
 import com.cities.base.AbstractBaseControllerITest;
 import com.cities.helper.JacksonService;
 import com.cities.model.user.User;
-import com.cities.service.UserService;
+import com.cities.service.user.UserService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MvcResult;

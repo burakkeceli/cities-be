@@ -1,10 +1,10 @@
 package com.cities.friend;
 
 
-import com.cities.service.FriendshipService;
+import com.cities.service.friendship.FriendshipService;
+import com.cities.service.friendship.validation.FriendshipValidator;
 import com.cities.user.model.UserDto;
 import com.cities.user.model.UserPropertiesView;
-import com.cities.validation.FriendshipValidator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

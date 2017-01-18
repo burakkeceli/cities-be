@@ -2,7 +2,7 @@ package com.cities.security;
 
 import com.cities.error.ErrorResourceDto;
 import com.cities.model.user.User;
-import com.cities.service.UserService;
+import com.cities.service.user.UserService;
 import com.cities.user.UserDtoToUserConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
-package com.cities.validation;
+package com.cities.service.friendship.validation;
 
 import com.cities.model.user.User;
-import com.cities.service.FriendshipService;
+import com.cities.service.friendship.FriendshipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
