@@ -1,6 +1,6 @@
 package com.cities.security;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,8 +20,8 @@ import java.io.IOException;
 
 import static com.cities.constant.AppConstant.tokenHeader;
 
+@Slf4j
 public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFilter {
-    static Logger log = Logger.getLogger(AuthenticationTokenFilter.class.getName());
 
     @Autowired
     private TokenUtils tokenUtils;

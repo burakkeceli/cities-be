@@ -1,7 +1,6 @@
 package com.cities.helper;
 
 import com.cities.exception.JsonException;
-import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;

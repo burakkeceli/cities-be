@@ -4,7 +4,7 @@ import com.cities.model.user.User;
 import com.cities.model.user.UserRole;
 import com.cities.service.UserService;
 import com.cities.user.model.UserDto;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,9 +17,8 @@ import static java.util.stream.Collectors.toList;
 import static org.springframework.security.core.authority.AuthorityUtils.createAuthorityList;
 
 @Service
+@Slf4j
 public class UserDetailsServiceImpl implements UserDetailsService {
-
-    static Logger log = Logger.getLogger(UserDetailsServiceImpl.class.getName());
 
     @Autowired
     private UserService userService;

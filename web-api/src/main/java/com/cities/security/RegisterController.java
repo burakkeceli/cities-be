@@ -4,7 +4,7 @@ import com.cities.error.ErrorResourceDto;
 import com.cities.model.user.User;
 import com.cities.service.UserService;
 import com.cities.user.UserDtoToUserConverter;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,8 +20,8 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 
 @RestController
 @RequestMapping(REGISTER)
+@Slf4j
 public class RegisterController {
-    static Logger log = Logger.getLogger(RegisterController.class.getName());
 
     @Autowired
     private AuthenticationManager authenticationManager;

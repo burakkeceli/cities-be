@@ -2,7 +2,6 @@ package com.cities.config;
 
 import com.cities.security.AuthenticationTokenFilter;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;

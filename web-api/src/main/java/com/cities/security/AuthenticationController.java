@@ -2,7 +2,7 @@ package com.cities.security;
 
 import com.cities.constant.AppConstant;
 import com.cities.user.model.UserDto;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,8 +23,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
 @RequestMapping(LOGIN)
+@Slf4j
 public class AuthenticationController {
-    static Logger log = Logger.getLogger(AuthenticationController.class.getName());
 
     @Autowired
     private AuthenticationManager authenticationManager;

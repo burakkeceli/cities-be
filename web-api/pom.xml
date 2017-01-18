@@ -14,6 +14,7 @@
     <artifactId>web-api</artifactId>
     <packaging>war</packaging>
     <version>1.0.0</version>
+
     <build>
         <plugins>
             <plugin>
@@ -28,147 +29,89 @@
     </build>
     <name>${project.artifactId}</name>
 
-    <properties>
-        <springframework.version>4.2.6.RELEASE</springframework.version>
-        <jackson.version>2.8.1</jackson.version>
-        <javax.version>3.1.0</javax.version>
-        <spring.security.version>4.0.3.RELEASE</spring.security.version>
-        <lombok.version>1.16.10</lombok.version>
-        <commons.collections4.version>4.0</commons.collections4.version>
-        <jsonwebtoken.version>0.6.0</jsonwebtoken.version>
-        <commons.lang>2.6</commons.lang>
-        <logging.version>1.2.17</logging.version>
-        <assertj.version>3.5.2</assertj.version>
-        <spring-security-test.version>4.0.0.RELEASE</spring-security-test.version>
-        <google.guava.version>20.0</google.guava.version>
-        <springfox.swagger2.version>2.4.0</springfox.swagger2.version>
-        <springfox.swagger.ui.version>2.4.0</springfox.swagger.ui.version>
-    </properties>
-
     <dependencies>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>${springframework.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-            <version>${springframework.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-            <version>${springframework.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-            <version>${spring.security.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-            <version>${spring.security.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
-            <version>${commons.collections4.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>${commons.lang}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>${jsonwebtoken.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>${javax.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>${logging.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-
+        <!-- =========== OTHER MODULES =========== -->
         <dependency>
             <groupId>com.cities.database</groupId>
             <artifactId>database</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+
+        <!-- =========== SPRING =========== -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+
+
+        <!-- =========== SPRING SECURITY =========== -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+        </dependency>
+
+
+        <!-- =========== JACKSON =========== -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+
+
+        <!-- =========== JODA TIME =========== -->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+        </dependency>
+
+
+        <!-- =========== LOMBOK =========== -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
         </dependency>
 
+
+        <!-- =========== JAVAX =========== -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+
+
+        <!-- =========== SWAGGER2 =========== -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox.swagger2.version}</version>
         </dependency>
-
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>${springfox.swagger.ui.version}</version>
         </dependency>
 
-        <!--<dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${google.guava.version}</version>
-        </dependency>-->
 
+        <!-- =========== JSON WEB TOKEN =========== -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+        </dependency>
+
+        <!-- =========== TEST =========== -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>${assertj.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
-            <version>${spring-security-test.version}</version>
+            <scope>test</scope>
         </dependency>
-
     </dependencies>
-
 </project>

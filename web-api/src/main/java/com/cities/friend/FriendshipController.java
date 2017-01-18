@@ -6,7 +6,7 @@ import com.cities.user.model.UserDto;
 import com.cities.user.model.UserPropertiesView;
 import com.cities.validation.FriendshipValidator;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,9 +28,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RestController
 @RequestMapping(value = USER_FRIENDSHIP, produces = APPLICATION_JSON_UTF8_VALUE)
 @PreAuthorize("hasAnyRole('ROLE_USER')")
+@Slf4j
 public class FriendshipController {
-
-    static Logger log = Logger.getLogger(FriendshipController.class);
 
     @Autowired
     private FriendshipLogic friendshipLogic;

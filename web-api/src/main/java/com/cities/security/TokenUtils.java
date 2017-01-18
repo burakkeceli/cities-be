@@ -5,7 +5,7 @@ import com.cities.user.model.UserDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -14,9 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@Slf4j
 public class TokenUtils {
-
-    static Logger log = Logger.getLogger(TokenUtils.class.getName());
 
     private final String AUDIENCE_UNKNOWN = "unknown";
     private final String AUDIENCE_TABLET = "tablet";
