@@ -26,7 +26,7 @@ public class FriendshipDAO {
         session.save(friendship);
     }
 
-    public void delete (Friendship friendship) {
+    public void delete(Friendship friendship) {
         Session session = sessionFactory.getCurrentSession();
         session.delete(friendship);
     }
