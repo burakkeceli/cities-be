@@ -39,7 +39,7 @@
   <role rolename="manager-jmx"/>
   <role rolename="manager-status"/>
   <role rolename="admin"/>
-  <user username="admin" password="admin" roles="admin, manager-gui, manager-status" />
+  <user username="admin" password="admin" roles="admin, manager-gui, manager-status, manager-jmx, manager-script" />
 <!--
   <role rolename="tomcat"/>
   <role rolename="role1"/>
