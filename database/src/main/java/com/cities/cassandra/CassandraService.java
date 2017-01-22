@@ -26,7 +26,7 @@ public class CassandraService {
     public void init() {
         // TODO: read contact point from a property service
         cluster = Cluster.builder()
-                .addContactPoint("localhost")
+                .addContactPoint("cassandra")
                 .build();
 
         session = cluster.connect();
