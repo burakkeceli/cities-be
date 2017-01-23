@@ -2,6 +2,7 @@ package com.cities.config;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -21,12 +22,15 @@ import java.util.Properties;
 @ComponentScan({ "com.*" })
 public class PersistenceConfig {
 
-    @Autowired
-    private Environment env;
-
     public PersistenceConfig() {
         super();
     }
+
+    @Autowired
+    private Environment env;
+
+    @Value("${dataset.url}")
+    private String dataSetUrl;
 
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
@@ -42,7 +46,7 @@ public class PersistenceConfig {
     public DataSource restDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://postgres:5432/cities");
+        dataSource.setUrl(dataSetUrl);
         return dataSource;
     }
 

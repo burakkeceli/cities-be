@@ -5,6 +5,7 @@ import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.exceptions.AlreadyExistsException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -22,11 +23,14 @@ public class CassandraService {
     private Cluster cluster;
     private Session session;
 
+    @Value("${cassandra.contact.point}")
+    private String cassandraContactPoint;
+
     @PostConstruct
     public void init() {
         // TODO: read contact point from a property service
         cluster = Cluster.builder()
-                .addContactPoint("cassandra")
+                .addContactPoint(cassandraContactPoint)
                 .build();
 
         session = cluster.connect();
