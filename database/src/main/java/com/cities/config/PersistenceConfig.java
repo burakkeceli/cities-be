@@ -31,6 +31,10 @@ public class PersistenceConfig {
 
     @Value("${dataset.url}")
     private String dataSetUrl;
+    @Value("${dataset.username}")
+    private String dataSetUsername;
+    @Value("${dataset.driver}")
+    private String dataSetDriver;
     @Value("${hibernate.hbm2ddl.auto}")
     private String hibernateHbm2ddlAuto;
     @Value("${hibernate.dialect}")
@@ -53,8 +57,9 @@ public class PersistenceConfig {
     @Bean
     public DataSource restDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setDriverClassName(dataSetDriver);
         dataSource.setUrl(dataSetUrl);
+        dataSource.setUsername(dataSetUsername);
         return dataSource;
     }
 

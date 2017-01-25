@@ -88,35 +88,6 @@
                         <password>admin</password>
                     </configuration>
                 </plugin>
-
-                <plugin>
-                    <groupId>org.flywaydb</groupId>
-                    <artifactId>flyway-maven-plugin</artifactId>
-                    <version>4.0.3</version>
-
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.postgresql</groupId>
-                            <artifactId>postgresql</artifactId>
-                            <version>${postgresql.version}</version>
-                        </dependency>
-                    </dependencies>
-
-                    <configuration>
-                        <user>root</user>
-                        <password></password>
-                        <!-- TODO: read from extarnal? -->
-                        <url>jdbc:postgresql://172.17.0.5:5432/cities</url>
-                        <locations>
-                            <location>filesystem:src/main/resources/db/migration</location>
-                        </locations>
-                        <schemas>
-                            <schema>cities</schema>
-                        </schemas>
-                        <skip>false</skip>
-                    </configuration>
-                </plugin>
-
             </plugins>
         </pluginManagement>
     </build>

@@ -14,7 +14,7 @@ db:
   expose:
     - 5432
   environment:
-    POSTGRES_USER: root
+    POSTGRES_USER: cities_master
     POSTGRES_DB: cities
 
 cassandra:

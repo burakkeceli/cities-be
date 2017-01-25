@@ -14,5 +14,6 @@ alter table cities.friendship add constraint FK_sfi5islhfab2kv0fqijbntwxo foreig
 alter table cities.friendship add constraint FK_cygmwt31855cm39vv7myj5417 foreign key (user_to_id) references cities.user;
 alter table cities.user_userRole add constraint FK_mj33g72x8f3026ljra7ns2n7m foreign key (userrole_id) references cities.userRole;
 
+
 insert into cities.userRole (role) values ('ROLE_ADMIN');
 insert into cities.userRole (role) values ('ROLE_USER');
