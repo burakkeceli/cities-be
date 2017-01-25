@@ -12,5 +12,5 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration(classes = BaseConfig.class, loader = AnnotationConfigContextLoader.class)
 @Transactional
 @PropertySource("classpath:config.properties")
-public abstract class AbstractBaseITest {
+public abstract class AbstractServiceBaseITest {
 }

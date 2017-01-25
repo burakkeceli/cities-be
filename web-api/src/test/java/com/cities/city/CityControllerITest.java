@@ -16,12 +16,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CityControllerITest extends AbstractBaseControllerITest {
 
     @Test
-    public void testCityController() throws Exception {
-        mockMvc.perform(get("/city/liked").with(user(getUserToRequest())))
-                .andExpect(status().isOk());
-    }
-
-    @Test
     public void shouldGetAllCitiesWithoutAnyPermission() throws Exception {
 
 

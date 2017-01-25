@@ -1,5 +1,5 @@
-create table cities.city (city_id  serial not null, latitude float8, longitude float8, name varchar(255) not null, country_id int4 not null, primary key (city_id));
-create table cities.country (country_id  serial not null, name varchar(255) not null, primary key (country_id));
+create table cities.city (id  serial not null, latitude float8, longitude float8, name varchar(255) not null, country_id int4 not null, primary key (id));
+create table cities.country (id  serial not null, name varchar(255) not null, primary key (id));
 create table cities.friendship (id  serial not null, status varchar(255), user_from_id int4, user_to_id int4, primary key (id));
 create table cities.user (user_id  serial not null, country varchar(255), email varchar(255), firstName varchar(255), lastName varchar(255), password varchar(255), username varchar(255), primary key (user_id));
 create table cities.userRole (userrole_id  serial not null, role varchar(255) not null, primary key (userrole_id));
@@ -16,3 +16,11 @@ alter table cities.user_userRole add constraint FK_mj33g72x8f3026ljra7ns2n7m for
 
 insert into cities.userRole (role) values ('ROLE_ADMIN');
 insert into cities.userRole (role) values ('ROLE_USER');
+
+insert into cities.country (name) values ('TURKEY');
+insert into cities.city (name, country_id) SELECT 'ISTANBUL', id FROM cities.country WHERE name='TURKEY';
+insert into cities.city (name, country_id) SELECT 'ANKARA', id FROM cities.country WHERE name='TURKEY';
+
+insert into cities.country (name) values ('GERMANY');
+insert into cities.city (name, country_id) SELECT 'BERLIN', id FROM cities.country WHERE name='GERMANY';
+insert into cities.city (name, country_id) SELECT 'BONN', id FROM cities.country WHERE name='GERMANY';

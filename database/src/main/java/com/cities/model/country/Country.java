@@ -14,7 +14,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Country {
 
     @Id
-    @Column(name="country_id")
+    @Column(name="id")
     @GeneratedValue(strategy= IDENTITY)
     private Integer id;
 

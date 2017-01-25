@@ -29,7 +29,7 @@
                 </dependencies>
 
                 <configuration>
-                    <configFile>database/src/main/resources/flyway.properties</configFile>
+                    <configFile>src/main/resources/flyway.properties</configFile>
                 </configuration>
             </plugin>
         </plugins>
