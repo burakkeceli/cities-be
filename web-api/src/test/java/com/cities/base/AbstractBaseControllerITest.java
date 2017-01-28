@@ -7,6 +7,7 @@ import com.cities.user.model.UserDto;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.ContextConfiguration;
@@ -30,6 +31,7 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 @WebAppConfiguration
 @ContextConfiguration(classes = SpringMvcConfig.class, loader = AnnotationConfigWebContextLoader.class)
 @Transactional
+@PropertySource("classpath:config.properties")
 public abstract class AbstractBaseControllerITest {
 
     @Autowired

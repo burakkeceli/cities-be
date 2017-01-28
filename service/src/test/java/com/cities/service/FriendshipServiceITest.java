@@ -1,6 +1,6 @@
 package com.cities.service;
 
-import com.cities.base.AbstractBaseITest;
+import com.cities.base.AbstractServiceBaseITest;
 import com.cities.dao.FriendshipDAO;
 import com.cities.model.friend.Friendship;
 import com.cities.model.user.User;
@@ -20,7 +20,7 @@ import static com.cities.model.user.UserRoleEnum.ROLE_USER;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class FriendshipServiceITest extends AbstractBaseITest {
+public class FriendshipServiceITest extends AbstractServiceBaseITest {
 
     @Autowired
     private FriendshipService friendshipService;

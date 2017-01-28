@@ -2,6 +2,7 @@ package com.cities.config;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -21,12 +22,27 @@ import java.util.Properties;
 @ComponentScan({ "com.*" })
 public class PersistenceConfig {
 
-    @Autowired
-    private Environment env;
-
     public PersistenceConfig() {
         super();
     }
+
+    @Autowired
+    private Environment env;
+
+    @Value("${dataset.url}")
+    private String dataSetUrl;
+    @Value("${dataset.username}")
+    private String dataSetUsername;
+    @Value("${dataset.driver}")
+    private String dataSetDriver;
+    @Value("${hibernate.hbm2ddl.auto}")
+    private String hibernateHbm2ddlAuto;
+    @Value("${hibernate.dialect}")
+    private String hibernateDialect;
+    @Value("${hibernate.show_sql}")
+    private String hibernateShowSql;
+    @Value("${hibernate.default_schema}")
+    private String hibernateDefaultSchema;
 
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
@@ -41,8 +57,9 @@ public class PersistenceConfig {
     @Bean
     public DataSource restDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://postgres:5432/cities");
+        dataSource.setDriverClassName(dataSetDriver);
+        dataSource.setUrl(dataSetUrl);
+        dataSource.setUsername(dataSetUsername);
         return dataSource;
     }
 
@@ -65,15 +82,12 @@ public class PersistenceConfig {
         return new BCryptPasswordEncoder();
     }
 
-    Properties hibernateProperties() {
-        return new Properties() {
-            {
-                setProperty("hibernate.hbm2ddl.auto", "update");
-                setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-                setProperty("hibernate.show_sql", "true");
-                setProperty("hibernate.default_schema", "cities");
-            }
-        };
+    private Properties hibernateProperties() {
+        Properties properties = new Properties();
+        properties.setProperty("hibernate.dialect", hibernateDialect);
+        properties.setProperty("hibernate.hbm2ddl.auto", hibernateHbm2ddlAuto);
+        properties.setProperty("hibernate.show_sql", hibernateShowSql);
+        properties.setProperty("hibernate.default_schema", hibernateDefaultSchema);
+        return properties;
     }
-
 }

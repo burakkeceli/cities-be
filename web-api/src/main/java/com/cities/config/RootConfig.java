@@ -12,6 +12,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
                 excludeFilters = {
                     @Filter(type = FilterType.ANNOTATION, value = EnableWebMvc.class)
                 })
-@Import(PersistenceConfig.class)
+@Import(BaseConfig.class)
 public class RootConfig {
 }
