@@ -43,6 +43,7 @@ tomcatOne:
     - ${PWD}/docker/tomcat/server.xml:/usr/local/tomcat/conf/server.xml
     - ${PWD}/docker/tomcat/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
     - ${PWD}/docker/tomcat/ROOT/index.jsp:/usr/local/tomcat/webapps/ROOT/index.jsp
+    - ${PWD}/docker/tomcat/logs/:/usr/local/tomcat/logs/
   links:
     - db
     - cassandra

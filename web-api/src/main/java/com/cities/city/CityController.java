@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.cities.constant.ApiConstants.Urls.CITY;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -31,9 +33,20 @@ public class CityController {
 
     @RequestMapping(method = GET)
     public ResponseEntity getAll(HttpServletRequest request) {
-        List<City> cityList = cityService.getAll();
+        List<City> cityList = cityService.getCities();
         List<CityDto> cityDtoList = cityLogic.getCityDtoList(cityList);
         return new ResponseEntity<>(cityDtoList, OK);
+    }
+
+    @RequestMapping(value = "/{id}", method = GET)
+    public ResponseEntity getById(@PathVariable Integer id, HttpServletRequest request) {
+        City city = cityService.getById(id);
+        if (city == null) {
+            return new ResponseEntity<>(NOT_FOUND);
+        }
+
+        CityDto cityDto = cityLogic.getCityDto(city);
+        return new ResponseEntity<>(cityDto, OK);
     }
 
     @RequestMapping(value = "/liked", method = GET)

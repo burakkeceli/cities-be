@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -22,7 +23,7 @@ public class City {
     private Double latitude;
     private Double longitude;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = EAGER)
     @JoinColumn(name = "country_id", nullable = false)
     private Country country;
 }

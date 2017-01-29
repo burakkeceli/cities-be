@@ -8,3 +8,4 @@ target
 *.pyc
 .idea
 *.versionsBackup
+docker/tomcat/logs/

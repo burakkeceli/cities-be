@@ -25,7 +25,7 @@ public class CityLogic {
         return cityDtoList;
     }
 
-    private CityDto getCityDto(City city) {
+    public CityDto getCityDto(City city) {
         CityDto cityDto = new CityDto();
         cityDto.setName(city.getName());
         cityDto.setId(city.getId());
