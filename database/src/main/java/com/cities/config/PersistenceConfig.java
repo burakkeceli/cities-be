@@ -88,6 +88,7 @@ public class PersistenceConfig {
         properties.setProperty("hibernate.hbm2ddl.auto", hibernateHbm2ddlAuto);
         properties.setProperty("hibernate.show_sql", hibernateShowSql);
         properties.setProperty("hibernate.default_schema", hibernateDefaultSchema);
+        properties.setProperty("hibernate.enable_lazy_load_no_trans", "true");
         return properties;
     }
 }
