@@ -2,7 +2,6 @@ package com.cities.dao;
 
 import com.cities.base.AbstractBaseITest;
 import com.cities.model.city.City;
-import com.cities.model.country.Country;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,13 +20,9 @@ public class CityDAOITest extends AbstractBaseITest {
     public void shouldSaveCity() {
 
         // given
-        Country country = new Country();
-        country.setName(UUID.randomUUID().toString());
-        countryDAO.save(country);
-
         City city = new City();
         city.setName(UUID.randomUUID().toString());
-        city.setCountry(country);
+        city.setCountryId(1);
 
         // when
         cityDAO.save(city);
@@ -35,6 +30,6 @@ public class CityDAOITest extends AbstractBaseITest {
         // then
         City fetchedCity = cityDAO.getById(city.getId());
         assertThat(fetchedCity.getName()).isEqualTo(city.getName());
-        assertThat(fetchedCity.getCountry()).isEqualTo(city.getCountry());
+        assertThat(fetchedCity.getCountryId()).isEqualTo(city.getCountryId());
     }
 }

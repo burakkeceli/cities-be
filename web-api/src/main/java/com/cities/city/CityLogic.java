@@ -2,8 +2,8 @@ package com.cities.city;
 
 import com.cities.city.model.CityDto;
 import com.cities.country.CountryLogic;
-import com.cities.country.model.CountryDto;
 import com.cities.model.city.City;
+import com.cities.service.city.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +15,8 @@ public class CityLogic {
 
     @Autowired
     private CountryLogic countryLogic;
+    @Autowired
+    private CityService cityService;
 
     public List<CityDto> getCityDtoList(List<City> cityList) {
         List<CityDto> cityDtoList = new ArrayList<>();
@@ -29,9 +31,10 @@ public class CityLogic {
         CityDto cityDto = new CityDto();
         cityDto.setName(city.getName());
         cityDto.setId(city.getId());
-
-        CountryDto countryDto = countryLogic.getCountryDto(city.getCountry());
-        cityDto.setCountry(countryDto);
+        cityDto.setLatitude(city.getLatitude());
+        cityDto.setLongitude(city.getLongitude());
+        cityDto.setWikiUrl(city.getWikiUrl());
+        cityDto.setCountryId(city.getCountryId());
         return cityDto;
     }
 }

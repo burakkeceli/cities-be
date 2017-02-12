@@ -19,11 +19,11 @@ public class CityService {
     @Autowired
     private CountryDAO countryDAO;
 
-    public List<City> getCities() {
+    public List<City> getAllCities() {
         return cityDAO.getAll();
     }
 
-    public City getById(Integer id) {
+    public City getCityById(Integer id) {
         return cityDAO.getById(id);
     }
 
@@ -33,5 +33,13 @@ public class CityService {
 
     public void saveCity(City city) {
         cityDAO.save(city);
+    }
+
+    public Country getCountryById(Integer countryId) {
+        return countryDAO.getById(countryId);
+    }
+
+    public List<Country> getAllCountries() {
+        return countryDAO.getAll();
     }
 }

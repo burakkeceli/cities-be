@@ -1,11 +1,9 @@
 package com.cities.model.city;
 
-import com.cities.model.country.Country;
 import lombok.Data;
 
 import javax.persistence.*;
 
-import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -14,16 +12,22 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class City {
 
     @Id
-    @Column(name="id")
+    @Column(name="ci_id")
     @GeneratedValue(strategy= IDENTITY)
     private Integer id;
 
-    @Column(name="name", unique = true, nullable = false)
+    @Column(name="ci_name", unique = true, nullable = false)
     private String name;
+
+    @Column(name="ci_latitude")
     private Double latitude;
+
+    @Column(name="ci_longitude")
     private Double longitude;
 
-    @OneToOne(fetch = EAGER)
-    @JoinColumn(name = "country_id", nullable = false)
-    private Country country;
+    @Column(name="ci_country_id", nullable = false)
+    private Integer countryId;
+
+    @Column(name="ci_wiki_url")
+    private String wikiUrl;
 }

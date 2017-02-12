@@ -9,5 +9,6 @@ public interface ApiConstants {
         String LOGIN = "/login";
         String REGISTER = "/register";
         String CITY = "/city";
+        String COUNTRY = "/country";
     }
 }
