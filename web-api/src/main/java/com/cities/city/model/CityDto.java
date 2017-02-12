@@ -1,6 +1,5 @@
 package com.cities.city.model;
 
-import com.cities.country.model.CountryDto;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,5 +13,8 @@ public class CityDto {
 
     private Integer id;
     private String name;
-    private CountryDto country;
+    private Double latitude;
+    private Double longitude;
+    private String wikiUrl;
+    private Integer countryId;
 }

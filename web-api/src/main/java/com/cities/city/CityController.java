@@ -33,14 +33,14 @@ public class CityController {
 
     @RequestMapping(method = GET)
     public ResponseEntity getAll(HttpServletRequest request) {
-        List<City> cityList = cityService.getCities();
+        List<City> cityList = cityService.getAllCities();
         List<CityDto> cityDtoList = cityLogic.getCityDtoList(cityList);
         return new ResponseEntity<>(cityDtoList, OK);
     }
 
     @RequestMapping(value = "/{id}", method = GET)
     public ResponseEntity getById(@PathVariable Integer id, HttpServletRequest request) {
-        City city = cityService.getById(id);
+        City city = cityService.getCityById(id);
         if (city == null) {
             return new ResponseEntity<>(NOT_FOUND);
         }

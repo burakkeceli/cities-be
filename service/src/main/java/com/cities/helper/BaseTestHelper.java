@@ -33,19 +33,18 @@ public class BaseTestHelper {
         friendshipService.savePendingRequest(userFrom.getId(), userTo.getId());
     }
 
-    public City createCity(String countryName, String cityName) {
-        Country country = createCountry(countryName);
-
+    public City createCity(Integer countryId, String cityName) {
         City city = new City();
         city.setName(cityName);
-        city.setCountry(country);
+        city.setCountryId(countryId);
         cityService.saveCity(city);
         return city;
     }
 
-    public Country createCountry(String countryName) {
+    public Country createCountry(String countryName, String capital) {
         Country country = new Country();
         country.setName(countryName);
+        country.setCapital(capital);
         cityService.saveCountry(country);
         return country;
     }
