@@ -92,6 +92,7 @@ public class FriendshipServiceITest extends AbstractServiceBaseITest {
         user.setPassword(password);
         user.setUserRoles(new HashSet<>(singletonList(role)));
         user.setCountry(country);
+        user.setEmail(UUID.randomUUID().toString());
         return user;
     }
 }

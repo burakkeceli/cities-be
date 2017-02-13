@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import java.util.UUID;
+
 import static com.cities.constant.ApiConstants.Urls.LOGIN;
 import static com.cities.model.user.UserRoleEnum.ROLE_USER;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,6 +38,7 @@ public class AuthenticationControllerITest extends AbstractBaseControllerITest {
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
+        user.setEmail(UUID.randomUUID().toString());
 
         userService.saveUser(user, ROLE_USER);
 

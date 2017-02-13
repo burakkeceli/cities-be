@@ -10,5 +10,6 @@ public interface ApiConstants {
         String REGISTER = "/register";
         String CITY = "/city";
         String COUNTRY = "/country";
+        String LIKED = "/liked";
     }
 }
