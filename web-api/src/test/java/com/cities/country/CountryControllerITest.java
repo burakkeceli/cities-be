@@ -35,7 +35,7 @@ public class CountryControllerITest extends AbstractBaseControllerITest {
         // given
         String countryName = randomUUID().toString();
         String capitalName = randomUUID().toString();
-        Country country = helper.createCountry(countryName, capitalName);
+        Country country = helper.saveCountry(countryName, capitalName);
 
         // when
         MockHttpServletRequestBuilder request = get(COUNTRY);
@@ -58,7 +58,7 @@ public class CountryControllerITest extends AbstractBaseControllerITest {
         // given
         String countryName = randomUUID().toString();
         String cityName = randomUUID().toString();
-        Country country = helper.createCountry(countryName, cityName);
+        Country country = helper.saveCountry(countryName, cityName);
 
         // when
         MockHttpServletRequestBuilder request = get(COUNTRY + "/" + country.getId());

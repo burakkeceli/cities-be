@@ -56,7 +56,7 @@ public class CassandraService {
         }
     }
 
-    private ResultSet execute(String query) {
+    public ResultSet execute(String query) {
         return session.execute(query);
     }
 }

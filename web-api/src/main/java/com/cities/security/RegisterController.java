@@ -3,7 +3,7 @@ package com.cities.security;
 import com.cities.error.ErrorResourceDto;
 import com.cities.model.user.User;
 import com.cities.service.user.UserService;
-import com.cities.user.UserDtoToUserConverter;
+import com.cities.user.UserLogic;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +30,7 @@ public class RegisterController {
     @Autowired
     private UserService userService;
     @Autowired
-    private UserDtoToUserConverter converter;
+    private UserLogic converter;
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> authenticationRequest(@RequestBody AuthenticationRequest authenticationRequest) {

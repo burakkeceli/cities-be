@@ -33,6 +33,7 @@
         <jodatime.version>2.9.4</jodatime.version>
         <springfox.swagger2.version>2.4.0</springfox.swagger2.version>
         <springfox.swagger.ui.version>2.4.0</springfox.swagger.ui.version>
+        <google.guava.version>19.0</google.guava.version>
 
         <!-- TEST -->
         <junit.verison>4.12</junit.verison>
@@ -229,12 +230,12 @@
             </dependency>
 
 
-            <!-- =========== FLYWAYDB ============
+            <!-- =========== GOOGLE GUAVA ============ -->
             <dependency>
-                <groupId>org.flywaydb</groupId>
-                <artifactId>flyway-core</artifactId>
-                <version>${flayway.core.version}</version>
-            </dependency> -->
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${google.guava.version}</version>
+            </dependency>
 
 
             <!-- =========== JSON WEB TOKEN =========== -->

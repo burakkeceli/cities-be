@@ -2,7 +2,7 @@ package com.cities.friend;
 
 import com.cities.model.user.User;
 import com.cities.service.friendship.FriendshipService;
-import com.cities.user.UserDtoToUserConverter;
+import com.cities.user.UserLogic;
 import com.cities.user.model.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ public class FriendshipLogic {
     @Autowired
     private FriendshipService friendshipService;
     @Autowired
-    private UserDtoToUserConverter userConverter;
+    private UserLogic userConverter;
 
     public List<UserDto> getPendingRequestUserList(Integer userId) {
         List<User> users = friendshipService.getPendingRequests(userId);

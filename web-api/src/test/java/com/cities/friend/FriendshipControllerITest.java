@@ -46,10 +46,10 @@ public class FriendshipControllerITest extends AbstractBaseControllerITest {
     @Test
     public void shouldGetFriendshipRequests() throws Exception {
         // given
-        User userFrom = baseTestHelper.createUserWithUserRole(randomUUID().toString(), randomUUID().toString());
-        User userTo = baseTestHelper.createUserWithUserRole(randomUUID().toString(), randomUUID().toString());
+        User userFrom = baseTestHelper.saveUserWithUserRole(randomUUID().toString(), randomUUID().toString());
+        User userTo = baseTestHelper.saveUserWithUserRole(randomUUID().toString(), randomUUID().toString());
 
-        baseTestHelper.createFriendshipRequest(userFrom, userTo);
+        baseTestHelper.saveFriendshipRequest(userFrom, userTo);
 
         // when
         MvcResult mvcResult = mockMvc.perform(get(USER_FRIENDSHIP + "/pending").with(user(getUserToRequest(userTo))))
@@ -63,17 +63,16 @@ public class FriendshipControllerITest extends AbstractBaseControllerITest {
         assertThat(userDtoList).hasSize(1);
         assertThat(userDtoList.get(0).getEmail()).isEqualTo(userFrom.getEmail());
         assertThat(userDtoList.get(0).getUsername()).isEqualTo(userFrom.getUsername());
-        assertThat(userDtoList.get(0).getPassword()).isEqualTo(userFrom.getEmail());
     }
 
     @Ignore
     @Test
     public void shouldAcceptFriendshipRequest() throws Exception {
         // given
-        User userFrom = baseTestHelper.createUserWithUserRole(randomUUID().toString(), randomUUID().toString());
-        User userTo = baseTestHelper.createUserWithUserRole(randomUUID().toString(), randomUUID().toString());
+        User userFrom = baseTestHelper.saveUserWithUserRole(randomUUID().toString(), randomUUID().toString());
+        User userTo = baseTestHelper.saveUserWithUserRole(randomUUID().toString(), randomUUID().toString());
 
-        baseTestHelper.createFriendshipRequest(userFrom, userTo);
+        baseTestHelper.saveFriendshipRequest(userFrom, userTo);
 
         // when
         mockMvc.perform(post(USER_FRIENDSHIP).param("accept", "true").with(user(getUserToRequest(userTo))))
@@ -90,10 +89,10 @@ public class FriendshipControllerITest extends AbstractBaseControllerITest {
     @Test
     public void shouldRejectFriendshipRequest() throws Exception {
         // given
-        User userMakingRequest = baseTestHelper.createUserWithUserRole(randomUUID().toString(), randomUUID().toString());
-        User userRejectingRequest = baseTestHelper.createUserWithUserRole(randomUUID().toString(), randomUUID().toString());
+        User userMakingRequest = baseTestHelper.saveUserWithUserRole(randomUUID().toString(), randomUUID().toString());
+        User userRejectingRequest = baseTestHelper.saveUserWithUserRole(randomUUID().toString(), randomUUID().toString());
 
-        baseTestHelper.createFriendshipRequest(userMakingRequest, userRejectingRequest);
+        baseTestHelper.saveFriendshipRequest(userMakingRequest, userRejectingRequest);
 
         // and requested user id
         UserPropertiesView userView = new UserPropertiesView();
