@@ -17,6 +17,12 @@ public class CassandraTables {
                     " city_id int," +
                     " city_name text," +
                     " primary key ((user_id), city_id)" +
+                    ")",
+
+            "create table " + CASSANDRA_KEYSPACE + ".city_comments ("
+                    + " city_id int," +
+                    " comment_id int," +
+                    " primary key ((city_id))" +
                     ")"
     };
 }

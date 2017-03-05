@@ -1,9 +1,11 @@
 package com.cities.city;
 
+import com.cities.city.model.CityCommentDto;
 import com.cities.city.model.CityDto;
 import com.cities.model.city.City;
 import com.cities.service.city.CassandraCityService;
 import com.cities.service.city.CityService;
+import com.cities.service.comment.CassandraCommentService;
 import com.cities.user.UserLogic;
 import com.cities.user.model.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static com.cities.constant.ApiConstants.Urls.CITY;
-import static com.cities.constant.ApiConstants.Urls.LIKED;
+import static com.cities.constant.ApiConstants.Urls.*;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
@@ -38,6 +39,8 @@ public class CityController {
     private CassandraCityService cassandraCityService;
     @Autowired
     private UserLogic userLogic;
+    @Autowired
+    private CassandraCommentService cassandraCommentService;
 
     @RequestMapping(method = GET)
     public ResponseEntity getAll(HttpServletRequest request) {
@@ -67,6 +70,18 @@ public class CityController {
         Map<Integer, String> userMap = cassandraCityService.getUserListWhoLikeCity(id);
         List<UserDto> userDtoList = userLogic.fromUserMap(userMap);
         return new ResponseEntity<>(userDtoList, OK);
+    }
+
+    @RequestMapping(value = "/{id}"+COMMENT, method = GET)
+    public ResponseEntity getCommentsOfCity(@PathVariable Integer id, HttpServletRequest request) {
+        City city = cityService.getCityById(id);
+        if (city == null) {
+            return new ResponseEntity<>(NOT_FOUND);
+        }
+
+        Map<Integer, Integer> cityCommentMap = cassandraCommentService.getCommentsOfCity(id);
+        List<CityCommentDto> cityCommentDtoList = cityLogic.getCityCommentDtoList(cityCommentMap);
+        return new ResponseEntity<>(cityCommentDtoList, OK);
     }
 
     @RequestMapping(value = "/liked", method = GET)

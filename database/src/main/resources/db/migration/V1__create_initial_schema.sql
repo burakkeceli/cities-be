@@ -4,6 +4,7 @@ drop table if exists cities.friendship cascade;
 drop table if exists cities.user cascade;
 drop table if exists cities.userRole cascade;
 drop table if exists cities.user_userRole cascade;
+drop table if exists cities.comment cascade;
 
 create table cities.city (ci_id serial not null,
                           ci_name varchar(255) not null,
@@ -23,7 +24,7 @@ create table cities.country (co_id serial not null,
                              co_small_flag varchar(255),
                              primary key (co_id));
 
-create table cities.friendship (id  serial not null,
+create table cities.friendship (id serial not null,
                                 status varchar(255),
                                 user_from_id int4,
                                 user_to_id int4,
@@ -45,6 +46,12 @@ create table cities.userRole (userrole_id serial not null,
 create table cities.user_userRole (user_id int4 not null,
                                    userrole_id int4 not null,
                                    primary key (user_id, userrole_id));
+
+create table cities.comment (co_id serial not null,
+                             co_text text not null,
+                             co_user_id int4 not null,
+                             co_create_time timestamp not null,
+                             primary key (co_id));
 
 alter table cities.city add constraint UK_ci_name unique (ci_name);
 

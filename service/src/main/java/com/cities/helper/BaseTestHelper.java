@@ -1,18 +1,23 @@
 package com.cities.helper;
 
 import com.cities.model.city.City;
+import com.cities.model.comment.Comment;
 import com.cities.model.country.Country;
 import com.cities.model.user.User;
 import com.cities.service.city.CassandraCityService;
 import com.cities.service.city.CityService;
+import com.cities.service.comment.CassandraCommentService;
+import com.cities.service.comment.CommentService;
 import com.cities.service.friendship.FriendshipService;
 import com.cities.service.user.UserService;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 import static com.cities.model.user.UserRoleEnum.ROLE_USER;
+import static org.joda.time.DateTime.now;
 
 @Component
 public class BaseTestHelper {
@@ -25,6 +30,10 @@ public class BaseTestHelper {
     private CityService cityService;
     @Autowired
     private CassandraCityService cassandraCityService;
+    @Autowired
+    private CommentService commentService;
+    @Autowired
+    private CassandraCommentService cassandraCommentService;
 
     public User saveUser(String username) {
         return saveUserWithUserRole(username, UUID.randomUUID().toString());
@@ -61,5 +70,18 @@ public class BaseTestHelper {
 
     public void saveUserWhoLikesCity(Integer cityId, User user) {
         cassandraCityService.saveUserInfoWhoLikesCity(user.getId(), cityId);
+    }
+
+    public Comment saveComment(Integer userId, String text, DateTime createTime) {
+        Comment comment = new Comment();
+        comment.setCreateTime(createTime);
+        comment.setUserId(userId);
+        comment.setText(text);
+        commentService.saveComment(comment);
+        return comment;
+    }
+
+    public void saveCommentOfCity(Integer cityId, Integer commentId) {
+        cassandraCommentService.saveCommentOfCity(cityId, commentId);
     }
 }
