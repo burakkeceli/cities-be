@@ -84,6 +84,20 @@
         </dependency>
 
 
+        <!-- ========= JODA TIME =========== -->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+        </dependency>
+
+
+        <!-- ====== JADIRA USERTYPE ======== -->
+        <dependency>
+            <groupId>org.jadira.usertype</groupId>
+            <artifactId>usertype.core</artifactId>
+        </dependency>
+
+
         <!-- =========== TEST =========== -->
         <dependency>
             <groupId>junit</groupId>
