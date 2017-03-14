@@ -49,7 +49,7 @@ public class AuthenticationControllerITest extends AbstractBaseControllerITest {
 
         // when
         MockHttpServletRequestBuilder request = post(LOGIN);
-        buildRequest(request);
+        setCommonRequestPart(request);
         String payload = jacksonService.toJson(authenticationRequest);
         request.content(payload);
 

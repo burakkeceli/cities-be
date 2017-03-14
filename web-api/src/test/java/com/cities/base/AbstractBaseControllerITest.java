@@ -47,7 +47,7 @@ public abstract class AbstractBaseControllerITest {
                  .build();
     }
 
-    public void buildRequest(MockHttpServletRequestBuilder request) {
+    public void setCommonRequestPart(MockHttpServletRequestBuilder request) {
         request.contentType(APPLICATION_JSON_UTF8_VALUE);
         request.accept(APPLICATION_JSON, TEXT_PLAIN, ALL);
     }

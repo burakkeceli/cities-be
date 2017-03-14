@@ -7,7 +7,7 @@ import com.cities.model.city.City;
 import com.cities.model.comment.Comment;
 import com.cities.model.user.User;
 import com.cities.service.city.CityService;
-import com.cities.service.comment.CommentService;
+import com.cities.service.comment.RelationalCommentService;
 import com.cities.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,7 +23,7 @@ public class CityLogic {
     @Autowired
     private CityService cityService;
     @Autowired
-    private CommentService commentService;
+    private RelationalCommentService relationalCommentService;
     @Autowired
     private UserService userService;
 
@@ -51,7 +51,7 @@ public class CityLogic {
         List<CityCommentDto> cityCommentDtoList = new ArrayList<>();
         for (Entry<Integer, Integer> entry : cityCommentMap.entrySet()){
             City city = cityService.getCityById(entry.getKey());
-            Comment comment = commentService.getCommentById(entry.getValue());
+            Comment comment = relationalCommentService.getCommentById(entry.getValue());
             User user = userService.getUserById(comment.getUserId());
             cityCommentDtoList.add(getCityCommentDto(city, comment, user));
         }

@@ -7,7 +7,7 @@ import com.cities.model.user.User;
 import com.cities.service.city.CassandraCityService;
 import com.cities.service.city.CityService;
 import com.cities.service.comment.CassandraCommentService;
-import com.cities.service.comment.CommentService;
+import com.cities.service.comment.RelationalCommentService;
 import com.cities.service.friendship.FriendshipService;
 import com.cities.service.user.UserService;
 import org.joda.time.DateTime;
@@ -31,7 +31,7 @@ public class BaseTestHelper {
     @Autowired
     private CassandraCityService cassandraCityService;
     @Autowired
-    private CommentService commentService;
+    private RelationalCommentService relationalCommentService;
     @Autowired
     private CassandraCommentService cassandraCommentService;
 
@@ -77,7 +77,7 @@ public class BaseTestHelper {
         comment.setCreateTime(createTime);
         comment.setUserId(userId);
         comment.setText(text);
-        commentService.saveComment(comment);
+        relationalCommentService.saveComment(comment);
         return comment;
     }
 

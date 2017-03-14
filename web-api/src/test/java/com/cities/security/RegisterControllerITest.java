@@ -35,7 +35,7 @@ public class RegisterControllerITest extends AbstractBaseControllerITest {
 
         // when
         MockHttpServletRequestBuilder request = post(REGISTER);
-        buildRequest(request);
+        setCommonRequestPart(request);
         request.content(jacksonService.toJson(authenticationRequest));
 
         MvcResult mvcResult = mockMvc.perform(request)
