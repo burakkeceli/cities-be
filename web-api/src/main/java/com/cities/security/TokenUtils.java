@@ -153,11 +153,12 @@ public class TokenUtils {
                 log.debug("cities => !(this.isTokenExpired(token)) " + !(this.isTokenExpired(token)));
         System.out.println("cities => username.equals(user.getUsername()) : " + username.equals(user.getUsername()));
         System.out.println("cities => !(this.isTokenExpired(token)) " + !(this.isTokenExpired(token)));
-        boolean b = !(isCreatedBeforeLastPasswordReset(created, user.getLastPasswordReset().toDate()));
-        log.debug("cities => !(this.isCreatedBeforeLastPasswordReset(created, user.getLastPasswordReset())) : " + b);
-        System.out.println("cities => !(this.isCreatedBeforeLastPasswordReset(created, user.getLastPasswordReset())) : " + b);
+        // TODO: fix me, lastPasswordReset before time etc.
+        //boolean b = //!(isCreatedBeforeLastPasswordReset(created, user.getLastPasswordReset().toDate()));
+        //log.debug("cities => !(this.isCreatedBeforeLastPasswordReset(created, user.getLastPasswordReset())) : " + b);
+        //System.out.println("cities => !(this.isCreatedBeforeLastPasswordReset(created, user.getLastPasswordReset())) : " + b);
         return username.equals(user.getUsername())
-                && !(this.isTokenExpired(token))
-                && b;
+                && !(this.isTokenExpired(token));
+               // && b;
     }
 }

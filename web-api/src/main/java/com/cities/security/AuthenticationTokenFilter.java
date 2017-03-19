@@ -25,7 +25,6 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
 
     @Autowired
     private TokenUtils tokenUtils;
-
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -53,7 +52,6 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            log.debug("cities => " + userDetails.getAuthorities() + userDetails.getUsername() + userDetails.getPassword());
             if (tokenUtils.validateToken(authToken, userDetails)) {
                 log.debug("cities inside validation => ");
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

@@ -1,10 +1,13 @@
 package com.cities.service.comment;
 
 import com.cities.model.comment.Comment;
+import com.cities.model.user.User;
+import com.cities.service.comment.model.CassandraCommentModel;
+import com.cities.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
+import java.util.List;
 
 @Component
 public class CommentService {
@@ -13,18 +16,17 @@ public class CommentService {
     private CassandraCommentService cassandraCommentService;
     @Autowired
     private RelationalCommentService relationalCommentService;
+    @Autowired
+    private UserService userService;
 
     public void saveComment(Integer userId, Integer cityId, String commentText) {
+        User user = userService.getUserById(userId);
         Comment comment = createComment(userId, commentText);
         relationalCommentService.saveComment(comment);
-        cassandraCommentService.saveCommentOfCity(cityId, comment.getId());
+        cassandraCommentService.saveCommentOfCity(user, cityId, comment);
     }
 
-    public Comment getCommentByCommentId(Integer commentId) {
-        return relationalCommentService.getCommentById(commentId);
-    }
-
-    public Map<Integer, Integer> getCommentsOfCity(Integer cityId) {
+    public List<CassandraCommentModel> getCommentsOfCity(Integer cityId) {
         return cassandraCommentService.getCommentsOfCity(cityId);
     }
 

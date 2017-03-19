@@ -26,5 +26,5 @@ public class Comment {
 
     @Column(name="co_create_time", nullable = false)
     @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    private DateTime createTime;
+    private DateTime createdTime;
 }

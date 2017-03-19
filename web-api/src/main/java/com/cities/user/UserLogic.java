@@ -17,13 +17,6 @@ import static java.util.stream.Collectors.toList;
 @Component
 public class UserLogic {
 
-    public User fromUserDto(UserDto userDto) {
-        User user = new User();
-        user.setUsername(userDto.getUsername());
-        user.setPassword(userDto.getPassword());
-        return user;
-    }
-
     public UserDto fromUser(User user) {
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());

@@ -16,7 +16,7 @@ public class RelationalCommentService {
     private CommentDAO commentDAO;
 
     public void saveComment(Comment comment) {
-        comment.setCreateTime(now());
+        comment.setCreatedTime(now());
         commentDAO.save(comment);
     }
 

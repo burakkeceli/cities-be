@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 import static com.cities.model.user.UserRoleEnum.ROLE_USER;
-import static org.joda.time.DateTime.now;
 
 @Component
 public class BaseTestHelper {
@@ -74,14 +73,14 @@ public class BaseTestHelper {
 
     public Comment saveComment(Integer userId, String text, DateTime createTime) {
         Comment comment = new Comment();
-        comment.setCreateTime(createTime);
+        comment.setCreatedTime(createTime);
         comment.setUserId(userId);
         comment.setText(text);
         relationalCommentService.saveComment(comment);
         return comment;
     }
 
-    public void saveCommentOfCity(Integer cityId, Integer commentId) {
-        cassandraCommentService.saveCommentOfCity(cityId, commentId);
+    public void saveCommentOfCity(User user, Integer cityId, Comment comment) {
+        cassandraCommentService.saveCommentOfCity(user, cityId, comment);
     }
 }

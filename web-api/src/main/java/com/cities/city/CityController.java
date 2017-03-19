@@ -7,6 +7,7 @@ import com.cities.service.city.CassandraCityService;
 import com.cities.service.city.CityService;
 import com.cities.service.comment.CassandraCommentService;
 import com.cities.service.comment.CommentService;
+import com.cities.service.comment.model.CassandraCommentModel;
 import com.cities.user.UserLogic;
 import com.cities.user.model.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,12 +85,12 @@ public class CityController {
             return new ResponseEntity<>(NOT_FOUND);
         }
 
-        Map<Integer, Integer> cityCommentMap = commentService.getCommentsOfCity(id);
-        List<CityCommentDto> cityCommentDtoList = cityLogic.getCityCommentDtoList(cityCommentMap);
+        List<CassandraCommentModel> cassandraCommentModelList = commentService.getCommentsOfCity(id);
+        List<CityCommentDto> cityCommentDtoList = cityLogic.getCityCommentDtoList(cassandraCommentModelList);
         return new ResponseEntity<>(cityCommentDtoList, OK);
     }
 
-    @RequestMapping(value = "/{id}"+COMMENT, method = POST)
+    @RequestMapping(value = "/{cityId}"+COMMENT, method = POST)
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity addCommentToCity(@PathVariable Integer cityId, @RequestBody String commentText, @AuthenticationPrincipal UserDto userDto) {
         City city = cityService.getCityById(cityId);

@@ -10,9 +10,9 @@ import com.cities.model.comment.Comment;
 import com.cities.model.country.Country;
 import com.cities.model.user.User;
 import com.cities.service.comment.CommentService;
+import com.cities.service.comment.model.CassandraCommentModel;
 import com.cities.user.model.UserDto;
 import com.fasterxml.jackson.core.type.TypeReference;
-import io.swagger.models.auth.In;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import static com.cities.constant.ApiConstants.Urls.*;
@@ -113,11 +112,14 @@ public class CityControllerITest extends AbstractBaseControllerITest {
         City city = saveCity();
 
         // and
-        String username = UUID.randomUUID().toString();
-        User user = baseTestHelper.saveUser(username);
+        String username1 = UUID.randomUUID().toString();
+        String username2 = UUID.randomUUID().toString();
+        User user1 = baseTestHelper.saveUser(username1);
+        User user2 = baseTestHelper.saveUser(username2);
 
         // and
-        baseTestHelper.saveUserWhoLikesCity(city.getId(), user);
+        baseTestHelper.saveUserWhoLikesCity(city.getId(), user1);
+        baseTestHelper.saveUserWhoLikesCity(city.getId(), user2);
 
         // when
         MockHttpServletRequestBuilder request = get(CITY + "/" + city.getId() + LIKED);
@@ -131,10 +133,17 @@ public class CityControllerITest extends AbstractBaseControllerITest {
         // then
         String jsonResult = mvcResult.getResponse().getContentAsString();
         List<UserDto> userDtoList = jacksonService.fromJson(jsonResult, new TypeReference<List<UserDto>>() {});
-        assertThat(userDtoList).hasSize(1);
-        UserDto userDto = userDtoList.get(0);
-        assertThat(userDto.getId()).isEqualTo(user.getId());
-        assertThat(userDto.getUsername()).isEqualTo(user.getUsername());
+        assertThat(userDtoList).hasSize(2);
+        UserDto userDto1 = userDtoList.stream()
+                .filter(user -> user.getUsername().equals(user1.getUsername()))
+                .findFirst().get();
+
+        UserDto userDto2 = userDtoList.stream()
+                .filter(user -> user.getUsername().equals(user2.getUsername()))
+                .findFirst().get();
+
+        assertThat(userDto1.getId()).isEqualTo(user1.getId());
+        assertThat(userDto2.getId()).isEqualTo(user2.getId());
     }
 
     @Test
@@ -147,11 +156,11 @@ public class CityControllerITest extends AbstractBaseControllerITest {
         User user = baseTestHelper.saveUser(username);
 
         String text = UUID.randomUUID().toString();
-        DateTime createTime = now();
-        Comment comment = baseTestHelper.saveComment(user.getId(), text, createTime);
+        DateTime createdTime = now();
+        Comment comment = baseTestHelper.saveComment(user.getId(), text, createdTime);
 
         // and
-        baseTestHelper.saveCommentOfCity(city.getId(), comment.getId());
+        baseTestHelper.saveCommentOfCity(user, city.getId(), comment);
 
         // when
         MockHttpServletRequestBuilder request = get(CITY + "/" + city.getId() + COMMENT);
@@ -170,11 +179,10 @@ public class CityControllerITest extends AbstractBaseControllerITest {
         assertThat(cityCommentDto.getUserId()).isEqualTo(user.getId());
         assertThat(cityCommentDto.getUserName()).isEqualTo(user.getUsername());
         assertThat(cityCommentDto.getCityId()).isEqualTo(city.getId());
-        assertThat(cityCommentDto.getCityName()).isEqualTo(city.getName());
 
         // and
         CommentDto commentDto = cityCommentDto.getComment();
-        assertThat(commentDto.getCreateTime().withZone(UTC)).isNotNull();
+        assertThat(commentDto.getCreatedTime().withZone(UTC)).isNotNull();
         assertThat(commentDto.getText()).isEqualTo(text);
     }
 
@@ -190,13 +198,13 @@ public class CityControllerITest extends AbstractBaseControllerITest {
 
         mockMvc.perform(request.with(user(getUserToRequest(user))))
                 .andExpect(status().isOk())
-                .andExpect(header().string(CONTENT_TYPE, equalTo(APPLICATION_JSON_UTF8_VALUE)))
                 .andReturn();
 
-        Map<Integer, Integer> cityCommentMap = commentService.getCommentsOfCity(city.getId());
-        Comment comment = commentService.getCommentByCommentId(cityCommentMap.get(city.getId()));
-        assertThat(comment.getUserId()).isEqualTo(user.getId());
-        assertThat(comment.getText()).isEqualTo(commentText);
+        List<CassandraCommentModel> cassandraCommentModelList = commentService.getCommentsOfCity(city.getId());
+        assertThat(cassandraCommentModelList).hasSize(1);
+        CassandraCommentModel cassandraCommentModel = cassandraCommentModelList.get(0);
+        assertThat(cassandraCommentModel.getUserId()).isEqualTo(user.getId());
+        assertThat(cassandraCommentModel.getCommentText()).isEqualTo(commentText);
     }
 
     private City saveCity() {

@@ -1,7 +1,6 @@
 package com.cities.dao;
 
 import com.cities.base.AbstractBaseITest;
-import com.cities.model.city.City;
 import com.cities.model.comment.Comment;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -27,7 +26,7 @@ public class CommentDAOITest extends AbstractBaseITest {
         Comment comment = new Comment();
         comment.setText(text);
         comment.setUserId(1);
-        comment.setCreateTime(createTime);
+        comment.setCreatedTime(createTime);
 
         // when
         commentDAO.save(comment);
@@ -36,6 +35,6 @@ public class CommentDAOITest extends AbstractBaseITest {
         Comment fetchedComment = commentDAO.getById(comment.getId());
         assertThat(fetchedComment.getText()).isEqualTo(text);
         assertThat(fetchedComment.getUserId()).isEqualTo(1);
-        assertThat(fetchedComment.getCreateTime()).isEqualTo(createTime);
+        assertThat(fetchedComment.getCreatedTime()).isEqualTo(createTime);
     }
 }
