@@ -22,7 +22,11 @@ public class CassandraTables {
             "create table " + CASSANDRA_KEYSPACE + ".city_comments ("
                     + " city_id int," +
                     " comment_id int," +
-                    " primary key ((city_id))" +
+                    " comment_text text," +
+                    " user_id int," +
+                    " user_name text," +
+                    " created_time timeuuid," +
+                    " primary key ((city_id), comment_id)" +
                     ")"
     };
 }

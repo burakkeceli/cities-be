@@ -21,8 +21,8 @@ public class CassandraQueryUtil {
             ".city_comments WHERE city_id = {0}";
 
     public static final String INSERT_COMMENT_TO_CITY = "INSERT INTO " + CASSANDRA_KEYSPACE + "" +
-            ".city_comments (\"city_id\", \"comment_id\") " +
-            "VALUES ({0}, {1})";
+            ".city_comments (\"city_id\", \"comment_id\", \"comment_text\", \"user_id\", \"user_name\", \"created_time\") " +
+            "VALUES ({0}, {1}, ''{2}'', {3}, ''{4}'', {5})";
 
     public static String getQuery(String query, String... placeHolders) {
         MessageFormat messageFormat = new MessageFormat(query);

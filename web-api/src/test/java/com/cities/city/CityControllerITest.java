@@ -9,6 +9,8 @@ import com.cities.model.city.City;
 import com.cities.model.comment.Comment;
 import com.cities.model.country.Country;
 import com.cities.model.user.User;
+import com.cities.service.comment.CommentService;
+import com.cities.service.comment.model.CassandraCommentModel;
 import com.cities.user.model.UserDto;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.joda.time.DateTime;
@@ -28,16 +30,20 @@ import static org.joda.time.DateTime.now;
 import static org.joda.time.DateTimeZone.UTC;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class CityControllerITest extends AbstractBaseControllerITest {
 
     @Autowired
-    private BaseTestHelper helper;
+    private BaseTestHelper baseTestHelper;
     @Autowired
     private JacksonService jacksonService;
+    @Autowired
+    private CommentService commentService;
 
     @Test
     public void shouldGetAllCitiesWithoutAnyPermission() throws Exception {
@@ -45,12 +51,12 @@ public class CityControllerITest extends AbstractBaseControllerITest {
         // given
         String countryName = randomUUID().toString();
         String cityName = randomUUID().toString();
-        Country country = helper.saveCountry(countryName, cityName);
-        City city = helper.saveCity(country.getId(), cityName);
+        Country country = baseTestHelper.saveCountry(countryName, cityName);
+        City city = baseTestHelper.saveCity(country.getId(), cityName);
 
         // when
         MockHttpServletRequestBuilder request = get(CITY);
-        buildRequest(request);
+        setCommonRequestPart(request);
 
         MvcResult mvcResult = mockMvc.perform(request)
                 .andExpect(status().isOk())
@@ -69,12 +75,12 @@ public class CityControllerITest extends AbstractBaseControllerITest {
         // given
         String countryName = randomUUID().toString();
         String cityName = randomUUID().toString();
-        Country country = helper.saveCountry(countryName, cityName);
-        City city = helper.saveCity(country.getId(), cityName);
+        Country country = baseTestHelper.saveCountry(countryName, cityName);
+        City city = baseTestHelper.saveCity(country.getId(), cityName);
 
         // when
         MockHttpServletRequestBuilder request = get(CITY + "/" + city.getId());
-        buildRequest(request);
+        setCommonRequestPart(request);
 
         MvcResult mvcResult = mockMvc.perform(request)
                 .andExpect(status().isOk())
@@ -93,7 +99,7 @@ public class CityControllerITest extends AbstractBaseControllerITest {
         Integer randomId = -1;
         // when
         MockHttpServletRequestBuilder request = get(CITY + "/" + randomId);
-        buildRequest(request);
+        setCommonRequestPart(request);
 
         mockMvc.perform(request)
                 .andExpect(status().isNotFound())
@@ -103,20 +109,21 @@ public class CityControllerITest extends AbstractBaseControllerITest {
     @Test
     public void shouldGetUserListWhoLikedCity() throws Exception {
         // given
-        String cityName = randomUUID().toString();
-        Integer countryId = 1;
-        City city = helper.saveCity(countryId, cityName);
+        City city = saveCity();
 
         // and
-        String username = UUID.randomUUID().toString();
-        User user = helper.saveUser(username);
+        String username1 = UUID.randomUUID().toString();
+        String username2 = UUID.randomUUID().toString();
+        User user1 = baseTestHelper.saveUser(username1);
+        User user2 = baseTestHelper.saveUser(username2);
 
         // and
-        helper.saveUserWhoLikesCity(city.getId(), user);
+        baseTestHelper.saveUserWhoLikesCity(city.getId(), user1);
+        baseTestHelper.saveUserWhoLikesCity(city.getId(), user2);
 
         // when
         MockHttpServletRequestBuilder request = get(CITY + "/" + city.getId() + LIKED);
-        buildRequest(request);
+        setCommonRequestPart(request);
 
         MvcResult mvcResult = mockMvc.perform(request)
                 .andExpect(status().isOk())
@@ -126,33 +133,38 @@ public class CityControllerITest extends AbstractBaseControllerITest {
         // then
         String jsonResult = mvcResult.getResponse().getContentAsString();
         List<UserDto> userDtoList = jacksonService.fromJson(jsonResult, new TypeReference<List<UserDto>>() {});
-        assertThat(userDtoList).hasSize(1);
-        UserDto userDto = userDtoList.get(0);
-        assertThat(userDto.getId()).isEqualTo(user.getId());
-        assertThat(userDto.getUsername()).isEqualTo(user.getUsername());
+        assertThat(userDtoList).hasSize(2);
+        UserDto userDto1 = userDtoList.stream()
+                .filter(user -> user.getUsername().equals(user1.getUsername()))
+                .findFirst().get();
+
+        UserDto userDto2 = userDtoList.stream()
+                .filter(user -> user.getUsername().equals(user2.getUsername()))
+                .findFirst().get();
+
+        assertThat(userDto1.getId()).isEqualTo(user1.getId());
+        assertThat(userDto2.getId()).isEqualTo(user2.getId());
     }
 
     @Test
     public void shouldGetCommentsToACity() throws Exception {
         // given
-        String cityName = randomUUID().toString();
-        Integer countryId = 1;
-        City city = helper.saveCity(countryId, cityName);
+        City city = saveCity();
 
         // and
         String username = UUID.randomUUID().toString();
-        User user = helper.saveUser(username);
+        User user = baseTestHelper.saveUser(username);
 
         String text = UUID.randomUUID().toString();
-        DateTime createTime = now();
-        Comment comment = helper.saveComment(user.getId(), text, createTime);
+        DateTime createdTime = now();
+        Comment comment = baseTestHelper.saveComment(user.getId(), text, createdTime);
 
         // and
-        helper.saveCommentOfCity(city.getId(), comment.getId());
+        baseTestHelper.saveCommentOfCity(user, city.getId(), comment);
 
         // when
         MockHttpServletRequestBuilder request = get(CITY + "/" + city.getId() + COMMENT);
-        buildRequest(request);
+        setCommonRequestPart(request);
 
         MvcResult mvcResult = mockMvc.perform(request)
                 .andExpect(status().isOk())
@@ -167,11 +179,37 @@ public class CityControllerITest extends AbstractBaseControllerITest {
         assertThat(cityCommentDto.getUserId()).isEqualTo(user.getId());
         assertThat(cityCommentDto.getUserName()).isEqualTo(user.getUsername());
         assertThat(cityCommentDto.getCityId()).isEqualTo(city.getId());
-        assertThat(cityCommentDto.getCityName()).isEqualTo(city.getName());
 
         // and
         CommentDto commentDto = cityCommentDto.getComment();
-        assertThat(commentDto.getCreateTime().withZone(UTC)).isEqualTo(createTime.withZone(UTC));
+        assertThat(commentDto.getCreatedTime().withZone(UTC)).isNotNull();
         assertThat(commentDto.getText()).isEqualTo(text);
+    }
+
+    @Test
+    public void shouldSaveCommentToACity() throws Exception {
+        User user = baseTestHelper.saveUser(randomUUID().toString());
+        City city = saveCity();
+        String commentText = "Very beautiful city";
+
+        MockHttpServletRequestBuilder request = post(CITY + "/" + city.getId() + COMMENT);
+        request.content(commentText);
+        setCommonRequestPart(request);
+
+        mockMvc.perform(request.with(user(getUserToRequest(user))))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        List<CassandraCommentModel> cassandraCommentModelList = commentService.getCommentsOfCity(city.getId());
+        assertThat(cassandraCommentModelList).hasSize(1);
+        CassandraCommentModel cassandraCommentModel = cassandraCommentModelList.get(0);
+        assertThat(cassandraCommentModel.getUserId()).isEqualTo(user.getId());
+        assertThat(cassandraCommentModel.getCommentText()).isEqualTo(commentText);
+    }
+
+    private City saveCity() {
+        String cityName = randomUUID().toString();
+        Integer countryId = 1;
+        return baseTestHelper.saveCity(countryId, cityName);
     }
 }

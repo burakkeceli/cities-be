@@ -4,18 +4,16 @@ import com.cities.city.model.CityCommentDto;
 import com.cities.city.model.CityDto;
 import com.cities.comment.model.CommentDto;
 import com.cities.model.city.City;
-import com.cities.model.comment.Comment;
-import com.cities.model.user.User;
 import com.cities.service.city.CityService;
-import com.cities.service.comment.CommentService;
+import com.cities.service.comment.RelationalCommentService;
+import com.cities.service.comment.model.CassandraCommentModel;
 import com.cities.service.user.UserService;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 @Component
 public class CityLogic {
@@ -23,7 +21,7 @@ public class CityLogic {
     @Autowired
     private CityService cityService;
     @Autowired
-    private CommentService commentService;
+    private RelationalCommentService relationalCommentService;
     @Autowired
     private UserService userService;
 
@@ -47,37 +45,24 @@ public class CityLogic {
         return cityDto;
     }
 
-    public List<CityCommentDto> getCityCommentDtoList(Map<Integer, Integer> cityCommentMap) {
+    public List<CityCommentDto> getCityCommentDtoList(List<CassandraCommentModel> cassandraCommentModelList) {
         List<CityCommentDto> cityCommentDtoList = new ArrayList<>();
-        for (Entry<Integer, Integer> entry : cityCommentMap.entrySet()){
-            City city = cityService.getCityById(entry.getKey());
-            Comment comment = commentService.getCommentById(entry.getValue());
-            User user = userService.getUserById(comment.getUserId());
-            cityCommentDtoList.add(getCityCommentDto(city, comment, user));
+        for (CassandraCommentModel cassandraCommentModel : cassandraCommentModelList) {
+            CityCommentDto cityCommentDto = new CityCommentDto();
+            cityCommentDto.setUserId(cassandraCommentModel.getUserId());
+            cityCommentDto.setUserName(cassandraCommentModel.getUserName());
+            cityCommentDto.setCityId(cassandraCommentModel.getCityId());
+            cityCommentDto.setComment(getCommentDto(cassandraCommentModel));
+            cityCommentDtoList.add(cityCommentDto);
         }
         return cityCommentDtoList;
     }
 
-    private CityCommentDto getCityCommentDto(City city, Comment comment, User user) {
-        CommentDto commentDto = getCommentDto(comment);
-        return getCityCommentDto(city, user, commentDto);
-    }
-
-    private CityCommentDto getCityCommentDto(City city, User user, CommentDto commentDto) {
-        CityCommentDto cityCommentDto = new CityCommentDto();
-        cityCommentDto.setUserId(user.getId());
-        cityCommentDto.setCityId(city.getId());
-        cityCommentDto.setUserName(user.getUsername());
-        cityCommentDto.setCityName(city.getName());
-        cityCommentDto.setComment(commentDto);
-        return cityCommentDto;
-    }
-
-    private CommentDto getCommentDto(Comment comment) {
+    private CommentDto getCommentDto(CassandraCommentModel cassandraCommentModel) {
         CommentDto commentDto = new CommentDto();
-        commentDto.setCreateTime(comment.getCreateTime());
-        commentDto.setId(comment.getId());
-        commentDto.setText(comment.getText());
+        commentDto.setCreatedTime(new DateTime(cassandraCommentModel.getCreatedTime().timestamp()));
+        commentDto.setId(cassandraCommentModel.getCommentId());
+        commentDto.setText(cassandraCommentModel.getCommentText());
         return commentDto;
     }
 }

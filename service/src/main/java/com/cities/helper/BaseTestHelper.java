@@ -7,7 +7,7 @@ import com.cities.model.user.User;
 import com.cities.service.city.CassandraCityService;
 import com.cities.service.city.CityService;
 import com.cities.service.comment.CassandraCommentService;
-import com.cities.service.comment.CommentService;
+import com.cities.service.comment.RelationalCommentService;
 import com.cities.service.friendship.FriendshipService;
 import com.cities.service.user.UserService;
 import org.joda.time.DateTime;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 import static com.cities.model.user.UserRoleEnum.ROLE_USER;
-import static org.joda.time.DateTime.now;
 
 @Component
 public class BaseTestHelper {
@@ -31,7 +30,7 @@ public class BaseTestHelper {
     @Autowired
     private CassandraCityService cassandraCityService;
     @Autowired
-    private CommentService commentService;
+    private RelationalCommentService relationalCommentService;
     @Autowired
     private CassandraCommentService cassandraCommentService;
 
@@ -74,14 +73,14 @@ public class BaseTestHelper {
 
     public Comment saveComment(Integer userId, String text, DateTime createTime) {
         Comment comment = new Comment();
-        comment.setCreateTime(createTime);
+        comment.setCreatedTime(createTime);
         comment.setUserId(userId);
         comment.setText(text);
-        commentService.saveComment(comment);
+        relationalCommentService.saveComment(comment);
         return comment;
     }
 
-    public void saveCommentOfCity(Integer cityId, Integer commentId) {
-        cassandraCommentService.saveCommentOfCity(cityId, commentId);
+    public void saveCommentOfCity(User user, Integer cityId, Comment comment) {
+        cassandraCommentService.saveCommentOfCity(user, cityId, comment);
     }
 }

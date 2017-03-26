@@ -39,7 +39,7 @@ public class CountryControllerITest extends AbstractBaseControllerITest {
 
         // when
         MockHttpServletRequestBuilder request = get(COUNTRY);
-        buildRequest(request);
+        setCommonRequestPart(request);
 
         MvcResult mvcResult = mockMvc.perform(request)
                 .andExpect(status().isOk())
@@ -62,7 +62,7 @@ public class CountryControllerITest extends AbstractBaseControllerITest {
 
         // when
         MockHttpServletRequestBuilder request = get(COUNTRY + "/" + country.getId());
-        buildRequest(request);
+        setCommonRequestPart(request);
 
         MvcResult mvcResult = mockMvc.perform(request)
                 .andExpect(status().isOk())
@@ -81,7 +81,7 @@ public class CountryControllerITest extends AbstractBaseControllerITest {
         Integer randomId = -1;
         // when
         MockHttpServletRequestBuilder request = get(COUNTRY + "/" + randomId);
-        buildRequest(request);
+        setCommonRequestPart(request);
 
         mockMvc.perform(request)
                 .andExpect(status().isNotFound())

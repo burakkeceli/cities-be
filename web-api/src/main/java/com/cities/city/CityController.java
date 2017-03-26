@@ -6,6 +6,8 @@ import com.cities.model.city.City;
 import com.cities.service.city.CassandraCityService;
 import com.cities.service.city.CityService;
 import com.cities.service.comment.CassandraCommentService;
+import com.cities.service.comment.CommentService;
+import com.cities.service.comment.model.CassandraCommentModel;
 import com.cities.user.UserLogic;
 import com.cities.user.model.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,6 +29,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @RequestMapping(value = CITY, produces = APPLICATION_JSON_UTF8_VALUE)
@@ -41,6 +45,8 @@ public class CityController {
     private UserLogic userLogic;
     @Autowired
     private CassandraCommentService cassandraCommentService;
+    @Autowired
+    private CommentService commentService;
 
     @RequestMapping(method = GET)
     public ResponseEntity getAll(HttpServletRequest request) {
@@ -79,9 +85,21 @@ public class CityController {
             return new ResponseEntity<>(NOT_FOUND);
         }
 
-        Map<Integer, Integer> cityCommentMap = cassandraCommentService.getCommentsOfCity(id);
-        List<CityCommentDto> cityCommentDtoList = cityLogic.getCityCommentDtoList(cityCommentMap);
+        List<CassandraCommentModel> cassandraCommentModelList = commentService.getCommentsOfCity(id);
+        List<CityCommentDto> cityCommentDtoList = cityLogic.getCityCommentDtoList(cassandraCommentModelList);
         return new ResponseEntity<>(cityCommentDtoList, OK);
+    }
+
+    @RequestMapping(value = "/{cityId}"+COMMENT, method = POST)
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    public ResponseEntity addCommentToCity(@PathVariable Integer cityId, @RequestBody String commentText, @AuthenticationPrincipal UserDto userDto) {
+        City city = cityService.getCityById(cityId);
+        if (city == null) {
+            return new ResponseEntity<>(NOT_FOUND);
+        }
+
+        commentService.saveComment(userDto.getId(), city.getId(), commentText);
+        return new ResponseEntity<>(OK);
     }
 
     @RequestMapping(value = "/liked", method = GET)

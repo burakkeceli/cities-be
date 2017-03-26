@@ -37,6 +37,13 @@
 
     <dependencies>
 
+        <!-- =========== OTHER MODULES =========== -->
+        <dependency>
+            <groupId>com.cities.commons</groupId>
+            <artifactId>commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- =========== SPRING =========== -->
         <dependency>
             <groupId>org.springframework</groupId>
