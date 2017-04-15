@@ -27,7 +27,6 @@ import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.joda.time.DateTime.now;
-import static org.joda.time.DateTimeZone.UTC;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -182,7 +181,7 @@ public class CityControllerITest extends AbstractBaseControllerITest {
 
         // and
         CommentDto commentDto = cityCommentDto.getComment();
-        assertThat(commentDto.getCreatedTime().withZone(UTC)).isNotNull();
+        assertThat(commentDto.getCreatedTime()).isNotNull();
         assertThat(commentDto.getText()).isEqualTo(text);
     }
 

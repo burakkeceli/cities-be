@@ -7,5 +7,5 @@ import org.joda.time.DateTime;
 public class CommentDto {
     private Integer id;
     private String text;
-    private DateTime createdTime;
+    private String createdTime;
 }

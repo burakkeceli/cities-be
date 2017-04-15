@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.cities.util.TimeUtil.convertDefaultTimeFormatter;
+
 @Component
 public class CityLogic {
 
@@ -60,7 +62,8 @@ public class CityLogic {
 
     private CommentDto getCommentDto(CassandraCommentModel cassandraCommentModel) {
         CommentDto commentDto = new CommentDto();
-        commentDto.setCreatedTime(new DateTime(cassandraCommentModel.getCreatedTime().timestamp()));
+        DateTime createdTime = new DateTime(cassandraCommentModel.getCreatedTime().timestamp());
+        commentDto.setCreatedTime(convertDefaultTimeFormatter(createdTime));
         commentDto.setId(cassandraCommentModel.getCommentId());
         commentDto.setText(cassandraCommentModel.getCommentText());
         return commentDto;
