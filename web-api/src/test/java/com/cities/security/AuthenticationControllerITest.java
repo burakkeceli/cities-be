@@ -1,9 +1,11 @@
 package com.cities.security;
 
 import com.cities.base.AbstractBaseControllerITest;
+import com.cities.constant.AppConstant;
 import com.cities.helper.JacksonService;
 import com.cities.model.user.User;
 import com.cities.service.user.UserService;
+import com.cities.user.model.UserDto;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MvcResult;
@@ -11,12 +13,15 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 import java.util.UUID;
 
+import static com.cities.constant.ApiConstants.Urls.IS_EXPIRED;
 import static com.cities.constant.ApiConstants.Urls.LOGIN;
+import static com.cities.constant.AppConstant.tokenHeader;
 import static com.cities.model.user.UserRoleEnum.ROLE_USER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -27,6 +32,8 @@ public class AuthenticationControllerITest extends AbstractBaseControllerITest {
     private UserService userService;
     @Autowired
     private JacksonService jacksonService;
+    @Autowired
+    private TokenUtils tokenUtils;
 
     @Test
     public void shouldAuthenticateUser() throws Exception {
@@ -63,5 +70,67 @@ public class AuthenticationControllerITest extends AbstractBaseControllerITest {
         AuthenticationResponse response = jacksonService.fromJson(jsonResult, AuthenticationResponse.class);
         assertThat(response.getToken()).isNotEmpty();
         assertThat(response.getUsername()).isEqualTo(authenticationRequest.getUsername());
+    }
+
+    @Test
+    public void shouldReturnNotFoundWhenTokenExpired() throws Exception {
+        // given
+        String username = "Jack";
+        String password = "123";
+
+        // and
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setEmail(UUID.randomUUID().toString());
+
+        userService.saveUser(user, ROLE_USER);
+        tokenUtils.setTokenExpiration(0);
+        String token = tokenUtils.generateToken(user);
+
+        // when
+        AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+        authenticationRequest.setUsername(username);
+        authenticationRequest.setPassword(password);
+
+        // when
+        MockHttpServletRequestBuilder request = get(LOGIN + IS_EXPIRED);
+        setCommonRequestPart(request);
+        request.header(tokenHeader, token);
+
+        MvcResult mvcResult = mockMvc.perform(request)
+                .andExpect(status().isNotFound())
+                .andReturn();
+    }
+
+    @Test
+    public void shouldReturnOKWhenTokenNotExpired() throws Exception {
+        // given
+        String username = "Jack";
+        String password = "123";
+
+        // and
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setEmail(UUID.randomUUID().toString());
+
+        userService.saveUser(user, ROLE_USER);
+        tokenUtils.setTokenExpiration(1);
+        String token = tokenUtils.generateToken(user);
+
+        // when
+        AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+        authenticationRequest.setUsername(username);
+        authenticationRequest.setPassword(password);
+
+        // when
+        MockHttpServletRequestBuilder request = get(LOGIN + IS_EXPIRED);
+        setCommonRequestPart(request);
+        request.header(tokenHeader, token);
+
+        MvcResult mvcResult = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andReturn();
     }
 }
