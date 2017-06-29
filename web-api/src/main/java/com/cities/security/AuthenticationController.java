@@ -39,16 +39,13 @@ public class AuthenticationController {
 
     @RequestMapping(method = POST)
     public ResponseEntity<?> authenticationRequest(@RequestBody AuthenticationRequest authenticationRequest)
-        throws AuthenticationException {
+            throws AuthenticationException {
 
         SecurityContextHolder.getContext().setAuthentication(null);
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        authenticationRequest.getUsername(),
-                        authenticationRequest.getPassword()
-                )
-        );
+        UsernamePasswordAuthenticationToken userPassToken = new UsernamePasswordAuthenticationToken
+                (authenticationRequest.getUsername(), authenticationRequest.getPassword());
+        Authentication authentication = authenticationManager.authenticate(userPassToken);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDto user = (UserDto)userDetailsService.loadUserByUsername(authenticationRequest.getUsername());

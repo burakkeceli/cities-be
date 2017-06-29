@@ -73,6 +73,28 @@ public class AuthenticationControllerITest extends AbstractBaseControllerITest {
     }
 
     @Test
+    public void shouldNotAuthenticateUserWhenUserNotFound() throws Exception {
+        // given
+        String username = "Jack";
+        String password = "123";
+
+        // and
+        AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+        authenticationRequest.setUsername(username);
+        authenticationRequest.setPassword(password);
+
+        // when
+        MockHttpServletRequestBuilder request = post(LOGIN);
+        setCommonRequestPart(request);
+        String payload = jacksonService.toJson(authenticationRequest);
+        request.content(payload);
+
+        mockMvc.perform(request)
+                .andExpect(status().isUnauthorized())
+                .andReturn();
+    }
+
+    @Test
     public void shouldReturnNotFoundWhenTokenExpired() throws Exception {
         // given
         String username = "Jack";
