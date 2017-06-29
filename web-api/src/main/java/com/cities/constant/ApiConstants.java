@@ -12,5 +12,6 @@ public interface ApiConstants {
         String COUNTRY = "/country";
         String LIKED = "/liked";
         String COMMENT = "/comment";
+        String IS_EXPIRED = "/isExpired";
     }
 }
