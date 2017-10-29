@@ -38,7 +38,8 @@
         <google.guava.version>19.0</google.guava.version>
 
         <!-- TEST -->
-        <junit.verison>4.12</junit.verison>
+        <junit.jupiter.version>5.0.0-M4</junit.jupiter.version>
+        <junit.platform.version>1.0.0-M4</junit.platform.version>
         <assertj.version>3.5.2</assertj.version>
         <mockito.version>1.10.19</mockito.version>
         <spring-security-test.version>4.0.0.RELEASE</spring-security-test.version>
@@ -291,9 +292,14 @@
 
             <!-- =========== ALL COMMON =========== -->
             <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.verison}</version>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${junit.jupiter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-runner</artifactId>
+                <version>${junit.platform.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>

@@ -6,6 +6,7 @@ import com.cities.helper.JacksonService;
 import com.cities.model.country.Country;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -15,7 +16,6 @@ import java.util.List;
 import static com.cities.constant.ApiConstants.Urls.COUNTRY;
 import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -29,6 +29,7 @@ public class CountryControllerITest extends AbstractBaseControllerITest {
     @Autowired
     private JacksonService jacksonService;
 
+    @DisplayName("Should get all countries without any permission")
     @Test
     public void shouldGetAllCountriesWithoutAnyPermission() throws Exception {
 
@@ -43,7 +44,7 @@ public class CountryControllerITest extends AbstractBaseControllerITest {
 
         MvcResult mvcResult = mockMvc.perform(request)
                 .andExpect(status().isOk())
-                .andExpect(header().string(CONTENT_TYPE, equalTo(APPLICATION_JSON_UTF8_VALUE)))
+                .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_UTF8_VALUE))
                 .andReturn();
 
         // then
@@ -66,7 +67,7 @@ public class CountryControllerITest extends AbstractBaseControllerITest {
 
         MvcResult mvcResult = mockMvc.perform(request)
                 .andExpect(status().isOk())
-                .andExpect(header().string(CONTENT_TYPE, equalTo(APPLICATION_JSON_UTF8_VALUE)))
+                .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_UTF8_VALUE))
                 .andReturn();
 
         // then
