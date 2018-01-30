@@ -24,6 +24,9 @@ Role creation on docker:
 4. CREATE ROLE burak superuser;
 5. ALTER ROLE burak WITH LOGIN;
 6. ALTER DATABASE cities OWNER TO burak;
+7. \l - to display databases
+8. \c - connect to new database
+9. \dn - list of schemas
 
 
 Docker -> Cassandra connection:

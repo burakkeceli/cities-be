@@ -52,6 +52,7 @@
         <local.ajp.port>1${basePort}</local.ajp.port>
         <local.rmi.port>2${basePort}</local.rmi.port>
         <local.debug.port>5${basePort}</local.debug.port>
+        <tomcatPort>{tomcatPort}</tomcatPort>
 
         <!-- WAR NAME -->
         <warName>cities</warName>
@@ -85,7 +86,7 @@
                     <artifactId>tomcat7-maven-plugin</artifactId>
                     <version>2.2</version>
                     <configuration>
-                        <url>http://localhost:8081/manager/text</url>
+                        <url>http://localhost:${tomcatPort}/manager/text</url>
                         <server>TomcatServer</server>
                         <path>/${warName}</path>
                         <username>admin</username>
