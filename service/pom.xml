@@ -22,6 +22,11 @@
             <artifactId>database</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.cities.kafka</groupId>
+            <artifactId>kafka</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
 
         <!-- =========== SPRING =========== -->
