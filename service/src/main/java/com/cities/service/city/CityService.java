@@ -1,6 +1,5 @@
 package com.cities.service.city;
 
-import com.cities.config.CityProducer;
 import com.cities.dao.CityDAO;
 import com.cities.dao.CountryDAO;
 import com.cities.model.city.City;
@@ -19,8 +18,6 @@ public class CityService {
     private CityDAO cityDAO;
     @Autowired
     private CountryDAO countryDAO;
-    @Autowired
-    private CityProducer cityProducer;
 
     public List<City> getAllCities() {
         return cityDAO.getAll();
@@ -44,9 +41,5 @@ public class CityService {
 
     public List<Country> getAllCountries() {
         return countryDAO.getAll();
-    }
-
-    public void sendAsynchronous(City city) {
-        cityProducer.sendCityMessage(city);
     }
 }

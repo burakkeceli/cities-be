@@ -1,7 +1,7 @@
-package com.cities.config;
+package com.cities.async;
 
-import com.cities.dao.CityDAO;
 import com.cities.model.city.City;
+import com.cities.service.city.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
@@ -10,13 +10,12 @@ import org.springframework.stereotype.Component;
 public class CityListener {
 
     @Autowired
-    private CityDAO cityDAO;
+    private CityService cityService;
 
     @KafkaListener(
             topics = "${city.topic.name}",
             containerFactory = "cityKafkaListenerContainerFactory")
     public void cityListener(City city) {
-        System.out.println("Received city message: " + city);
-        //cityDAO.save(city);
+        cityService.saveCity(city);
     }
 }

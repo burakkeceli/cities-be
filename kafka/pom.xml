@@ -22,6 +22,11 @@
             <artifactId>database</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.cities.service</groupId>
+            <artifactId>service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- =========== SPRING =========== -->
         <dependency>
@@ -36,6 +41,32 @@
             <artifactId>spring-kafka</artifactId>
         </dependency>
 
+
+        <!-- =========== TEST =========== -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>
