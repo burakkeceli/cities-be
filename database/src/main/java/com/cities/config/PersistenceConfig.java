@@ -22,13 +22,6 @@ import java.util.Properties;
 @ComponentScan({ "com.*" })
 public class PersistenceConfig {
 
-    public PersistenceConfig() {
-        super();
-    }
-
-    @Autowired
-    private Environment env;
-
     @Value("${dataset.url}")
     private String dataSetUrl;
     @Value("${dataset.username}")
