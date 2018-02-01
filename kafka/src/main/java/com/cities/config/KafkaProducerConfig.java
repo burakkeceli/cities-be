@@ -27,7 +27,7 @@ public class KafkaProducerConfig {
     private String bootstrapAddress;
 
     @Bean
-    private ProducerFactory<String, City> cityProducerFactory() {
+    public ProducerFactory<String, City> cityProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         configProps.put(KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
