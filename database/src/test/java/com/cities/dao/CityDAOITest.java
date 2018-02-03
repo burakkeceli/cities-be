@@ -1,7 +1,7 @@
 package com.cities.dao;
 
-import com.cities.base.AbstractBaseITest;
 import com.cities.model.city.City;
+import com.cities.test.AbstractBaseTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -9,7 +9,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CityDAOITest extends AbstractBaseITest {
+public class CityDAOITest extends AbstractBaseTest {
 
     @Autowired
     private CityDAO cityDAO;

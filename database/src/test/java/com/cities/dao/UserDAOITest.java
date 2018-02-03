@@ -1,15 +1,10 @@
 package com.cities.dao;
 
-import com.cities.config.PersistenceConfig;
 import com.cities.model.user.User;
 import com.cities.model.user.UserRole;
+import com.cities.test.AbstractBaseTest;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.UUID;
@@ -17,10 +12,7 @@ import java.util.UUID;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = PersistenceConfig.class, loader = AnnotationConfigContextLoader.class)
-@Transactional
-public class UserDAOITest {
+public class UserDAOITest extends AbstractBaseTest {
 
     @Autowired
     private UserDAO userDAO;

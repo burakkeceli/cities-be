@@ -1,10 +1,10 @@
 package com.cities.service.city;
 
 
-import com.cities.base.AbstractServiceBaseITest;
 import com.cities.helper.BaseTestHelper;
 import com.cities.model.city.City;
 import com.cities.model.user.User;
+import com.cities.test.AbstractBaseTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,7 +13,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CassandraCityServiceITest extends AbstractServiceBaseITest {
+public class CassandraCityServiceITest extends AbstractBaseTest {
 
     @Autowired
     private BaseTestHelper baseTestHelper;

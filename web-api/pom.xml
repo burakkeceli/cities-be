@@ -24,6 +24,11 @@
             <artifactId>commons</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.cities</groupId>
+            <artifactId>config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
 
         <dependency>

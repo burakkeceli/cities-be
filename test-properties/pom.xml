@@ -10,38 +10,57 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.cities.service</groupId>
-    <artifactId>service</artifactId>
+    <groupId>com.cities.test</groupId>
+    <artifactId>test-properties</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <build>
+        <plugins>
+
+            <!-- Strangely enough, in order to add this module as test resource to other modules,
+                  http://maven.apache.org/guides/mini/guide-attached-tests.html -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 
     <dependencies>
-
         <!-- =========== OTHER MODULES =========== -->
-        <dependency>
-            <groupId>com.cities.database</groupId>
-            <artifactId>database</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <dependency>
             <groupId>com.cities</groupId>
             <artifactId>config</artifactId>
             <version>${project.version}</version>
         </dependency>
 
-
         <!-- =========== SPRING =========== -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>
-
-
-        <!-- =========== LOMBOK =========== -->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+        </dependency>
 
         <!-- =========== TEST =========== -->
         <dependency>
@@ -54,25 +73,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.cities.test</groupId>
-            <artifactId>test-properties</artifactId>
-            <version>${project.version}</version>
-            <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
     </dependencies>
