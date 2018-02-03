@@ -1,4 +1,4 @@
-package com.cities.async;
+package com.cities.async.city;
 
 import com.cities.model.city.City;
 import org.springframework.beans.factory.annotation.Autowired;

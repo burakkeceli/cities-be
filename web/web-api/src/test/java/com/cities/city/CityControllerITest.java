@@ -13,6 +13,7 @@ import com.cities.service.comment.CommentService;
 import com.cities.service.comment.model.CassandraCommentModel;
 import com.cities.user.model.UserDto;
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.assertj.core.api.Assertions;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,7 +132,7 @@ public class CityControllerITest extends AbstractBaseControllerITest {
         // then
         String jsonResult = mvcResult.getResponse().getContentAsString();
         List<UserDto> userDtoList = jacksonService.fromJson(jsonResult, new TypeReference<List<UserDto>>() {});
-        assertThat(userDtoList).hasSize(2);
+        Assertions.assertThat(userDtoList).hasSize(2);
         UserDto userDto1 = userDtoList.stream()
                 .filter(user -> user.getUsername().equals(user1.getUsername()))
                 .findFirst().get();
@@ -172,7 +173,7 @@ public class CityControllerITest extends AbstractBaseControllerITest {
         // then
         String jsonResult = mvcResult.getResponse().getContentAsString();
         List<CityCommentDto> cityCommentDtoList = jacksonService.fromJson(jsonResult, new TypeReference<List<CityCommentDto>>() {});
-        assertThat(cityCommentDtoList).hasSize(1);
+        Assertions.assertThat(cityCommentDtoList).hasSize(1);
         CityCommentDto cityCommentDto = cityCommentDtoList.get(0);
         assertThat(cityCommentDto.getUserId()).isEqualTo(user.getId());
         assertThat(cityCommentDto.getUserName()).isEqualTo(user.getUsername());

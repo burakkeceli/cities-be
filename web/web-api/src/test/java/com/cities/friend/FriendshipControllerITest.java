@@ -10,6 +10,7 @@ import com.cities.service.user.UserService;
 import com.cities.user.model.UserDto;
 import com.cities.user.model.UserPropertiesView;
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.assertj.core.api.Assertions;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,7 @@ public class FriendshipControllerITest extends AbstractBaseControllerITest {
         // then
         String jsonResult = mvcResult.getResponse().getContentAsString();
         List<UserDto> userDtoList = jacksonService.fromJson(jsonResult, new TypeReference<List<UserDto>>() {});
-        assertThat(userDtoList).hasSize(1);
+        Assertions.assertThat(userDtoList).hasSize(1);
         assertThat(userDtoList.get(0).getEmail()).isEqualTo(userFrom.getEmail());
         assertThat(userDtoList.get(0).getUsername()).isEqualTo(userFrom.getUsername());
     }

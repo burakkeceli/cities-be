@@ -8,14 +8,13 @@ import com.cities.service.city.CityService;
 import com.cities.service.comment.RelationalCommentService;
 import com.cities.service.comment.model.CassandraCommentModel;
 import com.cities.service.user.UserService;
+import com.cities.util.TimeUtil;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.cities.util.TimeUtil.convertDefaultTimeFormatter;
 
 @Component
 public class CityLogic {
@@ -63,7 +62,7 @@ public class CityLogic {
     private CommentDto getCommentDto(CassandraCommentModel cassandraCommentModel) {
         CommentDto commentDto = new CommentDto();
         DateTime createdTime = new DateTime(cassandraCommentModel.getCreatedTime().timestamp());
-        commentDto.setCreatedTime(convertDefaultTimeFormatter(createdTime));
+        commentDto.setCreatedTime(TimeUtil.convertDefaultTimeFormatter(createdTime));
         commentDto.setId(cassandraCommentModel.getCommentId());
         commentDto.setText(cassandraCommentModel.getCommentText());
         return commentDto;

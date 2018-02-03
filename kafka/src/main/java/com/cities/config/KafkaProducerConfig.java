@@ -1,6 +1,7 @@
 package com.cities.config;
 
 import com.cities.model.city.City;
+import com.cities.model.country.Country;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
@@ -23,16 +24,32 @@ public class KafkaProducerConfig {
 
     // INFO: Bean creation, cannot be private.
     @Bean
+    public ProducerFactory<String, Country> countryProducerFactory() {
+        Map<String, Object> configProps = getProducerConfigProps();
+        return new DefaultKafkaProducerFactory<>(configProps, null, new JsonSerializer<Country>());
+    }
+
+    @Bean
+    public KafkaTemplate<String, Country> countryKafkaTemplate() {
+        return new KafkaTemplate<>(countryProducerFactory());
+    }
+
+    @Bean
     public ProducerFactory<String, City> cityProducerFactory() {
-        Map<String, Object> configProps = new HashMap<>();
-        configProps.put(BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
-        configProps.put(KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        configProps.put(VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        Map<String, Object> configProps = getProducerConfigProps();
         return new DefaultKafkaProducerFactory<>(configProps, null, new JsonSerializer<City>());
     }
 
     @Bean
     public KafkaTemplate<String, City> cityKafkaTemplate() {
         return new KafkaTemplate<>(cityProducerFactory());
+    }
+
+    private Map<String, Object> getProducerConfigProps() {
+        Map<String, Object> configProps = new HashMap<>();
+        configProps.put(BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
+        configProps.put(KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configProps.put(VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        return configProps;
     }
 }

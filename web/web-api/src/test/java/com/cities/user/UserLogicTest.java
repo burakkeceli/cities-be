@@ -36,7 +36,7 @@ public class UserLogicTest {
         List<UserDto> userDtoList = userLogic.fromUserMap(userMap);
 
         // then
-        assertThat(userDtoList).hasSize(1);
-        assertThat(userDtoList).containsExactly(userDto);
+        Assertions.assertThat(userDtoList).hasSize(1);
+        Assertions.assertThat(userDtoList).containsExactly(userDto);
     }
 }

@@ -1,5 +1,6 @@
 package com.cities.async;
 
+import com.cities.async.city.CityProducer;
 import com.cities.model.city.City;
 import com.cities.service.city.CityService;
 import com.cities.test.AbstractBaseTest;
@@ -30,7 +31,7 @@ public class CityProducerMTest extends AbstractBaseTest {
         cityProducer.sendCityMessage(city);
 
         // wait
-        Thread.sleep(5_000);
+        Thread.sleep(7_000);
 
         // then
         List<City> allCities = cityService.getAllCities();

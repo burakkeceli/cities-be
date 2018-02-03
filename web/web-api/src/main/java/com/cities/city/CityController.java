@@ -2,6 +2,8 @@ package com.cities.city;
 
 import com.cities.city.model.CityCommentDto;
 import com.cities.city.model.CityDto;
+import com.cities.constant.ApiConstants;
+import com.cities.constant.ApiConstants.Urls;
 import com.cities.model.city.City;
 import com.cities.service.city.CassandraCityService;
 import com.cities.service.city.CityService;
@@ -24,7 +26,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static com.cities.constant.ApiConstants.Urls.*;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
@@ -32,7 +33,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
-@RequestMapping(value = CITY, produces = APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = Urls.CITY, produces = APPLICATION_JSON_UTF8_VALUE)
 public class CityController {
 
     @Autowired
@@ -66,7 +67,7 @@ public class CityController {
         return new ResponseEntity<>(cityDto, OK);
     }
 
-    @RequestMapping(value = "/{id}"+LIKED, method = GET)
+    @RequestMapping(value = "/{id}"+ Urls.LIKED, method = GET)
     public ResponseEntity getUserListWhoLikeCity(@PathVariable Integer id, HttpServletRequest request) {
         City city = cityService.getCityById(id);
         if (city == null) {
@@ -78,7 +79,7 @@ public class CityController {
         return new ResponseEntity<>(userDtoList, OK);
     }
 
-    @RequestMapping(value = "/{id}"+COMMENT, method = GET)
+    @RequestMapping(value = "/{id}"+ Urls.COMMENT, method = GET)
     public ResponseEntity getCommentsOfCity(@PathVariable Integer id, HttpServletRequest request) {
         City city = cityService.getCityById(id);
         if (city == null) {
@@ -90,7 +91,7 @@ public class CityController {
         return new ResponseEntity<>(cityCommentDtoList, OK);
     }
 
-    @RequestMapping(value = "/{cityId}"+COMMENT, method = POST)
+    @RequestMapping(value = "/{cityId}"+ Urls.COMMENT, method = POST)
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity addCommentToCity(@PathVariable Integer cityId, @RequestBody String commentText, @AuthenticationPrincipal UserDto userDto) {
         City city = cityService.getCityById(cityId);

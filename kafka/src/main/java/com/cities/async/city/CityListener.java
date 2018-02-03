@@ -1,4 +1,4 @@
-package com.cities.async;
+package com.cities.async.city;
 
 import com.cities.model.city.City;
 import com.cities.service.city.CityService;
