@@ -14,15 +14,18 @@ import org.assertj.core.api.Assertions;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import java.util.List;
 
-import static com.cities.constant.ApiConstants.Urls.USER_FRIENDSHIP;
+import static com.cities.ApiConstants.Urls.USER_FRIENDSHIP;
 import static com.cities.model.friend.FriendshipStatusEnum.ACTIVE;
 import static com.cities.model.friend.FriendshipStatusEnum.REJECTED;
 import static java.util.UUID.randomUUID;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;

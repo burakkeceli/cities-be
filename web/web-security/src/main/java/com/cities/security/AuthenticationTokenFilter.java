@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.cities.constant.AppConstant.tokenHeader;
+import static com.cities.AppConstant.tokenHeader;
 
 @Slf4j
 public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFilter {

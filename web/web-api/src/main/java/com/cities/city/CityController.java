@@ -1,16 +1,15 @@
 package com.cities.city;
 
+import com.cities.ApiConstants.Urls;
 import com.cities.city.model.CityCommentDto;
 import com.cities.city.model.CityDto;
-import com.cities.constant.ApiConstants;
-import com.cities.constant.ApiConstants.Urls;
 import com.cities.model.city.City;
 import com.cities.service.city.CassandraCityService;
 import com.cities.service.city.CityService;
 import com.cities.service.comment.CassandraCommentService;
 import com.cities.service.comment.CommentService;
 import com.cities.service.comment.model.CassandraCommentModel;
-import com.cities.user.UserLogic;
+import com.cities.friend.UserLogic;
 import com.cities.user.model.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

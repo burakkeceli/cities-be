@@ -1,4 +1,4 @@
-package com.cities.user;
+package com.cities.friend;
 
 import com.cities.model.user.User;
 import com.cities.security.AuthenticationRequest;

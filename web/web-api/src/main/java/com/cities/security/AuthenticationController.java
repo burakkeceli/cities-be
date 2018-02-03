@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.cities.constant.ApiConstants.Urls.IS_EXPIRED;
-import static com.cities.constant.ApiConstants.Urls.LOGIN;
-import static com.cities.constant.AppConstant.tokenHeader;
+import static com.cities.ApiConstants.Urls.IS_EXPIRED;
+import static com.cities.ApiConstants.Urls.LOGIN;
+import static com.cities.AppConstant.tokenHeader;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.ResponseEntity.badRequest;
 import static org.springframework.http.ResponseEntity.ok;

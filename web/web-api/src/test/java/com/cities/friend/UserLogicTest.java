@@ -1,4 +1,4 @@
-package com.cities.user;
+package com.cities.friend;
 
 import com.cities.user.model.UserDto;
 import com.google.common.collect.ImmutableMap;

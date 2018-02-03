@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 import java.util.List;
 
-import static com.cities.constant.ApiConstants.Urls.COUNTRY;
+import static com.cities.ApiConstants.Urls.COUNTRY;
 import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;

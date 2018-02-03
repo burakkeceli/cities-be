@@ -1,4 +1,4 @@
-package com.cities.constant;
+package com.cities;
 
 public interface ApiConstants {
     interface Urls {

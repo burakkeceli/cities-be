@@ -1,11 +1,9 @@
 package com.cities.security;
 
 import com.cities.base.AbstractBaseControllerITest;
-import com.cities.constant.AppConstant;
 import com.cities.helper.JacksonService;
 import com.cities.model.user.User;
 import com.cities.service.user.UserService;
-import com.cities.user.model.UserDto;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MvcResult;
@@ -13,9 +11,9 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 import java.util.UUID;
 
-import static com.cities.constant.ApiConstants.Urls.IS_EXPIRED;
-import static com.cities.constant.ApiConstants.Urls.LOGIN;
-import static com.cities.constant.AppConstant.tokenHeader;
+import static com.cities.ApiConstants.Urls.IS_EXPIRED;
+import static com.cities.ApiConstants.Urls.LOGIN;
+import static com.cities.AppConstant.tokenHeader;
 import static com.cities.model.user.UserRoleEnum.ROLE_USER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;

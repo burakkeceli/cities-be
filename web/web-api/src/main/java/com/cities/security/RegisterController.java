@@ -1,9 +1,9 @@
 package com.cities.security;
 
 import com.cities.error.ErrorResourceDto;
+import com.cities.friend.UserLogic;
 import com.cities.model.user.User;
 import com.cities.service.user.UserService;
-import com.cities.user.UserLogic;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.cities.constant.ApiConstants.Urls.REGISTER;
+import static com.cities.ApiConstants.Urls.REGISTER;
 import static com.cities.model.user.UserRoleEnum.ROLE_USER;
 import static java.util.Collections.singletonList;
 import static org.springframework.http.HttpStatus.CONFLICT;

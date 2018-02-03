@@ -12,8 +12,9 @@
     <artifactId>web</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>admin-api</module>
+        <module>web-admin-api</module>
         <module>web-api</module>
+        <module>web-security</module>
     </modules>
 
 

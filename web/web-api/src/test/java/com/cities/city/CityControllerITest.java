@@ -17,14 +17,17 @@ import org.assertj.core.api.Assertions;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import java.util.List;
 import java.util.UUID;
 
-import static com.cities.constant.ApiConstants.Urls.*;
+import static com.cities.ApiConstants.Urls.*;
 import static java.util.UUID.randomUUID;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.joda.time.DateTime.now;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;

@@ -1,5 +1,6 @@
 package com.cities.security;
 
+import com.cities.ApiConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +19,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import static com.cities.constant.ApiConstants.Urls.*;
+import static com.cities.ApiConstants.Urls.*;
 
 @Configuration
 @EnableWebSecurity

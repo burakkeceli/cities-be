@@ -25,28 +25,11 @@
             <artifactId>config</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-
         <dependency>
-            <groupId>com.cities.service</groupId>
-            <artifactId>service</artifactId>
+            <groupId>com.cities</groupId>
+            <artifactId>web-securtiy</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-
-        <!-- =========== SPRING =========== -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-        </dependency>
-
-
-        <!-- =========== SPRING SECURITY =========== -->
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-        </dependency>
-
 
         <!-- =========== JACKSON =========== -->
         <dependency>
@@ -73,24 +56,6 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-        </dependency>
-
-
-        <!-- =========== SWAGGER2 =========== -->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-        </dependency>
-
-
-        <!-- =========== JSON WEB TOKEN =========== -->
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
         </dependency>
 
 
