@@ -44,6 +44,11 @@
             <artifactId>commons</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.cities</groupId>
+            <artifactId>config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- =========== SPRING =========== -->
         <dependency>
@@ -129,6 +134,13 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.cities.test</groupId>
+            <artifactId>test-properties</artifactId>
+            <version>${project.version}</version>
+            <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
     </dependencies>

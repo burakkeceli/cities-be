@@ -1,9 +1,9 @@
 package com.cities.dao;
 
-import com.cities.base.AbstractBaseITest;
 import com.cities.model.friend.Friendship;
 import com.cities.model.user.User;
 import com.cities.model.user.UserRole;
+import com.cities.test.AbstractBaseTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -17,7 +17,7 @@ import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class FriendshipDAOITest extends AbstractBaseITest {
+public class FriendshipDAOITest extends AbstractBaseTest {
 
     @Autowired
     private FriendshipDAO friendshipDAO;

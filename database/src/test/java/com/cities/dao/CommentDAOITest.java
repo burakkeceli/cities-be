@@ -1,7 +1,7 @@
 package com.cities.dao;
 
-import com.cities.base.AbstractBaseITest;
 import com.cities.model.comment.Comment;
+import com.cities.test.AbstractBaseTest;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CommentDAOITest extends AbstractBaseITest {
+public class CommentDAOITest extends AbstractBaseTest {
 
     @Autowired
     private CommentDAO commentDAO;

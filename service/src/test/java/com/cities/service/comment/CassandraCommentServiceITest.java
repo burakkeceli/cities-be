@@ -1,12 +1,12 @@
 package com.cities.service.comment;
 
 
-import com.cities.base.AbstractServiceBaseITest;
 import com.cities.helper.BaseTestHelper;
 import com.cities.model.city.City;
 import com.cities.model.comment.Comment;
 import com.cities.model.user.User;
 import com.cities.service.comment.model.CassandraCommentModel;
+import com.cities.test.AbstractBaseTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,7 +16,7 @@ import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.joda.time.DateTime.now;
 
-public class CassandraCommentServiceITest extends AbstractServiceBaseITest {
+public class CassandraCommentServiceITest extends AbstractBaseTest {
 
     @Autowired
     private BaseTestHelper baseTestHelper;

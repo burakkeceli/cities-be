@@ -11,6 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.AnnotationConfigWebContextLoader;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -31,13 +32,13 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 @WebAppConfiguration
 @ContextConfiguration(classes = SpringMvcConfig.class, loader = AnnotationConfigWebContextLoader.class)
 @Transactional
-@PropertySource("classpath:config.properties")
+@TestPropertySource("classpath:test.properties")
 public abstract class AbstractBaseControllerITest {
 
     @Autowired
     private WebApplicationContext wac;
 
-    public MockMvc mockMvc;
+    protected MockMvc mockMvc;
 
     @Before
     public void setup() {

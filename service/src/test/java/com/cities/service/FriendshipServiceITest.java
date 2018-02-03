@@ -1,12 +1,12 @@
 package com.cities.service;
 
-import com.cities.base.AbstractServiceBaseITest;
 import com.cities.dao.FriendshipDAO;
 import com.cities.model.friend.Friendship;
 import com.cities.model.user.User;
 import com.cities.model.user.UserRole;
 import com.cities.service.friendship.FriendshipService;
 import com.cities.service.user.UserService;
+import com.cities.test.AbstractBaseTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import static com.cities.model.user.UserRoleEnum.ROLE_USER;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class FriendshipServiceITest extends AbstractServiceBaseITest {
+public class FriendshipServiceITest extends AbstractBaseTest {
 
     @Autowired
     private FriendshipService friendshipService;
