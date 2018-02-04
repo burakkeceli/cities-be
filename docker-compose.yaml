@@ -46,9 +46,11 @@ services:
       - ${PWD}/docker/tomcat/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
       - ${PWD}/docker/tomcat/ROOT/index.jsp:/usr/local/tomcat/webapps/ROOT/index.jsp
       - ${PWD}/docker/tomcat/logs/:/usr/local/tomcat/logs/
+      - ${PWD}/docker/tomcat/logging.properties:/usr/local/tomcat/conf/logging.properties
     links:
       - db
       - cassandra
+      - kafkaserver
 
   tomcatTwo:
     image: 'tomcat:8.0-jre8'
@@ -62,6 +64,7 @@ services:
     links:
       - db
       - cassandra
+      - kafkaserver
 
   kafkaserver:                      # includes zookeper as well
     image: "spotify/kafka:latest"

@@ -49,7 +49,7 @@ public class AdminCountryController {
             }
             return new ResponseEntity<>(OK);
         } catch (Exception e) {
-            log.debug("Hata => ", e);
+            log.error("ERROR => ", e);
             return new ResponseEntity<>(e.getMessage(), OK);
         }
     }
