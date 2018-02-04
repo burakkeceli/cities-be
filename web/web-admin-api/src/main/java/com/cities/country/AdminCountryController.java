@@ -4,6 +4,7 @@ import com.cities.async.country.CountryProducer;
 import com.cities.country.model.CountryDto;
 import com.cities.model.country.Country;
 import com.cities.service.city.CityService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+@Slf4j
 @RestController
 @RequestMapping(value = ADMIN + COUNTRY, produces = APPLICATION_JSON_UTF8_VALUE)
 public class AdminCountryController {
@@ -40,10 +42,15 @@ public class AdminCountryController {
 
     @RequestMapping(method = POST)
     public ResponseEntity saveCountryList(@RequestBody List<CountryDto> countryList) {
-        for (CountryDto countryDto : countryList) {
-            Country country = countryLogic.getCountry(countryDto);
-            countryProducer.sendCountryMessage(country);
+        try {
+            for (CountryDto countryDto : countryList) {
+                Country country = countryLogic.getCountry(countryDto);
+                countryProducer.sendCountryMessage(country);
+            }
+            return new ResponseEntity<>(OK);
+        } catch (Exception e) {
+            log.debug("Hata => ", e);
+            return new ResponseEntity<>(e.getMessage(), OK);
         }
-        return new ResponseEntity<>(OK);
     }
 }

@@ -25,7 +25,7 @@ services:
     networks:
       - kafkanet
     ports:
-      - 2181:2181
+      - 2182:2181
       - 9092:9092
     environment:
       ADVERTISED_HOST: kafkaserver  # hostname of zookeper

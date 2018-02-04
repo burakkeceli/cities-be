@@ -31,7 +31,7 @@ public class CityProducerMTest extends AbstractBaseTest {
         cityProducer.sendCityMessage(city);
 
         // wait
-        Thread.sleep(7_000);
+        Thread.sleep(3_000);
 
         // then
         List<City> allCities = cityService.getAllCities();
