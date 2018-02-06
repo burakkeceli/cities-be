@@ -78,6 +78,11 @@ services:
     environment:
       ADVERTISED_HOST: kafkaserver  # hostname of zookeper
       ADVERTISED_PORT: 9092
+    volumes:
+      - ${PWD}/docker/kafka/logs/:/opt/kafka_2.11-0.10.1.0/logs/
+      - ${PWD}/docker/kafka/log4j.properties:/opt/kafka_2.11-0.10.1.0/config/log4j.properties
+      - ${PWD}/docker/zookeeper/logs/:/var/log/zookeeper/
+      - ${PWD}/docker/zookeeper/log4j.properties:/etc/zookeeper/conf/log4j.properties
 
 
   kafka_manager:

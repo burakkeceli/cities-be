@@ -48,6 +48,9 @@ public class KafkaProducerConfig {
     private Map<String, Object> getProducerConfigProps() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
+        configProps.put(RETRIES_CONFIG, 4);
+        configProps.put(LINGER_MS_CONFIG, 1);
+        configProps.put(BUFFER_MEMORY_CONFIG, 33554432);
         configProps.put(KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return configProps;
