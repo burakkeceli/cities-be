@@ -16,6 +16,7 @@ public class CityProducer {
     private String cityTopicName;
 
     public void sendCityMessage(City city) {
+
         cityKafkaTemplate.send(cityTopicName, city);
     }
 }

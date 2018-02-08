@@ -1,7 +1,10 @@
 package com.cities.country;
 
+import com.cities.async.city.CityProducer;
 import com.cities.async.country.CountryProducer;
+import com.cities.city.model.CityDto;
 import com.cities.country.model.CountryDto;
+import com.cities.model.city.City;
 import com.cities.model.country.Country;
 import com.cities.service.city.CityService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +35,8 @@ public class AdminCountryController {
     private CountryLogic countryLogic;
     @Autowired
     private CountryProducer countryProducer;
+    @Autowired
+    private CityProducer cityProducer;
 
     @RequestMapping(method = GET)
     public ResponseEntity getAll(HttpServletRequest request) {
@@ -46,6 +51,23 @@ public class AdminCountryController {
             for (CountryDto countryDto : countryList) {
                 Country country = countryLogic.getCountry(countryDto);
                 countryProducer.sendCountryMessage(country);
+            }
+            return new ResponseEntity<>(OK);
+        } catch (Exception e) {
+            log.error("ERROR => ", e);
+            return new ResponseEntity<>(e.getMessage(), OK);
+        }
+    }
+
+    @RequestMapping(value = "/city", method = POST)
+    public ResponseEntity saveCityList(@RequestBody List<CityDto> cityDtoList) {
+        try {
+            for (CityDto cityDto: cityDtoList) {
+                City city = new City();
+                city.setCountryId(cityDto.getCountryId());
+                city.setName(cityDto.getName());
+                log.debug("city before save");
+                cityProducer.sendCityMessage(city);
             }
             return new ResponseEntity<>(OK);
         } catch (Exception e) {

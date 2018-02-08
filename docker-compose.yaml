@@ -11,6 +11,7 @@ services:
   db:
     image: 'postgres'
     container_name: 'postgres'
+    hostname: postgres
     ports:
       - '5432:5432'
     expose:
@@ -22,6 +23,7 @@ services:
   cassandra:
     image: 'cassandra:latest'
     container_name: 'cassandra'
+    hostname: cassandra
     ports:
       - '9042:9042'
       - '7199:7199'
@@ -39,6 +41,7 @@ services:
   tomcatOne:
     image: 'tomcat:8.0-jre8'
     container_name: 'tomcatOne'
+    hostname: serverone
     ports:
       - '8081:8080'
     volumes:
@@ -46,7 +49,6 @@ services:
       - ${PWD}/docker/tomcat/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
       - ${PWD}/docker/tomcat/ROOT/index.jsp:/usr/local/tomcat/webapps/ROOT/index.jsp
       - ${PWD}/docker/tomcat/logs/:/usr/local/tomcat/logs/
-      - ${PWD}/docker/tomcat/logging.properties:/usr/local/tomcat/conf/logging.properties
     links:
       - db
       - cassandra
@@ -55,6 +57,7 @@ services:
   tomcatTwo:
     image: 'tomcat:8.0-jre8'
     container_name: 'tomcatTwo'
+    hostname: servertwo
     ports:
       - '8082:8080'
     volumes:
@@ -70,8 +73,6 @@ services:
     image: "spotify/kafka:latest"
     container_name: kafka
     hostname: kafkaserver
-    networks:
-      - kafkanet
     ports:
       - 2183:2181
       - 9092:9092
@@ -79,25 +80,8 @@ services:
       ADVERTISED_HOST: kafkaserver  # hostname of zookeper
       ADVERTISED_PORT: 9092
     volumes:
+      - ${PWD}/docker/kafka/logs/:/tmp/kafka-logs/
       - ${PWD}/docker/kafka/logs/:/opt/kafka_2.11-0.10.1.0/logs/
       - ${PWD}/docker/kafka/log4j.properties:/opt/kafka_2.11-0.10.1.0/config/log4j.properties
       - ${PWD}/docker/zookeeper/logs/:/var/log/zookeeper/
       - ${PWD}/docker/zookeeper/log4j.properties:/etc/zookeeper/conf/log4j.properties
-
-
-  kafka_manager:
-    image: "mzagar/kafka-manager-docker:1.3.3.4"
-    container_name: kafkamanager
-    networks:
-      - kafkanet
-    ports:
-      - 9000:9000
-    links:
-      - kafkaserver
-    environment:
-      ZK_HOSTS: "kafkaserver:2181"
-
-
-networks:
-  kafkanet:
-    driver: bridge
