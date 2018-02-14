@@ -30,4 +30,26 @@ public class CountryLogic {
         countryDto.setPopulation(country.getPopulation());
         return countryDto;
     }
+
+    public List<Country> getCountryList(List<CountryDto> countryDtoList) {
+        List<Country> countryList = new ArrayList<>();
+        for (CountryDto countryDto : countryDtoList) {
+            Country country = getCountry(countryDto);
+            countryList.add(country);
+        }
+        return countryList;
+
+    }
+
+    public Country getCountry(CountryDto countryDto) {
+        Country country = new Country();
+        country.setName(countryDto.getName());
+        country.setId(countryDto.getId());
+        country.setCapital(countryDto.getCapital());
+        country.setBigFlag(countryDto.getBigFlag());
+        country.setIconFlag(countryDto.getIconFlag());
+        country.setSmallFlag(countryDto.getSmallFlag());
+        country.setPopulation(countryDto.getPopulation());
+        return country;
+    }
 }

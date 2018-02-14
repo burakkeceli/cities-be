@@ -11,6 +11,7 @@ import com.cities.service.comment.CommentService;
 import com.cities.service.comment.model.CassandraCommentModel;
 import com.cities.friend.UserLogic;
 import com.cities.user.model.UserDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,6 +32,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+@Slf4j
 @RestController
 @RequestMapping(value = Urls.CITY, produces = APPLICATION_JSON_UTF8_VALUE)
 public class CityController {
@@ -50,6 +52,7 @@ public class CityController {
 
     @RequestMapping(method = GET)
     public ResponseEntity getAll(HttpServletRequest request) {
+        log.info("get all cities");
         List<City> cityList = cityService.getAllCities();
         List<CityDto> cityDtoList = cityLogic.getCityDtoList(cityList);
         return new ResponseEntity<>(cityDtoList, OK);

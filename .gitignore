@@ -9,3 +9,5 @@ target
 .idea
 *.versionsBackup
 docker/tomcat/logs/
+docker/kafka/logs/
+docker/zookeeper/logs/

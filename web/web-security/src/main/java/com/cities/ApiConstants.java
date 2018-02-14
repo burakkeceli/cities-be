@@ -2,6 +2,7 @@ package com.cities;
 
 public interface ApiConstants {
     interface Urls {
+        String ADMIN = "/admin";
         String USER = "/user";
         String FRIENDSHIP = "/friendship";
         String USER_FRIENDSHIP = USER + FRIENDSHIP;
