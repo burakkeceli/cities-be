@@ -12,11 +12,12 @@
     <modules>
         <module>database</module>
         <module>commons</module>
-        <module>service</module>
+        <module>service-persistence</module>
         <module>kafka</module>
         <module>test-properties</module>
         <module>config</module>
         <module>web</module>
+        <module>service-client</module>
     </modules>
 
     <properties>
@@ -300,6 +301,19 @@
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>${springfox.swagger.ui.version}</version>
+            </dependency>
+
+
+            <!-- ============= feign ========== -->
+            <dependency>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-core</artifactId>
+                <version>9.5.1</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-jackson</artifactId>
+                <version>9.5.1</version>
             </dependency>
 
 
