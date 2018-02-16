@@ -3,65 +3,26 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>cities</artifactId>
+        <artifactId>service-client</artifactId>
         <groupId>com.cities</groupId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.cities.database</groupId>
-    <artifactId>database</artifactId>
-    <version>1.0-SNAPSHOT</version>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.flywaydb</groupId>
-                <artifactId>flyway-maven-plugin</artifactId>
-                <version>4.0.3</version>
+    <artifactId>twitter</artifactId>
 
-                <dependencies>
-                    <dependency>
-                        <groupId>org.postgresql</groupId>
-                        <artifactId>postgresql</artifactId>
-                        <version>${postgresql.version}</version>
-                    </dependency>
-                </dependencies>
-
-                <configuration>
-                    <configFile>src/main/resources/flyway.properties</configFile>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
     <dependencies>
-
         <!-- =========== OTHER MODULES =========== -->
         <dependency>
-            <groupId>com.cities.commons</groupId>
-            <artifactId>commons</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.cities</groupId>
-            <artifactId>config</artifactId>
+            <artifactId>service-client-common</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-
-        <!-- =========== POSTGRESQL =========== -->
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-        </dependency>
-
-
-        <!-- =========== CASSANDRA =========== -->
-        <dependency>
-            <groupId>com.datastax.cassandra</groupId>
-            <artifactId>cassandra-driver-core</artifactId>
+            <groupId>com.cities.kafka</groupId>
+            <artifactId>kafka</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
 
@@ -69,20 +30,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-        </dependency>
-
-
-        <!-- ========= JODA TIME =========== -->
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-        </dependency>
-
-
-        <!-- ====== JADIRA USERTYPE ======== -->
-        <dependency>
-            <groupId>org.jadira.usertype</groupId>
-            <artifactId>usertype.core</artifactId>
         </dependency>
 
 
@@ -119,5 +66,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
 </project>

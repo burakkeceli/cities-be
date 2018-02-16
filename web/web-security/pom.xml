@@ -16,7 +16,7 @@
         <!-- =========== OTHER MODULES =========== -->
         <dependency>
             <groupId>com.cities.service</groupId>
-            <artifactId>service</artifactId>
+            <artifactId>service-persistence</artifactId>
             <version>${project.version}</version>
         </dependency>
 

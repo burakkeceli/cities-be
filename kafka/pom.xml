@@ -18,25 +18,9 @@
 
         <!-- =========== OTHER MODULES =========== -->
         <dependency>
-            <groupId>com.cities.database</groupId>
-            <artifactId>database</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.cities.service</groupId>
-            <artifactId>service</artifactId>
+            <artifactId>service-persistence</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.cities</groupId>
-            <artifactId>config</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <!-- =========== SPRING =========== -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
         </dependency>
 
 
