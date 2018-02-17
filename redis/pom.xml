@@ -6,33 +6,28 @@
         <artifactId>cities</artifactId>
         <groupId>com.cities</groupId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.cities.kafka</groupId>
-    <artifactId>kafka</artifactId>
-    <version>1.0-SNAPSHOT</version>
+
+    <artifactId>redis</artifactId>
 
     <dependencies>
-
         <!-- =========== OTHER MODULES =========== -->
         <dependency>
             <groupId>com.cities.service</groupId>
             <artifactId>service-persistence</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <!-- =========== REDIS =========== -->
         <dependency>
-            <groupId>com.cities</groupId>
-            <artifactId>redis</artifactId>
-            <version>${project.version}</version>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
         </dependency>
 
-
-        <!-- =========== KAFKA =========== -->
         <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka</artifactId>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
         </dependency>
 
 
