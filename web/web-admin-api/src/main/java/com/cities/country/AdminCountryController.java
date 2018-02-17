@@ -1,7 +1,6 @@
 package com.cities.country;
 
-import com.cities.async.city.CityProducer;
-import com.cities.async.country.CountryProducer;
+import com.cities.city.CityProducer;
 import com.cities.city.model.CityDto;
 import com.cities.country.model.CountryDto;
 import com.cities.model.city.City;

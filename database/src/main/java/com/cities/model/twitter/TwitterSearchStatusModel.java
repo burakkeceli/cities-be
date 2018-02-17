@@ -1,4 +1,4 @@
-package com.cities.twitter.model;
+package com.cities.model.twitter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

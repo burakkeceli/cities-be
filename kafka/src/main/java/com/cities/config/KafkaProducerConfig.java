@@ -2,6 +2,7 @@ package com.cities.config;
 
 import com.cities.model.city.City;
 import com.cities.model.country.Country;
+import com.cities.model.twitter.TwitterSearchModel;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
@@ -45,12 +46,20 @@ public class KafkaProducerConfig {
         return new KafkaTemplate<>(cityProducerFactory());
     }
 
+    @Bean
+    public ProducerFactory<String, TwitterSearchModel> twitterSearchProducerFactory() {
+        Map<String, Object> configProps = getProducerConfigProps();
+        return new DefaultKafkaProducerFactory<>(configProps, null, new JsonSerializer<TwitterSearchModel>());
+    }
+
+    @Bean
+    public KafkaTemplate<String, TwitterSearchModel> twitterSearchKafkaTemplate() {
+        return new KafkaTemplate<>(twitterSearchProducerFactory());
+    }
+
     private Map<String, Object> getProducerConfigProps() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
-        configProps.put(RETRIES_CONFIG, 4);
-        configProps.put(LINGER_MS_CONFIG, 1);
-        configProps.put(BUFFER_MEMORY_CONFIG, 33554432);
         configProps.put(KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return configProps;
