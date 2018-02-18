@@ -67,6 +67,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers(LOGIN + "/**").permitAll()
         .antMatchers(CITY + "/**").permitAll()
         .antMatchers(COUNTRY + "/**").permitAll()
+        .antMatchers(TWITTER + "/**").authenticated()
         .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);

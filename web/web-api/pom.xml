@@ -20,6 +20,11 @@
             <artifactId>web-security</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.cities</groupId>
+            <artifactId>twitter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- =========== SPRING =========== -->
         <!-- The commons logging API classes are required dependencies for Spring Test -->
