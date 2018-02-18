@@ -85,3 +85,11 @@ services:
       - ${PWD}/docker/kafka/log4j.properties:/opt/kafka_2.11-0.10.1.0/config/log4j.properties
       - ${PWD}/docker/zookeeper/logs/:/var/log/zookeeper/
       - ${PWD}/docker/zookeeper/log4j.properties:/etc/zookeeper/conf/log4j.properties
+
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    hostname: redis
+    ports:
+      - 6379:6379
