@@ -1,10 +1,11 @@
 version: "2"
 services:
   db:
-    image: 'postgres'
-    container_name: 'postgresLocal'
+    image: postgres
+    hostname: postgresDev
+    container_name: postgresDev
     ports:
-      - '5432:5432'
+      - 5432:5432
     expose:
       - 5432
     environment:
@@ -12,16 +13,17 @@ services:
       POSTGRES_DB: cities
 
   cassandra:
-    image: 'cassandra:latest'
-    container_name: 'cassandraLocal'
+    image: cassandra:latest
+    hostname: cassandraDev
+    container_name: cassandraDev
     ports:
-      - '9042:9042'
-      - '7199:7199'
+      - 9042:9042
+      - 7199:7199
 
   kafkaserver:                      # includes zookeper as well
-    image: "spotify/kafka:latest"
-    container_name: kafka
-    hostname: kafkaserver
+    image: spotify/kafka:latest
+    container_name: kafkaDev
+    hostname: kafkaDev
     ports:
       - 2182:2181
       - 9092:9092
@@ -33,3 +35,10 @@ services:
       # - ${PWD}/docker/kafka/log4j.properties:/opt/kafka_2.11-0.10.1.0/config/log4j.properties
       - ${PWD}/docker/zookeeper/logs/:/var/log/zookeeper/
       - ${PWD}/docker/zookeeper/log4j.properties:/etc/zookeeper/conf/log4j.properties
+
+  redis:
+    image: redis:alpine
+    container_name: redisDev
+    hostname: redisDev
+    ports:
+      - 6379:6379

@@ -1,6 +1,6 @@
 package com.cities.twitter.api;
 
-import com.cities.twitter.model.TwitterAuthenticationModel;
+import com.cities.model.twitter.TwitterAuthenticationModel;
 import feign.Param;
 
 public class TwitterAuthorizationExpander implements Param.Expander {

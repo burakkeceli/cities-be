@@ -1,4 +1,4 @@
-package com.cities.twitter.model;
+package com.cities.model.twitter;
 
 import lombok.Data;
 

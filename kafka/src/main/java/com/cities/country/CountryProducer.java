@@ -1,4 +1,4 @@
-package com.cities.async.country;
+package com.cities.country;
 
 import com.cities.model.country.Country;
 import org.springframework.beans.factory.annotation.Autowired;

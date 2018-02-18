@@ -1,6 +1,6 @@
 package com.cities.async;
 
-import com.cities.async.city.CityProducer;
+import com.cities.city.CityProducer;
 import com.cities.model.city.City;
 import com.cities.service.city.CityService;
 import com.cities.test.AbstractBaseTest;

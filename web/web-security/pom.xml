@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>web-securtiy</artifactId>
+    <artifactId>web-security</artifactId>
 
     <dependencies>
 

@@ -1,8 +1,8 @@
 package com.cities.twitter.service;
 
 import com.cities.test.AbstractBaseTest;
-import com.cities.twitter.model.TwitterAuthenticationModel;
-import com.cities.twitter.model.TwitterSearchModelList;
+import com.cities.model.twitter.TwitterAuthenticationModel;
+import com.cities.model.twitter.TwitterSearchModelList;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -1,7 +1,7 @@
 package com.cities.twitter.api;
 
-import com.cities.twitter.model.TwitterAuthenticationModel;
-import com.cities.twitter.model.TwitterSearchModelList;
+import com.cities.model.twitter.TwitterAuthenticationModel;
+import com.cities.model.twitter.TwitterSearchModelList;
 import feign.Feign;
 import feign.Headers;
 import feign.Param;

@@ -2,6 +2,7 @@ package com.cities.config;
 
 import com.cities.model.city.City;
 import com.cities.model.country.Country;
+import com.cities.model.twitter.TwitterSearchModel;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -49,6 +50,18 @@ public class KafkaConsumerConfig {
     public ConcurrentKafkaListenerContainerFactory<String, City> cityKafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, City> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(cityConsumerFactory());
+        return factory;
+    }
+
+    private ConsumerFactory<String, TwitterSearchModel> twitterSearchConsumerFactory() {
+        Map<String, Object> props = getConsumerConfigProps(bootstrapAddress, GROUP_ID_CITY);
+        return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), new JsonDeserializer<>(TwitterSearchModel.class));
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, TwitterSearchModel> twitterSearchKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, TwitterSearchModel> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(twitterSearchConsumerFactory());
         return factory;
     }
 
