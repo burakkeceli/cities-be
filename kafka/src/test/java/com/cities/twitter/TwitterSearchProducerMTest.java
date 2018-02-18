@@ -1,44 +1,40 @@
 package com.cities.twitter;
 
+import com.cities.city.CityProducer;
 import com.cities.helper.JacksonService;
+import com.cities.model.city.City;
 import com.cities.model.twitter.TwitterSearchMetadata;
 import com.cities.model.twitter.TwitterSearchModel;
 import com.cities.model.twitter.TwitterSearchModelList;
 import com.cities.model.twitter.TwitterSearchStatusModel;
+import com.cities.service.city.CityService;
 import com.cities.test.AbstractBaseTest;
+import org.assertj.core.api.Assertions;
 import org.joda.time.DateTime;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.joda.time.DateTime.now;
 
-public class RedisTwitterServiceITest extends AbstractBaseTest {
+public class TwitterSearchProducerMTest extends AbstractBaseTest {
+
     private static final Integer USER_ID = 1;
 
     @Autowired
-    private StringRedisTemplate strRedisTemplate;
+    private TwitterSearchProducer twitterSearchProducer;
     @Autowired
-    private RedisTwitterService redisTwitterService;
+    private StringRedisTemplate strRedisTemplate;
     @Autowired
     private JacksonService jacksonService;
 
-    @Before
-    @After
-    public void destroy() {
-        strRedisTemplate.delete(USER_ID.toString());
-    }
-
     @Test
-    public void shouldSaveTwitterSearchModelInRedis() throws Exception {
+    public void shouldSaveCityAsync() throws Exception {
         // given
         List<TwitterSearchStatusModel> twitterSearchStatusModelList = new ArrayList<>();
         TwitterSearchMetadata searchMetadata = new TwitterSearchMetadata();
@@ -50,7 +46,10 @@ public class RedisTwitterServiceITest extends AbstractBaseTest {
         TwitterSearchModel searchModel = new TwitterSearchModel(modelList, USER_ID);
 
         // when
-        redisTwitterService.saveResult(searchModel);
+        twitterSearchProducer.sendTwitterSearchMessage(searchModel);
+
+        // wait
+        Thread.sleep(3_000);
 
         // then
         HashOperations<String, String, String> redisHash = strRedisTemplate.opsForHash();

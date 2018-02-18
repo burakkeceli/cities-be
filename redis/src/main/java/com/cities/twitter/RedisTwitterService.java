@@ -23,7 +23,7 @@ public class RedisTwitterService {
     public void saveResult(TwitterSearchModel searchModel) {
         HashOperations<String, String, String> redisHash = strRedisTemplate.opsForHash();
         redisHash.putAll(searchModel.getUserId().toString(),
-                ImmutableMap.of(jacksonService.toJson(searchModel.getSearchTime()),
+                ImmutableMap.of(jacksonService.toJson(searchModel.getUserId()),
                         jacksonService.toJson(searchModel.getSearchResult())));
     }
 

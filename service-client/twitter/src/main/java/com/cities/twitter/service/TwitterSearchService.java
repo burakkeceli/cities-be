@@ -35,7 +35,7 @@ public class TwitterSearchService {
                                           String query,
                                           String queryLanguage) {
         TwitterSearchModelList twits = getSearchResult(query, queryLanguage);
-        TwitterSearchModel twitterSearchModel = new TwitterSearchModel(twits, userId, now());
+        TwitterSearchModel twitterSearchModel = new TwitterSearchModel(twits, userId);
         twitterSearchProducer.sendTwitterSearchMessage(twitterSearchModel);
     }
 }
