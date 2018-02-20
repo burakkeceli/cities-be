@@ -3,7 +3,6 @@ package com.cities.twitter.service;
 import com.cities.model.twitter.*;
 import com.cities.twitter.TwitterSearchProducer;
 import com.cities.twitter.api.TwitterSearchApi;
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.*;
@@ -13,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -42,16 +43,15 @@ public class TwitterSearchServiceTest {
         Integer userId = 1;
         String query = "Berlin";
         String lang = "Language";
-        TwitterAuthenticationModel twitterAuthenticationModel = new TwitterAuthenticationModel();
 
         // and
-        when(twitterSearchApi.getTwits(query, lang, twitterAuthenticationModel)).thenReturn(modelList);
+        when(twitterSearchApi.getTwits(eq(query), eq(lang), any(TwitterAuthenticationModel.class))).thenReturn(modelList);
 
         // when
-        twitterSearchService.publishTwitterSearchModel(userId, query, lang, twitterAuthenticationModel);
+        twitterSearchService.publishTwitterSearchModel(userId, query, lang);
 
         // then
-        verify(twitterSearchApi, times(1)).getTwits(query, lang, twitterAuthenticationModel);
+        verify(twitterSearchApi, times(1)).getTwits(eq(query), eq(lang), any(TwitterAuthenticationModel.class));
         verify(twitterSearchProducer, times(1)).sendTwitterSearchMessage(twitterSearchModel.capture());
 
         // and

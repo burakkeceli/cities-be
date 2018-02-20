@@ -46,8 +46,6 @@ public class CityController {
     @Autowired
     private UserLogic userLogic;
     @Autowired
-    private CassandraCommentService cassandraCommentService;
-    @Autowired
     private CommentService commentService;
 
     @RequestMapping(method = GET)

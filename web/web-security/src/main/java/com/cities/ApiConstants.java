@@ -14,5 +14,8 @@ public interface ApiConstants {
         String LIKED = "/liked";
         String COMMENT = "/comment";
         String IS_EXPIRED = "/isExpired";
+        String TWITTER = "/twitter";
+        String SEARCH = "/search";
+        String GET_SEARCH_RESULT = "/get-search-result";
     }
 }

@@ -11,5 +11,7 @@ import org.joda.time.DateTime;
 public class TwitterSearchModel {
     private TwitterSearchModelList searchResult;
     private Integer userId;
-    private DateTime searchTime;
+
+    // TODO: find a way to pass this value. Kafka gives serialization error
+    //private String searchTime;
 }

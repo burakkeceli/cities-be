@@ -27,7 +27,7 @@ public class KafkaProducerConfig {
     @Bean
     public ProducerFactory<String, Country> countryProducerFactory() {
         Map<String, Object> configProps = getProducerConfigProps();
-        return new DefaultKafkaProducerFactory<>(configProps, null, new JsonSerializer<Country>());
+        return new DefaultKafkaProducerFactory<>(configProps, new StringSerializer(), new JsonSerializer<Country>());
     }
 
     @Bean
@@ -38,7 +38,7 @@ public class KafkaProducerConfig {
     @Bean
     public ProducerFactory<String, City> cityProducerFactory() {
         Map<String, Object> configProps = getProducerConfigProps();
-        return new DefaultKafkaProducerFactory<>(configProps, null, new JsonSerializer<City>());
+        return new DefaultKafkaProducerFactory<>(configProps, new StringSerializer(), new JsonSerializer<City>());
     }
 
     @Bean
@@ -49,7 +49,7 @@ public class KafkaProducerConfig {
     @Bean
     public ProducerFactory<String, TwitterSearchModel> twitterSearchProducerFactory() {
         Map<String, Object> configProps = getProducerConfigProps();
-        return new DefaultKafkaProducerFactory<>(configProps, null, new JsonSerializer<TwitterSearchModel>());
+        return new DefaultKafkaProducerFactory<>(configProps, new StringSerializer(), new JsonSerializer<TwitterSearchModel>());
     }
 
     @Bean
