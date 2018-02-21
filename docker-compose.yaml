@@ -9,11 +9,11 @@
 version: "2"
 services:
   db:
-    image: 'postgres'
-    container_name: 'postgres'
+    image: postgres
+    container_name: postgres
     hostname: postgres
     ports:
-      - '5432:5432'
+      - 5432:5432
     expose:
       - 5432
     environment:
@@ -21,17 +21,19 @@ services:
       POSTGRES_DB: cities
 
   cassandra:
-    image: 'cassandra:latest'
-    container_name: 'cassandra'
+    image: cassandra:latest
+    container_name: cassandra
     hostname: cassandra
     ports:
-      - '9042:9042'
-      - '7199:7199'
+      - 9042:9042
+      - 7199:7199
 
   nginx:
-    image: 'nginx'
+    image: nginx
+    container_name: nginx
+    hostname: nginx
     ports:
-      - '83:80'
+      - 83:80
     links:
       - tomcatOne:tomcat1
       - tomcatTwo:tomcat2
@@ -39,11 +41,11 @@ services:
       - ${PWD}/docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
 
   tomcatOne:
-    image: 'tomcat:8.0-jre8'
-    container_name: 'tomcatOne'
+    image: tomcat:8.0-jre8
+    container_name: tomcatOne
     hostname: serverone
     ports:
-      - '8081:8080'
+      - 8081:8080
     volumes:
       - ${PWD}/docker/tomcat/server.xml:/usr/local/tomcat/conf/server.xml
       - ${PWD}/docker/tomcat/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
@@ -55,11 +57,11 @@ services:
       - kafkaserver
 
   tomcatTwo:
-    image: 'tomcat:8.0-jre8'
-    container_name: 'tomcatTwo'
+    image: tomcat:8.0-jre8
+    container_name: tomcatTwo
     hostname: servertwo
     ports:
-      - '8082:8080'
+      - 8082:8080
     volumes:
       - ${PWD}/docker/tomcat/server.xml:/usr/local/tomcat/conf/server.xml
       - ${PWD}/docker/tomcat/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
@@ -70,7 +72,7 @@ services:
       - kafkaserver
 
   kafkaserver:                      # includes zookeper as well
-    image: "spotify/kafka:latest"
+    image: spotify/kafka:latest
     container_name: kafka
     hostname: kafkaserver
     ports:
@@ -86,10 +88,17 @@ services:
       - ${PWD}/docker/zookeeper/logs/:/var/log/zookeeper/
       - ${PWD}/docker/zookeeper/log4j.properties:/etc/zookeeper/conf/log4j.properties
 
-
   redis:
     image: redis:alpine
     container_name: redis
     hostname: redis
     ports:
       - 6379:6379
+
+  jenkins:
+    image: jenkins:latest
+    container_name: jenkins
+    hostname: jenkins
+    ports:
+      - 9090:8080
+      - 50000:50000
