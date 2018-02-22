@@ -11,6 +11,9 @@ services:
     environment:
       POSTGRES_USER: cities_master
       POSTGRES_DB: cities
+    networks:
+      itest:
+        ipv4_address: 172.28.0.10
 
   cassandra:
     image: cassandra:latest
@@ -19,6 +22,9 @@ services:
     ports:
       - 9042:9042
       - 7199:7199
+    networks:
+      itest:
+        ipv4_address: 172.28.0.11
 
   kafkaserver:                      # includes zookeper as well
     image: spotify/kafka:latest
@@ -35,6 +41,9 @@ services:
       # - ${PWD}/docker/kafka/log4j.properties:/opt/kafka_2.11-0.10.1.0/config/log4j.properties
       - ${PWD}/docker/zookeeper/logs/:/var/log/zookeeper/
       - ${PWD}/docker/zookeeper/log4j.properties:/etc/zookeeper/conf/log4j.properties
+    networks:
+      itest:
+        ipv4_address: 172.28.0.12
 
   redis:
     image: redis:alpine
@@ -42,3 +51,15 @@ services:
     hostname: redisDev
     ports:
       - 6379:6379
+    networks:
+      itest:
+        ipv4_address: 172.28.0.13
+
+networks:
+  itest:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/24
+          gateway: 172.28.0.1
