@@ -4,14 +4,16 @@ HOW TO RUN DOCKER COMPOSE:
 docker-compose -f docker-compose.yaml up -d
 
 
-
-
-
-
-
 // TODO
 Add load balancer.
 http://www.ramkitech.com/2015/10/docker-tomcat-clustering.html
 
 Docker Compose:
 https://docs.docker.com/compose/install/
+
+
+// login container as root user
+docker exec -u 0 -it jenkins bash
+
+// default user
+docker exec -it 4b9fa22e061c /bin/bash
