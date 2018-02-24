@@ -1,3 +1,0 @@
-Docker -> Cassandra connection:
-1. docker exec -it <cassandra container id> /bin/bash
-2. cqlsh // if want to see tables, keyspaces etc

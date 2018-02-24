@@ -1,38 +1,38 @@
 version: "2"
 services:
-  db:
+  dbdev:
     image: postgres
     hostname: postgresDev
     container_name: postgresDev
     ports:
-      - 5432:5432
+      - 5433:5432
     expose:
       - 5432
     environment:
       POSTGRES_USER: cities_master
       POSTGRES_DB: cities
     networks:
-      itest:
+      docker-tst:
         ipv4_address: 172.28.0.10
 
-  cassandra:
+  cassandradev:
     image: cassandra:latest
     hostname: cassandraDev
     container_name: cassandraDev
     ports:
-      - 9042:9042
-      - 7199:7199
+      - 9043:9042
+      - 7200:7199
     networks:
-      itest:
+      docker-tst:
         ipv4_address: 172.28.0.11
 
-  kafkaserver:                      # includes zookeper as well
+  kafkaserverdev:                      # includes zookeper as well
     image: spotify/kafka:latest
     container_name: kafkaDev
     hostname: kafkaDev
     ports:
-      - 2182:2181
-      - 9092:9092
+      - 2184:2181
+      - 9093:9092
     environment:
       ADVERTISED_HOST: kafkaserver  # hostname of zookeper
       ADVERTISED_PORT: 9092
@@ -42,21 +42,21 @@ services:
       - ${PWD}/docker/zookeeper/logs/:/var/log/zookeeper/
       - ${PWD}/docker/zookeeper/log4j.properties:/etc/zookeeper/conf/log4j.properties
     networks:
-      itest:
+      docker-tst:
         ipv4_address: 172.28.0.12
 
-  redis:
+  redisdev:
     image: redis:alpine
     container_name: redisDev
     hostname: redisDev
     ports:
-      - 6379:6379
+      - 6380:6379
     networks:
-      itest:
+      docker-tst:
         ipv4_address: 172.28.0.13
 
 networks:
-  itest:
+  docker-tst:
     driver: bridge
     ipam:
       driver: default

@@ -6,7 +6,6 @@ import com.cities.model.twitter.TwitterSearchModel;
 import com.cities.model.twitter.TwitterSearchModelList;
 import com.cities.model.twitter.TwitterSearchStatusModel;
 import com.cities.test.AbstractBaseTest;
-import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.joda.time.DateTime.now;
 
 public class RedisTwitterServiceITest extends AbstractBaseTest {
     private static final Integer USER_ID = 1;
@@ -46,7 +44,6 @@ public class RedisTwitterServiceITest extends AbstractBaseTest {
         TwitterSearchModelList modelList = new TwitterSearchModelList(twitterSearchStatusModelList, searchMetadata);
 
         // and
-        DateTime searchTime = now();
         TwitterSearchModel searchModel = new TwitterSearchModel(modelList, USER_ID);
 
         // when
@@ -57,7 +54,7 @@ public class RedisTwitterServiceITest extends AbstractBaseTest {
         Map<String, String> entries = redisHash.entries(USER_ID.toString());
 
         assertThat(entries).hasSize(1);
-        assertThat(entries).containsKeys(jacksonService.toJson(searchTime.toString()));
+        assertThat(entries).containsKeys(jacksonService.toJson(USER_ID));
         assertThat(entries).containsValue(jacksonService.toJson(modelList));
     }
 }

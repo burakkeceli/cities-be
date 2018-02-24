@@ -1,5 +1,0 @@
-**** IMPORTANT ****
-Even if kafka container has been used, in order to use producer and consumer,
-then the host of machine must be given to the /etc/hosts.
-
-https://stackoverflow.com/questions/37646786/why-cant-i-connect-to-kafka-zookeeper-in-a-docker/37655203#37655203

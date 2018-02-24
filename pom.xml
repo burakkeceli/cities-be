@@ -95,6 +95,7 @@
                         <path>/${warName}</path>
                         <username>admin</username>
                         <password>admin</password>
+                        <warFile>target/${warName}.war</warFile>
                     </configuration>
                 </plugin>
 

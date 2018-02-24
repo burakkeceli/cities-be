@@ -11,3 +11,4 @@ target
 docker/tomcat/logs/
 docker/kafka/logs/
 docker/zookeeper/logs/
+docker/info/note/

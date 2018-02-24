@@ -1,0 +1,2274 @@
+[33mcommit d0c6a29457339e3dffce9d91c606f2f4864010a8[m[33m ([1;36mHEAD[m[33m, [1;32mmaster[m[33m)[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sat Feb 24 20:32:50 2018 +0100
+
+    docker compose has been fixed to run the integration tests on jenkins
+
+ .gitignore                                                           |  3 [32m++[m[31m-[m
+ docker-compose-local.yaml                                            | 30 [32m+++++++++++++++[m[31m---------------[m
+ docker-compose.yaml                                                  | 31 [32m+++++++++++++++++++++++++++++++[m
+ docker/Information of Docker                                         | 19 [31m-------------------[m
+ docker/jenkins/Information of Jenkins                                | 38 [31m--------------------------------------[m
+ docker/notes/Cassandra                                               |  3 [31m---[m
+ docker/notes/Docker LB and 2 Tomcats                                 | 82 [31m----------------------------------------------------------------------------------[m
+ docker/notes/Kafka                                                   |  5 [31m-----[m
+ docker/notes/Postgre                                                 | 23 [31m-----------------------[m
+ docker/notes/Tomcat                                                  |  4 [31m----[m
+ docker/notes2/Docker LB and 2 Tomcats                                | 82 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ docker/notes2/Information of Docker                                  | 19 [32m+++++++++++++++++++[m
+ docker/notes2/Information of Jenkins                                 | 38 [32m++++++++++++++++++++++++++++++++++++++[m
+ docker/notes2/Kafka                                                  |  5 [32m+++++[m
+ docker/notes2/Postgre                                                | 23 [32m+++++++++++++++++++++++[m
+ docker/notes2/Tomcat                                                 |  4 [32m++++[m
+ pom.xml                                                              |  1 [32m+[m
+ redis/src/test/java/com/cities/twitter/RedisTwitterServiceITest.java |  5 [32m+[m[31m----[m
+ 18 files changed, 221 insertions(+), 194 deletions(-)
+
+[33mcommit ca442095ac5ea769ac2ce0810454585f34604716[m[33m ([1;31morigin/master[m[33m, [1;31morigin/HEAD[m[33m)[m
+Merge: 538e32b 583ed90
+Author: Burak Keceli <kecelibu@gmail.com>
+Date:   Fri Feb 23 21:06:23 2018 +0100
+
+    Merged cities/BE-22-enable-jenkins-in-docker-to-connect-git into master
+
+[33mcommit 538e32bc112747e58b34e26ce1df92cf1819626b[m
+Author: burak <kecelibu@gmail.com>
+Date:   Thu Feb 22 22:23:19 2018 +0100
+
+    local network has been created in docker
+
+ database/src/test/resources/flyway.properties      |   2 [32m+[m[31m-[m
+ docker-compose-local.yaml                          |  23 [32m++++++++++++++++++++++[m[31m-[m
+ docker/jenkins/cli/jenkins-cli.jar                 | Bin [31m0[m -> [32m2849839[m bytes
+ test-properties/src/test/resources/test.properties |  11 [32m+++++++[m[31m----[m
+ web/web-api/src/test/resources/test.properties     |   8 [32m++++[m[31m----[m
+ 5 files changed, 34 insertions(+), 10 deletions(-)
+
+[33mcommit 583ed9068a322b92d6849b30b769dc4011f6ffc9[m[33m ([1;31morigin/cities/BE-22-enable-jenkins-in-docker-to-connect-git[m[33m, [1;32mcities/BE-22-enable-jenkins-in-docker-to-connect-git[m[33m)[m
+Author: burak <kecelibu@gmail.com>
+Date:   Thu Feb 22 00:10:20 2018 +0100
+
+    Enable Jenkins in docker to connect git, download war and deploy it to docker tomcat
+
+ docker-compose.yaml                             | 45 [32m+++++++++++++++++++++++++++[m[31m------------------[m
+ docker/Information of Docker                    | 12 [32m+++++++[m[31m-----[m
+ docker/jenkins/Information of Jenkins           | 38 [32m++++++++++++++++++++++++++++++++++++++[m
+ docker/jenkins/jobs/deployTomcatJob.xml         | 54 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ docker/jenkins/jobs/testJob.xml                 | 24 [32m++++++++++++++++++++++++[m
+ docker/jenkins/setup/createGitCredential.xml    |  7 [32m+++++++[m
+ docker/jenkins/setup/createTomcatCredential.xml |  7 [32m+++++++[m
+ pom.xml                                         |  1 [32m+[m
+ scripts/startDockerEnvironment.sh               |  1 [31m-[m
+ scripts/startLocalEnvironment.sh                |  1 [31m-[m
+ 10 files changed, 165 insertions(+), 25 deletions(-)
+
+[33mcommit 3a6380335556d4b6559a2e40fe34741f7ce47223[m
+Merge: 52fc015 d755437
+Author: Burak Keceli <kecelibu@gmail.com>
+Date:   Tue Feb 20 18:15:04 2018 +0000
+
+    Merged in cities/BE-20-twitter-controller (pull request #19)
+    
+    Cities/BE-20 twitter controller
+
+[33mcommit d755437131f33d3ac27972c22d376f7aeffc8fd7[m[33m ([1;31morigin/cities/BE-20-twitter-controller[m[33m, [1;32mcities/BE-20-twitter-controller[m[33m)[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Feb 18 17:40:04 2018 +0100
+
+    EP is finished for getting and searching twits
+
+ database/src/main/java/com/cities/model/twitter/TwitterSearchModel.java                   |  4 [32m+++[m[31m-[m
+ kafka/src/main/java/com/cities/config/KafkaConsumerConfig.java                            |  5 [32m+++[m[31m--[m
+ kafka/src/main/java/com/cities/config/KafkaProducerConfig.java                            |  6 [32m+++[m[31m---[m
+ kafka/src/main/resources/config.properties                                                |  3 [32m++[m[31m-[m
+ kafka/src/test/java/com/cities/async/CityProducerMTest.java                               | 41 [31m-----------------------------------------[m
+ kafka/src/test/java/com/cities/city/CityProducerMTest.java                                | 40 [32m++++++++++++++++++++++++++++++++++++++++[m
+ kafka/src/test/java/com/cities/twitter/TwitterSearchProducerMTest.java                    | 62 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ moduleDiagram.uxf                                                                         | 17 [32m++++++++++++++[m[31m---[m
+ pom.xml                                                                                   |  2 [32m+[m[31m-[m
+ redis/src/main/java/com/cities/twitter/RedisTwitterService.java                           |  2 [32m+[m[31m-[m
+ redis/src/test/java/com/cities/twitter/RedisTwitterServiceITest.java                      |  4 [32m++[m[31m--[m
+ service-client/twitter/src/main/java/com/cities/twitter/service/TwitterSearchService.java |  2 [32m+[m[31m-[m
+ 12 files changed, 132 insertions(+), 56 deletions(-)
+
+[33mcommit 0b8923814221dcc5c4999ba2ca7944204134fe8a[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Feb 18 15:46:32 2018 +0100
+
+    EP for searching and getting twits have been added
+
+ commons/src/main/java/com/cities/helper/JacksonService.java                                    |  2 [32m++[m
+ moduleDiagram.uxf                                                                              | 50 [32m+++++++++++++++++++++++++[m[31m-------------------------[m
+ redis/src/main/java/com/cities/twitter/RedisTwitterService.java                                | 13 [32m+++++++++++++[m
+ scripts/runTomcat.sh                                                                           |  1 [32m+[m
+ service-client/twitter/src/main/java/com/cities/twitter/service/TwitterSearchService.java      | 20 [32m+++++++++++[m[31m---------[m
+ service-client/twitter/src/test/java/com/cities/twitter/service/TwitterSearchServiceMTest.java |  6 [32m+[m[31m-----[m
+ service-client/twitter/src/test/java/com/cities/twitter/service/TwitterSearchServiceTest.java  | 10 [32m+++++[m[31m-----[m
+ test-properties/src/test/resources/test.properties                                             |  2 [32m++[m
+ web/web-admin-api/pom.xml                                                                      |  5 [31m-----[m
+ web/web-api/pom.xml                                                                            |  5 [32m+++++[m
+ web/web-api/src/main/java/com/cities/city/CityController.java                                  |  2 [31m--[m
+ web/web-api/src/main/java/com/cities/twitter/TwitterController.java                            | 54 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ web/web-api/src/main/java/com/cities/twitter/TwitterSearchController.java                      |  4 [31m----[m
+ web/web-api/src/main/java/com/cities/twitter/model/TwitterSearchRequestModel.java              | 13 [32m+++++++++++++[m
+ web/web-api/src/test/java/com/cities/twitter/TwitterControllerTest.java                        | 40 [32m++++++++++++++++++++++++++++++++++++++++[m
+ web/web-api/src/test/resources/test.properties                                                 |  9 [32m++++++++[m[31m-[m
+ web/web-security/src/main/java/com/cities/ApiConstants.java                                    |  3 [32m+++[m
+ web/web-security/src/main/java/com/cities/security/WebSecurityConfiguration.java               |  1 [32m+[m
+ 18 files changed, 184 insertions(+), 56 deletions(-)
+
+[33mcommit 52fc01599c54f2024182aa920a6f5929ab67c40f[m
+Merge: e151dcd 339c75e
+Author: Burak Keceli <kecelibu@gmail.com>
+Date:   Sun Feb 18 13:06:03 2018 +0000
+
+    Merged in cities/BE-21-redis-integration-for-twitter-search-results (pull request #18)
+    
+    Cities/BE-21 redis integration for twitter search results
+
+[33mcommit 339c75ed5ef05cc23ab868fc5c103fb807930052[m[33m ([1;31morigin/cities/BE-21-redis-integration-for-twitter-search-results[m[33m, [1;32mcities/BE-21-redis-integration-for-twitter-search-results[m[33m)[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Feb 18 14:05:24 2018 +0100
+
+    redis integration done
+
+ docker-compose.yaml                                    |  8 [32m++++++++[m
+ moduleDiagram.uxf                                      | 68 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ web/web-admin-api/src/main/resources/config.properties |  7 [32m++++++[m[31m-[m
+ 3 files changed, 82 insertions(+), 1 deletion(-)
+
+[33mcommit 2478bae386a1da5d87b2facb608887dfe8d33a8a[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sat Feb 17 03:55:37 2018 +0100
+
+    BE-21 - redis docker and save for twitter search are done
+
+ database/src/main/java/com/cities/model/twitter/TwitterSearchModel.java                   |  2 [32m++[m
+ kafka/pom.xml                                                                             |  5 [32m+++++[m
+ kafka/src/main/java/com/cities/twitter/TwitterSearchListener.java                         |  5 [32m+++++[m
+ pom.xml                                                                                   | 27 [32m+++++++++++++++++++++++[m[31m----[m
+ redis/pom.xml                                                                             | 68 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ redis/src/main/java/com/cities/config/RedisConfig.java                                    | 34 [32m++++++++++++++++++++++++++++++++++[m
+ redis/src/main/java/com/cities/twitter/RedisTwitterService.java                           | 25 [32m+++++++++++++++++++++++++[m
+ redis/src/main/resources/config.properties                                                |  3 [32m+++[m
+ redis/src/test/java/com/cities/twitter/RedisTwitterServiceITest.java                      | 63 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ service-client/twitter/src/main/java/com/cities/twitter/service/TwitterSearchService.java |  5 [32m++++[m[31m-[m
+ test-properties/src/test/resources/test.properties                                        |  6 [32m+++++[m[31m-[m
+ 11 files changed, 237 insertions(+), 6 deletions(-)
+
+[33mcommit 9035b8a3a5f1cebb60b72beee7784f952f4e2912[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sat Feb 17 02:35:38 2018 +0100
+
+    Twitter kafka producer and consumer has been created
+
+ database/src/main/java/com/cities/model/twitter/TwitterAuthenticationModel.java                   |   13 [32m+[m
+ database/src/main/java/com/cities/model/twitter/TwitterHashtagModel.java                          |    8 [32m+[m
+ database/src/main/java/com/cities/model/twitter/TwitterSearchEntities.java                        |   11 [32m+[m
+ database/src/main/java/com/cities/model/twitter/TwitterSearchMetadata.java                        |   13 [32m+[m
+ database/src/main/java/com/cities/model/twitter/TwitterSearchModel.java                           |   13 [32m+[m
+ database/src/main/java/com/cities/model/twitter/TwitterSearchModelList.java                       |   21 [32m++[m
+ database/src/main/java/com/cities/model/twitter/TwitterSearchStatusModel.java                     |   14 [32m+[m
+ docker-compose-local.yaml                                                                         |   31 [32m+[m[31m-[m
+ kafka/src/main/java/com/cities/async/city/CityListener.java                                       |   21 [31m--[m
+ kafka/src/main/java/com/cities/async/city/CityProducer.java                                       |   22 [31m--[m
+ kafka/src/main/java/com/cities/async/country/CountryListener.java                                 |   21 [31m--[m
+ kafka/src/main/java/com/cities/async/country/CountryProducer.java                                 |   21 [31m--[m
+ kafka/src/main/java/com/cities/city/CityListener.java                                             |   24 [32m++[m
+ kafka/src/main/java/com/cities/city/CityProducer.java                                             |   22 [32m++[m
+ kafka/src/main/java/com/cities/config/KafkaConsumerConfig.java                                    |   13 [32m+[m
+ kafka/src/main/java/com/cities/config/KafkaProducerConfig.java                                    |   15 [32m+[m[31m-[m
+ kafka/src/main/java/com/cities/country/CountryListener.java                                       |   21 [32m++[m
+ kafka/src/main/java/com/cities/country/CountryProducer.java                                       |   21 [32m++[m
+ kafka/src/main/java/com/cities/twitter/TwitterSearchListener.java                                 |   15 [32m+[m
+ kafka/src/main/java/com/cities/twitter/TwitterSearchProducer.java                                 |   22 [32m++[m
+ kafka/src/test/java/com/cities/async/CityProducerMTest.java                                       |    2 [32m+[m[31m-[m
+ moduleDiagram.uxf                                                                                 | 1115 [32m+++++++++++++++++++++++++++++++++++++++[m[31m------------------[m
+ service-client/service-client-common/src/main/java/com/cities/config/feign/FeignErrorDecoder.java |    1 [32m+[m
+ service-client/twitter/src/main/java/com/cities/twitter/api/TwitterAuthorizationExpander.java     |    2 [32m+[m[31m-[m
+ service-client/twitter/src/main/java/com/cities/twitter/api/TwitterSearchApi.java                 |    4 [32m+[m[31m-[m
+ service-client/twitter/src/main/java/com/cities/twitter/model/TwitterAuthenticationModel.java     |   13 [31m-[m
+ service-client/twitter/src/main/java/com/cities/twitter/model/TwitterHashtagModel.java            |    8 [31m-[m
+ service-client/twitter/src/main/java/com/cities/twitter/model/TwitterSearchEntities.java          |   11 [31m-[m
+ service-client/twitter/src/main/java/com/cities/twitter/model/TwitterSearchMetadata.java          |   13 [31m-[m
+ service-client/twitter/src/main/java/com/cities/twitter/model/TwitterSearchModelList.java         |   17 [31m-[m
+ service-client/twitter/src/main/java/com/cities/twitter/model/TwitterSearchStatusModel.java       |   14 [31m-[m
+ service-client/twitter/src/main/java/com/cities/twitter/service/TwitterSearchService.java         |   23 [32m+[m[31m-[m
+ service-client/twitter/src/test/java/com/cities/twitter/service/TwitterSearchServiceMTest.java    |    4 [32m+[m[31m-[m
+ service-client/twitter/src/test/java/com/cities/twitter/service/TwitterSearchServiceTest.java     |   62 [32m++++[m
+ web/web-admin-api/pom.xml                                                                         |   38 [31m--[m
+ web/web-admin-api/src/main/java/com/cities/country/AdminCountryController.java                    |    3 [32m+[m[31m-[m
+ web/web-api/pom.xml                                                                               |   28 [32m+[m[31m-[m
+ web/web-security/pom.xml                                                                          |    2 [32m+[m[31m-[m
+ 38 files changed, 1142 insertions(+), 580 deletions(-)
+
+[33mcommit e151dcd36bf71becd4cfd0a75063548cc4b6c968[m
+Merge: f1c3808 ca14601
+Author: Burak Keceli <kecelibu@gmail.com>
+Date:   Fri Feb 16 23:13:46 2018 +0000
+
+    Merged in cities/BE-15-16-17-Feign-integration-twitter-search-call (pull request #17)
+    
+    BE 15-16-17 Feign configuration, Twitter Authentication and query have been established
+
+[33mcommit ca146010ae8191bb94ad5d41f257310dbe7d3495[m[33m ([1;31morigin/cities/BE-15-16-17-Feign-integration-twitter-search-call[m[33m, [1;32mcities/BE-15-16-17-Feign-integration-twitter-search-call[m[33m)[m
+Author: burak <kecelibu@gmail.com>
+Date:   Thu Feb 15 14:51:09 2018 +0100
+
+    BE 15-16-17 Feign configuration, Twitter Authentication and query have been established
+
+ config/src/main/resources/log4j.properties                                                          |  10 [32m+[m[31m-[m
+ database/pom.xml                                                                                    |  25 [31m--[m
+ docker-compose-local.yaml                                                                           |   4 [32m+[m[31m-[m
+ docker/kafka/log4j.properties                                                                       |   2 [32m+[m[31m-[m
+ kafka/pom.xml                                                                                       |  18 [32m+[m[31m-[m
+ moduleDiagram.uxf                                                                                   | 865 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ pom.xml                                                                                             |  16 [32m+[m[31m-[m
+ service-client/pom.xml                                                                              |  20 [32m++[m
+ service-client/service-client-common/pom.xml                                                        |  53 [32m++++[m
+ service-client/service-client-common/src/main/java/com/cities/config/feign/FeignConfig.java         |  24 [32m++[m
+ service-client/service-client-common/src/main/java/com/cities/config/feign/FeignErrorDecoder.java   |  15 [32m+[m
+ service-client/service-client-common/src/main/java/com/cities/config/feign/FeignLogger.java         |  19 [32m++[m
+ service-client/twitter/pom.xml                                                                      |  69 [32m+++++[m
+ service-client/twitter/src/main/java/com/cities/twitter/api/TwitterAuthorizationExpander.java       |  13 [32m+[m
+ service-client/twitter/src/main/java/com/cities/twitter/api/TwitterSearchApi.java                   |  29 [32m++[m
+ service-client/twitter/src/main/java/com/cities/twitter/model/TwitterAuthenticationModel.java       |  13 [32m+[m
+ service-client/twitter/src/main/java/com/cities/twitter/model/TwitterHashtagModel.java              |   8 [32m+[m
+ service-client/twitter/src/main/java/com/cities/twitter/model/TwitterSearchEntities.java            |  11 [32m+[m
+ service-client/twitter/src/main/java/com/cities/twitter/model/TwitterSearchMetadata.java            |  13 [32m+[m
+ service-client/twitter/src/main/java/com/cities/twitter/model/TwitterSearchModelList.java           |  17 [32m++[m
+ service-client/twitter/src/main/java/com/cities/twitter/model/TwitterSearchStatusModel.java         |  14 [32m+[m
+ service-client/twitter/src/main/java/com/cities/twitter/service/TwitterSearchService.java           |  19 [32m++[m
+ service-client/twitter/src/main/resources/config.properties                                         |  18 [32m++[m
+ service-client/twitter/src/test/java/com/cities/twitter/service/TwitterSearchServiceMTest.java      |  28 [32m++[m
+ service-persistence/pom.xml                                                                         |  69 [32m+++++[m
+ service-persistence/src/main/java/com/cities/cassandra/CassandraQueryUtil.java                      |  31 [32m++[m
+ service-persistence/src/main/java/com/cities/helper/BaseTestHelper.java                             |  86 [32m++++++[m
+ service-persistence/src/main/java/com/cities/service/city/CassandraCityService.java                 |  58 [32m++++[m
+ service-persistence/src/main/java/com/cities/service/city/CityService.java                          |  45 [32m+++[m
+ service-persistence/src/main/java/com/cities/service/comment/CassandraCommentService.java           |  55 [32m++++[m
+ service-persistence/src/main/java/com/cities/service/comment/CommentService.java                    |  39 [32m+++[m
+ service-persistence/src/main/java/com/cities/service/comment/RelationalCommentService.java          |  26 [32m++[m
+ service-persistence/src/main/java/com/cities/service/comment/model/CassandraCommentModel.java       |  17 [32m++[m
+ service-persistence/src/main/java/com/cities/service/friendship/FriendshipService.java              |  89 [32m++++++[m
+ service-persistence/src/main/java/com/cities/service/friendship/validation/FriendshipValidator.java |  26 [32m++[m
+ service-persistence/src/main/java/com/cities/service/user/UserService.java                          |  61 [32m++++[m
+ service-persistence/src/test/java/com/cities/service/FriendshipServiceITest.java                    |  98 [32m+++++++[m
+ service-persistence/src/test/java/com/cities/service/city/CassandraCityServiceITest.java            |  36 [32m+++[m
+ service-persistence/src/test/java/com/cities/service/comment/CassandraCommentServiceITest.java      |  79 [32m++++++[m
+ service-persistence/src/test/java/com/cities/service/validation/FriendshipValidatorTest.java        |  39 [32m+++[m
+ service/pom.xml                                                                                     |  80 [31m------[m
+ service/src/main/java/com/cities/cassandra/CassandraQueryUtil.java                                  |  31 [31m--[m
+ service/src/main/java/com/cities/helper/BaseTestHelper.java                                         |  86 [31m------[m
+ service/src/main/java/com/cities/service/city/CassandraCityService.java                             |  58 [31m----[m
+ service/src/main/java/com/cities/service/city/CityService.java                                      |  45 [31m---[m
+ service/src/main/java/com/cities/service/comment/CassandraCommentService.java                       |  55 [31m----[m
+ service/src/main/java/com/cities/service/comment/CommentService.java                                |  39 [31m---[m
+ service/src/main/java/com/cities/service/comment/RelationalCommentService.java                      |  26 [31m--[m
+ service/src/main/java/com/cities/service/comment/model/CassandraCommentModel.java                   |  17 [31m--[m
+ service/src/main/java/com/cities/service/friendship/FriendshipService.java                          |  89 [31m------[m
+ service/src/main/java/com/cities/service/friendship/validation/FriendshipValidator.java             |  26 [31m--[m
+ service/src/main/java/com/cities/service/user/UserService.java                                      |  61 [31m----[m
+ service/src/test/java/com/cities/service/FriendshipServiceITest.java                                |  98 [31m-------[m
+ service/src/test/java/com/cities/service/city/CassandraCityServiceITest.java                        |  36 [31m---[m
+ service/src/test/java/com/cities/service/comment/CassandraCommentServiceITest.java                  |  79 [31m------[m
+ service/src/test/java/com/cities/service/validation/FriendshipValidatorTest.java                    |  39 [31m---[m
+ test-properties/pom.xml                                                                             |  19 [32m+[m[31m-[m
+ web/web-api/src/main/java/com/cities/twitter/TwitterSearchController.java                           |   4 [32m+[m
+ web/web-security/pom.xml                                                                            |   2 [32m+[m[31m-[m
+ 59 files changed, 2131 insertions(+), 936 deletions(-)
+
+[33mcommit f1c380878d507308015195770d2afb281539b562[m
+Merge: 952d0a2 830cf77
+Author: Burak Keceli <kecelibu@gmail.com>
+Date:   Wed Feb 14 18:41:45 2018 +0000
+
+    Merged in cities/BE-countries-kafka (pull request #16)
+    
+    Cities/BE countries kafka
+
+[33mcommit 830cf77501a598a5e49c4cf172274af9409192de[m[33m ([1;31morigin/cities/BE-countries-kafka[m[33m, [1;32mcities/BE-countries-kafka[m[33m)[m
+Author: burak <kecelibu@gmail.com>
+Date:   Thu Feb 8 19:01:53 2018 +0100
+
+    connection between kafka and tomcat has been extablished
+
+ config/src/main/resources/log4j.properties                                     | 23 [32m+++++++++++[m[31m------------[m
+ docker-compose-local.yaml                                                      | 20 [32m+[m[31m-------------------[m
+ docker-compose.yaml                                                            | 26 [32m+++++[m[31m---------------------[m
+ docker/tomcat/logging.properties                                               | 65 [31m-----------------------------------------------------------------[m
+ kafka/src/main/java/com/cities/async/city/CityProducer.java                    |  1 [32m+[m
+ web/web-admin-api/src/main/java/com/cities/country/AdminCountryController.java | 22 [32m++++++++++++++++++++++[m
+ web/web-admin-api/src/main/resources/config.properties                         |  2 [32m+[m[31m-[m
+ 7 files changed, 41 insertions(+), 118 deletions(-)
+
+[33mcommit 502c3b747b31529a3153e322fad4de2e0757764d[m
+Author: burak <kecelibu@gmail.com>
+Date:   Wed Feb 7 00:49:47 2018 +0100
+
+    Log level has been increased in kafka/zookeeper
+
+ .gitignore                                                     |  4 [32m+++[m[31m-[m
+ docker-compose-local.yaml                                      |  5 [32m+++++[m
+ docker-compose.yaml                                            |  5 [32m+++++[m
+ docker/kafka/log4j.properties                                  | 87 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ docker/zookeeper/log4j.properties                              | 51 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ kafka/src/main/java/com/cities/config/KafkaProducerConfig.java |  3 [32m+++[m
+ web/web-admin-api/src/main/resources/config.properties         |  2 [32m+[m[31m-[m
+ 7 files changed, 155 insertions(+), 2 deletions(-)
+
+[33mcommit a7899ca430695829c5eed68912dc53b83e810cb2[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Feb 4 22:58:35 2018 +0100
+
+    WIP
+
+ config/src/main/resources/log4j.properties                                     | 20 [32m++++++[m[31m--------------[m
+ docker-compose.yaml                                                            |  3 [32m+++[m
+ docker/tomcat/logging.properties                                               | 65 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ kafka/src/main/resources/config.properties                                     |  2 [32m+[m[31m-[m
+ pom.xml                                                                        |  5 [32m++[m[31m---[m
+ web/web-admin-api/src/main/java/com/cities/country/AdminCountryController.java |  2 [32m+[m[31m-[m
+ web/web-admin-api/src/main/resources/config.properties                         |  2 [32m+[m[31m-[m
+ web/web-api/src/main/java/com/cities/city/Main.java                            | 30 [31m------------------------------[m
+ 8 files changed, 79 insertions(+), 50 deletions(-)
+
+[33mcommit dc78aeddf76e8462133a685ab66a0070025cc827[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Feb 4 21:00:27 2018 +0100
+
+    WIP - kafka, fixed log4j
+
+ config/pom.xml                                                                 | 11 [32m+++++++++++[m
+ config/src/main/resources/log4j.properties                                     | 71 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ docker-compose-local.yaml                                                      |  2 [32m+[m[31m-[m
+ docker-compose.yaml                                                            |  2 [32m+[m[31m-[m
+ kafka/src/test/java/com/cities/async/CityProducerMTest.java                    |  2 [32m+[m[31m-[m
+ pom.xml                                                                        | 14 [32m+++++++++++++[m[31m-[m
+ scripts/startDockerEnvironment.sh                                              | 10 [32m+++++++[m[31m---[m
+ scripts/startLocalEnvironment.sh                                               | 10 [32m+++++++[m[31m---[m
+ web/web-admin-api/src/main/java/com/cities/country/AdminCountryController.java | 15 [32m+++++++++++[m[31m----[m
+ web/web-api/src/main/java/com/cities/city/CityController.java                  |  3 [32m+++[m
+ web/web-api/src/main/java/com/cities/city/Main.java                            | 30 [32m++++++++++++++++++++++++++++++[m
+ web/web-api/src/main/resources/log4j.properties                                | 16 [31m----------------[m
+ 12 files changed, 156 insertions(+), 30 deletions(-)
+
+[33mcommit 1b0971f1f326ef1eb7b4e47ae1c9da6432b49f13[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sat Feb 3 21:56:19 2018 +0100
+
+    save country with kafka WIP
+
+ docker-compose.yaml                                                            | 141 [32m+++++++++++++++++++++++++++++++++++++++++++++++[m[31m------------------------------[m
+ kafka/src/main/java/com/cities/async/country/CountryListener.java              |  21 [32m++++++++++++[m
+ kafka/src/main/java/com/cities/async/country/CountryProducer.java              |  21 [32m++++++++++++[m
+ kafka/src/main/resources/config.properties                                     |   3 [32m+[m[31m-[m
+ scripts/runTomcat.sh                                                           |   3 [32m+[m[31m-[m
+ web/web-admin-api/pom.xml                                                      |  93 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ web/web-admin-api/src/main/java/com/cities/country/AdminCountryController.java |  49 [32m+++++++++++++++++++++++++++[m
+ web/web-admin-api/src/main/resources/config.properties                         |  18 [32m++++++++++[m
+ web/web-api/src/main/java/com/cities/country/CountryLogic.java                 |  22 [32m++++++++++++[m
+ web/web-security/src/main/java/com/cities/ApiConstants.java                    |   1 [32m+[m
+ 10 files changed, 316 insertions(+), 56 deletions(-)
+
+[33mcommit 952d0a2540cf0acfbf4b543d91f543da978a483c[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sat Feb 3 14:00:46 2018 +0100
+
+    rearranged dependencies
+
+ web/admin-api/pom.xml                                                                 |  15 [31m-------[m
+ web/pom.xml                                                                           |   3 [32m+[m[31m-[m
+ web/web-admin-api/pom.xml                                                             |  15 [32m+++++++[m
+ web/web-api/pom.xml                                                                   |  39 [32m+[m[31m----------------[m
+ web/web-api/src/main/java/com/cities/city/CityController.java                         |   5 [32m+[m[31m--[m
+ web/web-api/src/main/java/com/cities/config/RootConfig.java                           |  17 [31m--------[m
+ web/web-api/src/main/java/com/cities/config/SpringMvcConfig.java                      |  34 [31m---------------[m
+ web/web-api/src/main/java/com/cities/config/WebInit.java                              |  32 [31m--------------[m
+ web/web-api/src/main/java/com/cities/constant/ApiConstants.java                       |  17 [31m--------[m
+ web/web-api/src/main/java/com/cities/constant/AppConstant.java                        |   5 [31m---[m
+ web/web-api/src/main/java/com/cities/country/CountryController.java                   |   2 [32m+[m[31m-[m
+ web/web-api/src/main/java/com/cities/friend/FriendshipController.java                 |   2 [32m+[m[31m-[m
+ web/web-api/src/main/java/com/cities/friend/FriendshipLogic.java                      |   1 [31m-[m
+ web/web-api/src/main/java/com/cities/friend/UserLogic.java                            |  52 [32m+++++++++++++++++++++++[m
+ web/web-api/src/main/java/com/cities/security/AuthenticationController.java           |   6 [32m+[m[31m--[m
+ web/web-api/src/main/java/com/cities/security/AuthenticationRequest.java              |  31 [31m--------------[m
+ web/web-api/src/main/java/com/cities/security/AuthenticationTokenFilter.java          |  66 [31m-----------------------------[m
+ web/web-api/src/main/java/com/cities/security/EntryPointUnauthorizedHandler.java      |  20 [31m---------[m
+ web/web-api/src/main/java/com/cities/security/RegisterController.java                 |   4 [32m+[m[31m-[m
+ web/web-api/src/main/java/com/cities/security/TokenUtils.java                         | 160 [31m----------------------------------------------------------------------[m
+ web/web-api/src/main/java/com/cities/security/WebSecurityConfiguration.java           |  74 [31m--------------------------------[m
+ web/web-api/src/main/java/com/cities/user/UserController.java                         |  12 [31m------[m
+ web/web-api/src/main/java/com/cities/user/UserLogic.java                              |  52 [31m-----------------------[m
+ web/web-api/src/main/java/com/cities/user/model/UserDto.java                          | 146 [31m---------------------------------------------------------------[m
+ web/web-api/src/main/java/com/cities/user/model/UserPropertiesView.java               |  14 [31m-------[m
+ web/web-api/src/test/java/com/cities/city/CityControllerITest.java                    |   5 [32m++[m[31m-[m
+ web/web-api/src/test/java/com/cities/country/CountryControllerITest.java              |   2 [32m+[m[31m-[m
+ web/web-api/src/test/java/com/cities/friend/FriendshipControllerITest.java            |   5 [32m++[m[31m-[m
+ web/web-api/src/test/java/com/cities/friend/UserLogicTest.java                        |  42 [32m+++++++++++++++++++[m
+ web/web-api/src/test/java/com/cities/security/AuthenticationControllerITest.java      |   8 [32m++[m[31m--[m
+ web/web-api/src/test/java/com/cities/security/RegisterControllerITest.java            |   2 [32m+[m[31m-[m
+ web/web-api/src/test/java/com/cities/user/UserLogicTest.java                          |  42 [31m-------------------[m
+ web/web-security/pom.xml                                                              |  70 [32m+++++++++++++++++++++++++++++++[m
+ web/web-security/src/main/java/com/cities/ApiConstants.java                           |  17 [32m++++++++[m
+ web/web-security/src/main/java/com/cities/AppConstant.java                            |   5 [32m+++[m
+ web/web-security/src/main/java/com/cities/config/RootConfig.java                      |  17 [32m++++++++[m
+ web/web-security/src/main/java/com/cities/config/SpringMvcConfig.java                 |  33 [32m+++++++++++++++[m
+ web/web-security/src/main/java/com/cities/config/WebInit.java                         |  32 [32m++++++++++++++[m
+ web/web-security/src/main/java/com/cities/security/AuthenticationRequest.java         |  31 [32m++++++++++++++[m
+ web/web-security/src/main/java/com/cities/security/AuthenticationTokenFilter.java     |  66 [32m+++++++++++++++++++++++++++++[m
+ web/web-security/src/main/java/com/cities/security/EntryPointUnauthorizedHandler.java |  20 [32m+++++++++[m
+ web/web-security/src/main/java/com/cities/security/TokenUtils.java                    | 160 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ web/web-security/src/main/java/com/cities/security/WebSecurityConfiguration.java      |  75 [32m+++++++++++++++++++++++++++++++++[m
+ web/web-security/src/main/java/com/cities/user/model/UserDto.java                     | 146 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ web/web-security/src/main/java/com/cities/user/model/UserPropertiesView.java          |  14 [32m+++++++[m
+ 45 files changed, 821 insertions(+), 795 deletions(-)
+
+[33mcommit 58a2433a1a3388d1de3f934a11fb7387471e0cdc[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sat Feb 3 12:55:50 2018 +0100
+
+    Web-api was moved to web module to have admin-api module in common
+
+ kafka/src/main/java/com/cities/async/CityListener.java                           |  21 [31m--------[m
+ kafka/src/main/java/com/cities/async/CityProducer.java                           |  21 [31m--------[m
+ kafka/src/main/java/com/cities/async/city/CityListener.java                      |  21 [32m++++++++[m
+ kafka/src/main/java/com/cities/async/city/CityProducer.java                      |  21 [32m++++++++[m
+ kafka/src/main/java/com/cities/config/KafkaConsumerConfig.java                   |  26 [32m+++++++[m[31m--[m
+ kafka/src/main/java/com/cities/config/KafkaProducerConfig.java                   |  25 [32m+++++++[m[31m--[m
+ kafka/src/test/java/com/cities/async/CityProducerMTest.java                      |   3 [32m+[m[31m-[m
+ pom.xml                                                                          |   2 [32m+[m[31m-[m
+ web-api/pom.xml                                                                  | 133 [31m----------------------------------------------[m
+ web-api/src/main/java/com/cities/city/CityController.java                        | 111 [31m---------------------------------------[m
+ web-api/src/main/java/com/cities/city/CityLogic.java                             |  71 [31m-------------------------[m
+ web-api/src/main/java/com/cities/city/model/CityCommentDto.java                  |  14 [31m-----[m
+ web-api/src/main/java/com/cities/city/model/CityDto.java                         |  20 [31m-------[m
+ web-api/src/main/java/com/cities/comment/model/CommentDto.java                   |  11 [31m----[m
+ web-api/src/main/java/com/cities/config/RootConfig.java                          |  17 [31m------[m
+ web-api/src/main/java/com/cities/config/SpringMvcConfig.java                     |  34 [31m------------[m
+ web-api/src/main/java/com/cities/config/WebInit.java                             |  32 [31m------------[m
+ web-api/src/main/java/com/cities/constant/ApiConstants.java                      |  17 [31m------[m
+ web-api/src/main/java/com/cities/constant/AppConstant.java                       |   5 [31m--[m
+ web-api/src/main/java/com/cities/country/CountryController.java                  |  47 [31m-----------------[m
+ web-api/src/main/java/com/cities/country/CountryLogic.java                       |  33 [31m------------[m
+ web-api/src/main/java/com/cities/country/model/CountryDto.java                   |  17 [31m------[m
+ web-api/src/main/java/com/cities/error/BusinessExceptionHandler.java             |  20 [31m-------[m
+ web-api/src/main/java/com/cities/error/ErrorResourceDto.java                     |  32 [31m------------[m
+ web-api/src/main/java/com/cities/friend/FriendshipController.java                |  73 [31m--------------------------[m
+ web-api/src/main/java/com/cities/friend/FriendshipLogic.java                     |  26 [31m---------[m
+ web-api/src/main/java/com/cities/security/AuthenticationController.java          |  81 [31m-----------------------------[m
+ web-api/src/main/java/com/cities/security/AuthenticationRequest.java             |  31 [31m-----------[m
+ web-api/src/main/java/com/cities/security/AuthenticationResponse.java            |  26 [31m---------[m
+ web-api/src/main/java/com/cities/security/AuthenticationTokenFilter.java         |  66 [31m-----------------------[m
+ web-api/src/main/java/com/cities/security/EntryPointUnauthorizedHandler.java     |  20 [31m-------[m
+ web-api/src/main/java/com/cities/security/ProtectedController.java               |  19 [31m-------[m
+ web-api/src/main/java/com/cities/security/RegisterController.java                |  50 [31m------------------[m
+ web-api/src/main/java/com/cities/security/TokenUtils.java                        | 160 [31m--------------------------------------------------------[m
+ web-api/src/main/java/com/cities/security/UserDetailsServiceImpl.java            |  44 [31m----------------[m
+ web-api/src/main/java/com/cities/security/WebSecurityConfiguration.java          |  74 [31m--------------------------[m
+ web-api/src/main/java/com/cities/user/UserController.java                        |  12 [31m-----[m
+ web-api/src/main/java/com/cities/user/UserLogic.java                             |  52 [31m------------------[m
+ web-api/src/main/java/com/cities/user/model/UserDto.java                         | 146 [31m---------------------------------------------------[m
+ web-api/src/main/java/com/cities/user/model/UserPropertiesView.java              |  14 [31m-----[m
+ web-api/src/main/resources/log4j.properties                                      |  16 [31m------[m
+ web-api/src/test/java/com/cities/base/AbstractBaseControllerITest.java           |  74 [31m--------------------------[m
+ web-api/src/test/java/com/cities/city/CityControllerITest.java                   | 213 [31m--------------------------------------------------------------------------[m
+ web-api/src/test/java/com/cities/country/CountryControllerITest.java             |  91 [31m--------------------------------[m
+ web-api/src/test/java/com/cities/friend/FriendshipControllerITest.java           | 112 [31m---------------------------------------[m
+ web-api/src/test/java/com/cities/security/AuthenticationControllerITest.java     | 157 [31m-------------------------------------------------------[m
+ web-api/src/test/java/com/cities/security/RegisterControllerITest.java           |  54 [31m-------------------[m
+ web-api/src/test/java/com/cities/user/UserLogicTest.java                         |  42 [31m---------------[m
+ web-api/src/test/resources/test.properties                                       |  19 [31m-------[m
+ web/admin-api/pom.xml                                                            |  15 [32m++++++[m
+ web/pom.xml                                                                      |  20 [32m+++++++[m
+ web/web-api/pom.xml                                                              | 130 [32m+++++++++++++++++++++++++++++++++++++++++++++[m
+ web/web-api/src/main/java/com/cities/city/CityController.java                    | 112 [32m+++++++++++++++++++++++++++++++++++++++[m
+ web/web-api/src/main/java/com/cities/city/CityLogic.java                         |  70 [32m+++++++++++++++++++++++++[m
+ web/web-api/src/main/java/com/cities/city/model/CityCommentDto.java              |  14 [32m+++++[m
+ web/web-api/src/main/java/com/cities/city/model/CityDto.java                     |  20 [32m+++++++[m
+ web/web-api/src/main/java/com/cities/comment/model/CommentDto.java               |  11 [32m++++[m
+ web/web-api/src/main/java/com/cities/config/RootConfig.java                      |  17 [32m++++++[m
+ web/web-api/src/main/java/com/cities/config/SpringMvcConfig.java                 |  34 [32m++++++++++++[m
+ web/web-api/src/main/java/com/cities/config/WebInit.java                         |  32 [32m++++++++++++[m
+ web/web-api/src/main/java/com/cities/constant/ApiConstants.java                  |  17 [32m++++++[m
+ web/web-api/src/main/java/com/cities/constant/AppConstant.java                   |   5 [32m++[m
+ web/web-api/src/main/java/com/cities/country/CountryController.java              |  47 [32m+++++++++++++++++[m
+ web/web-api/src/main/java/com/cities/country/CountryLogic.java                   |  33 [32m++++++++++++[m
+ web/web-api/src/main/java/com/cities/country/model/CountryDto.java               |  17 [32m++++++[m
+ web/web-api/src/main/java/com/cities/error/BusinessExceptionHandler.java         |  20 [32m+++++++[m
+ web/web-api/src/main/java/com/cities/error/ErrorResourceDto.java                 |  32 [32m++++++++++++[m
+ web/web-api/src/main/java/com/cities/friend/FriendshipController.java            |  73 [32m++++++++++++++++++++++++++[m
+ web/web-api/src/main/java/com/cities/friend/FriendshipLogic.java                 |  26 [32m+++++++++[m
+ web/web-api/src/main/java/com/cities/security/AuthenticationController.java      |  81 [32m+++++++++++++++++++++++++++++[m
+ web/web-api/src/main/java/com/cities/security/AuthenticationRequest.java         |  31 [32m+++++++++++[m
+ web/web-api/src/main/java/com/cities/security/AuthenticationResponse.java        |  26 [32m+++++++++[m
+ web/web-api/src/main/java/com/cities/security/AuthenticationTokenFilter.java     |  66 [32m+++++++++++++++++++++++[m
+ web/web-api/src/main/java/com/cities/security/EntryPointUnauthorizedHandler.java |  20 [32m+++++++[m
+ web/web-api/src/main/java/com/cities/security/ProtectedController.java           |  19 [32m+++++++[m
+ web/web-api/src/main/java/com/cities/security/RegisterController.java            |  50 [32m++++++++++++++++++[m
+ web/web-api/src/main/java/com/cities/security/TokenUtils.java                    | 160 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ web/web-api/src/main/java/com/cities/security/UserDetailsServiceImpl.java        |  44 [32m++++++++++++++++[m
+ web/web-api/src/main/java/com/cities/security/WebSecurityConfiguration.java      |  74 [32m++++++++++++++++++++++++++[m
+ web/web-api/src/main/java/com/cities/user/UserController.java                    |  12 [32m+++++[m
+ web/web-api/src/main/java/com/cities/user/UserLogic.java                         |  52 [32m++++++++++++++++++[m
+ web/web-api/src/main/java/com/cities/user/model/UserDto.java                     | 146 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ web/web-api/src/main/java/com/cities/user/model/UserPropertiesView.java          |  14 [32m+++++[m
+ web/web-api/src/main/resources/log4j.properties                                  |  16 [32m++++++[m
+ web/web-api/src/test/java/com/cities/base/AbstractBaseControllerITest.java       |  74 [32m++++++++++++++++++++++++++[m
+ web/web-api/src/test/java/com/cities/city/CityControllerITest.java               | 214 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ web/web-api/src/test/java/com/cities/country/CountryControllerITest.java         |  91 [32m++++++++++++++++++++++++++++++++[m
+ web/web-api/src/test/java/com/cities/friend/FriendshipControllerITest.java       | 113 [32m++++++++++++++++++++++++++++++++++++++++[m
+ web/web-api/src/test/java/com/cities/security/AuthenticationControllerITest.java | 157 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ web/web-api/src/test/java/com/cities/security/RegisterControllerITest.java       |  54 [32m+++++++++++++++++++[m
+ web/web-api/src/test/java/com/cities/user/UserLogicTest.java                     |  42 [32m+++++++++++++++[m
+ web/web-api/src/test/resources/test.properties                                   |  19 [32m+++++++[m
+ 92 files changed, 2409 insertions(+), 2337 deletions(-)
+
+[33mcommit c645a5534daf4665d2a5285beb729965e78aa471[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sat Feb 3 01:52:31 2018 +0100
+
+    Quick fix
+
+ kafka/src/main/java/com/cities/config/KafkaProducerConfig.java | 10 [32m+++[m[31m-------[m
+ 1 file changed, 3 insertions(+), 7 deletions(-)
+
+[33mcommit 4bc0041d259179d59ab1d3237739c84b5ed39a62[m
+Merge: a4c24e0 04835cc
+Author: Burak Keceli <kecelibu@gmail.com>
+Date:   Sat Feb 3 01:44:22 2018 +0100
+
+    Merged cities/BE-rearrange-test-properties into master
+
+[33mcommit 04835cc86c6f455e20747fde74bb1f8af11ed557[m[33m ([1;31morigin/cities/BE-rearrange-test-properties[m[33m)[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sat Feb 3 01:41:35 2018 +0100
+
+    BE - test properties has been rearranged
+
+ config/pom.xml                                                                     | 43 [32m+++++++++++++++++++++++++++++++++++++[m
+ config/src/main/java/com/cities/config/BaseConfig.java                             | 16 [32m++++++++++++++[m
+ config/src/main/java/com/cities/config/PersistenceConfig.java                      | 86 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ database/pom.xml                                                                   | 12 [32m+++++++++++[m
+ database/src/main/java/com/cities/config/BaseConfig.java                           | 16 [31m--------------[m
+ database/src/main/java/com/cities/config/PersistenceConfig.java                    | 87 [31m--------------------------------------------------------------------------[m
+ database/src/test/java/com/cities/base/AbstractBaseITest.java                      | 16 [31m--------------[m
+ database/src/test/java/com/cities/dao/CityDAOITest.java                            |  4 [32m++[m[31m--[m
+ database/src/test/java/com/cities/dao/CommentDAOITest.java                         |  4 [32m++[m[31m--[m
+ database/src/test/java/com/cities/dao/FriendshipDAOITest.java                      |  4 [32m++[m[31m--[m
+ database/src/test/java/com/cities/dao/UserDAOITest.java                            | 12 [32m++[m[31m---------[m
+ database/src/test/resources/config.properties                                      | 13 [31m-----------[m
+ database/src/test/resources/flyway.properties                                      |  2 [32m++[m
+ kafka/pom.xml                                                                      | 12 [32m+++++++++++[m
+ kafka/src/test/java/com/cities/async/CityProducerMTest.java                        | 40 [32m++++++++++++++++++++++++++++++++++[m
+ kafka/src/test/java/com/cities/base/AbstractKafkaBaseITest.java                    | 14 [31m------------[m
+ kafka/src/test/resources/config.properties                                         | 17 [31m---------------[m
+ pom.xml                                                                            |  2 [32m++[m
+ service/pom.xml                                                                    | 12 [32m+++++++++++[m
+ service/src/test/java/com/cities/base/AbstractServiceBaseITest.java                | 16 [31m--------------[m
+ service/src/test/java/com/cities/service/FriendshipServiceITest.java               |  4 [32m++[m[31m--[m
+ service/src/test/java/com/cities/service/city/CassandraCityServiceITest.java       |  4 [32m++[m[31m--[m
+ service/src/test/java/com/cities/service/comment/CassandraCommentServiceITest.java |  4 [32m++[m[31m--[m
+ service/src/test/resources/config.properties                                       | 17 [31m---------------[m
+ test-properties/pom.xml                                                            | 82 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ test-properties/src/test/java/com/cities/test/AbstractBaseTest.java                | 16 [32m++++++++++++++[m
+ test-properties/src/test/resources/test.properties                                 | 17 [32m+++++++++++++++[m
+ web-api/pom.xml                                                                    |  5 [32m+++++[m
+ web-api/src/test/java/com/cities/base/AbstractBaseControllerITest.java             |  5 [32m+++[m[31m--[m
+ web-api/src/test/resources/config.properties                                       | 19 [31m----------------[m
+ web-api/src/test/resources/test.properties                                         | 19 [32m++++++++++++++++[m
+ 31 files changed, 381 insertions(+), 239 deletions(-)
+
+[33mcommit a4c24e037b2d520aa390c4e48c0df10cb49afb8f[m
+Merge: 18a4846 0ba1963
+Author: Burak Keceli <kecelibu@gmail.com>
+Date:   Thu Feb 1 23:13:08 2018 +0100
+
+    Merged cities/BE-introducing-kafka into master
+
+[33mcommit 0ba196363635db92a17b7d269c2c9ae09e6171cf[m[33m ([1;31morigin/cities/BE-introducing-kafka[m[33m, [1;32mcities/BE-introducing-kafka[m[33m)[m
+Author: burak <kecelibu@gmail.com>
+Date:   Thu Feb 1 23:11:09 2018 +0100
+
+    Producer/Listener problem fixed and manuel test has been added
+
+ docker/Docker LB and 2 Tomcats                                  | 82 [31m----------------------------------------------------------------------------------[m
+ docker/Information of Docker                                    | 37 [32m++++[m[31m---------------------------------[m
+ docker/notes/Cassandra                                          |  3 [32m+++[m
+ docker/notes/Docker LB and 2 Tomcats                            | 82 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ docker/notes/Kafka                                              |  5 [32m+++++[m
+ docker/notes/Postgre                                            | 23 [32m+++++++++++++++++++++++[m
+ docker/notes/Tomcat                                             |  4 [32m++++[m
+ kafka/pom.xml                                                   | 31 [32m+++++++++++++++++++++++++++++++[m
+ kafka/src/main/java/com/cities/async/CityListener.java          | 21 [32m+++++++++++++++++++++[m
+ kafka/src/main/java/com/cities/async/CityProducer.java          | 21 [32m+++++++++++++++++++++[m
+ kafka/src/main/java/com/cities/config/CityListener.java         | 22 [31m----------------------[m
+ kafka/src/main/java/com/cities/config/CityProducer.java         | 21 [31m---------------------[m
+ kafka/src/test/java/com/cities/base/AbstractKafkaBaseITest.java | 14 [32m++++++++++++++[m
+ kafka/src/test/resources/config.properties                      | 14 [32m++++++++++++++[m
+ pom.xml                                                         | 18 [32m+++++++++++[m[31m-------[m
+ service/pom.xml                                                 |  5 [31m-----[m
+ service/src/main/java/com/cities/service/city/CityService.java  |  7 [31m-------[m
+ web-api/src/test/resources/config.properties                    |  8 [32m+++++++[m[31m-[m
+ 18 files changed, 240 insertions(+), 178 deletions(-)
+
+[33mcommit 1b425c3e645f9835bf50d909c1409bf636c53577[m
+Author: burak <kecelibu@gmail.com>
+Date:   Thu Feb 1 21:35:58 2018 +0100
+
+    Added kafka image to docker compose
+
+ docker-compose-local.yaml                                      | 64 [32m++++++++++++++++++++++++++++++++++++++++++++++++[m[31m----------------[m
+ kafka/src/main/java/com/cities/config/KafkaProducerConfig.java |  2 [32m+[m[31m-[m
+ 2 files changed, 49 insertions(+), 17 deletions(-)
+
+[33mcommit bfbec3d68f193c9a1b312d33c61b47bed383a961[m
+Author: burak <kecelibu@gmail.com>
+Date:   Thu Feb 1 00:03:26 2018 +0100
+
+    BE - introducing kafka to save asyncronously cities
+
+ database/src/main/java/com/cities/config/PersistenceConfig.java |  7 [31m-------[m
+ kafka/pom.xml                                                   | 41 [32m+++++++++++++++++++++++++++++++++++++++++[m
+ kafka/src/main/java/com/cities/config/CityListener.java         | 22 [32m++++++++++++++++++++++[m
+ kafka/src/main/java/com/cities/config/CityProducer.java         | 21 [32m+++++++++++++++++++++[m
+ kafka/src/main/java/com/cities/config/KafkaConsumerConfig.java  | 41 [32m+++++++++++++++++++++++++++++++++++++++++[m
+ kafka/src/main/java/com/cities/config/KafkaProducerConfig.java  | 42 [32m++++++++++++++++++++++++++++++++++++++++++[m
+ kafka/src/main/resources/config.properties                      |  3 [32m+++[m
+ kafka/src/test/resources/config.properties                      |  3 [32m+++[m
+ pom.xml                                                         | 10 [32m++++++++++[m
+ service/pom.xml                                                 |  5 [32m+++++[m
+ service/src/main/java/com/cities/service/city/CityService.java  |  7 [32m+++++++[m
+ service/src/test/resources/config.properties                    |  6 [32m+++++[m[31m-[m
+ 12 files changed, 200 insertions(+), 8 deletions(-)
+
+[33mcommit 18a4846fdeab043961f4c99b1596444080531ec9[m[33m ([1;31morigin/cities/BE-introducing-kafka-for-notification[m[33m, [1;32mcities/BE-introducing-kafka-for-notification[m[33m)[m
+Author: burak <kecelibu@gmail.com>
+Date:   Tue Jan 30 22:07:10 2018 +0100
+
+    adding deploying multiple tomcat via mvn
+
+ docker/Information of Docker | 3 [32m+++[m
+ pom.xml                      | 3 [32m++[m[31m-[m
+ scripts/runTomcat.sh         | 2 [32m+[m[31m-[m
+ 3 files changed, 6 insertions(+), 2 deletions(-)
+
+[33mcommit c6ca7d54fbfa3f98d7761126dedb8dc602e0c78d[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Oct 29 22:37:40 2017 +0100
+
+    Using Junit 5
+
+ database/pom.xml                                                             |  8 [32m++++++[m[31m--[m
+ pom.xml                                                                      | 14 [32m++++++++++[m[31m----[m
+ service/pom.xml                                                              |  8 [32m++++++[m[31m--[m
+ web-api/pom.xml                                                              |  8 [32m++++++[m[31m--[m
+ web-api/src/test/java/com/cities/city/CityControllerITest.java               |  9 [32m++++[m[31m-----[m
+ web-api/src/test/java/com/cities/country/CountryControllerITest.java         |  7 [32m++++[m[31m---[m
+ web-api/src/test/java/com/cities/friend/FriendshipControllerITest.java       |  7 [32m+++[m[31m----[m
+ web-api/src/test/java/com/cities/security/AuthenticationControllerITest.java |  3 [32m+[m[31m--[m
+ web-api/src/test/java/com/cities/security/RegisterControllerITest.java       |  3 [32m+[m[31m--[m
+ 9 files changed, 41 insertions(+), 26 deletions(-)
+
+[33mcommit 9e7cf41ece5aef2a3c341bf4be1514811b30ed3b[m
+Author: burak <kecelibu@gmail.com>
+Date:   Thu Jun 29 20:34:17 2017 +0200
+
+    added missing test
+
+ web-api/src/main/java/com/cities/security/AuthenticationController.java      | 11 [32m++++[m[31m-------[m
+ web-api/src/test/java/com/cities/security/AuthenticationControllerITest.java | 22 [32m++++++++++++++++++++++[m
+ 2 files changed, 26 insertions(+), 7 deletions(-)
+
+[33mcommit 1b55e57643df2641bc7946e68cc70fb6d73010e0[m
+Merge: 6d94b6c afbb0a2
+Author: Burak Keceli <kecelibu@gmail.com>
+Date:   Thu Jun 29 18:22:40 2017 +0000
+
+    Merged in cities/BE-12-adding-EP-for-token-expire (pull request #15)
+    
+    adding ep for token experity
+    
+    Approved-by: Burak Keceli <kecelibu@gmail.com>
+
+[33mcommit afbb0a2fdd17c294c4d5677c72541e9b4b2451b8[m[33m ([1;31morigin/cities/BE-12-adding-EP-for-token-expire[m[33m, [1;32mcities/BE-12-adding-EP-for-token-expire[m[33m)[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Apr 23 20:31:59 2017 +0200
+
+    adding ep for token experity
+
+ web-api/src/main/java/com/cities/constant/ApiConstants.java                  |  1 [32m+[m
+ web-api/src/main/java/com/cities/security/AuthenticationController.java      | 24 [32m+++++++++++++++++++[m[31m-----[m
+ web-api/src/main/java/com/cities/security/TokenUtils.java                    | 82 [32m++++++++++++++++++++++++++++++++++++++[m[31m------------------------------------------[m
+ web-api/src/test/java/com/cities/security/AuthenticationControllerITest.java | 69 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ 4 files changed, 128 insertions(+), 48 deletions(-)
+
+[33mcommit 6d94b6c83f65fd7a80f96a74e1ca55a962ba01a6[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sat Apr 15 16:15:47 2017 +0200
+
+    dependency corrections
+
+ commons/pom.xml                                                |  1 [32m+[m
+ commons/src/main/java/com/cities/util/TimeUtil.java            | 16 [32m++++++++++++++++[m
+ database/pom.xml                                               |  1 [32m+[m
+ service/pom.xml                                                | 11 [32m+++[m[31m--------[m
+ web-api/pom.xml                                                | 24 [32m+++[m[31m---------------------[m
+ web-api/src/main/java/com/cities/city/CityLogic.java           |  5 [32m++++[m[31m-[m
+ web-api/src/main/java/com/cities/comment/model/CommentDto.java |  2 [32m+[m[31m-[m
+ web-api/src/test/java/com/cities/city/CityControllerITest.java |  3 [32m+[m[31m--[m
+ 8 files changed, 30 insertions(+), 33 deletions(-)
+
+[33mcommit de3cd96913e7510ac6b06cbf21c2748feb7100db[m
+Merge: 645ed6a 1fc6249
+Author: Burak Keceli <kecelibu@gmail.com>
+Date:   Sun Mar 26 12:16:49 2017 +0000
+
+    Merged in cities/CI-5-post-cities-comments (pull request #14)
+    
+    Cities/CI-5 post cities comments
+
+[33mcommit 1fc62496294061528fd18bd96c55201c978cd1d8[m[33m ([1;31morigin/cities/CI-5-post-cities-comments[m[33m, [1;32mcities/CI-5-post-cities-comments[m[33m)[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Mar 19 17:47:20 2017 +0100
+
+    cassandra correction on saving comments
+
+ commons/src/main/java/com/cities/cassandra/init/CassandraProperties.java           |  6 [32m++++++[m
+ database/pom.xml                                                                   |  7 [32m+++++++[m
+ database/src/main/java/com/cities/cassandra/init/CassandraProperties.java          |  6 [31m------[m
+ database/src/main/java/com/cities/cassandra/init/CassandraTables.java              |  6 [32m+++++[m[31m-[m
+ database/src/main/java/com/cities/model/comment/Comment.java                       |  2 [32m+[m[31m-[m
+ database/src/test/java/com/cities/dao/CommentDAOITest.java                         |  5 [32m++[m[31m---[m
+ service/pom.xml                                                                    | 11 [32m+++++++++[m[31m--[m
+ service/src/main/java/com/cities/cassandra/CassandraQueryUtil.java                 |  4 [32m++[m[31m--[m
+ service/src/main/java/com/cities/helper/BaseTestHelper.java                        |  7 [32m+++[m[31m----[m
+ service/src/main/java/com/cities/service/comment/CassandraCommentService.java      | 37 [32m++++++++++++++++++++++++++[m[31m-----------[m
+ service/src/main/java/com/cities/service/comment/CommentService.java               | 16 [32m+++++++++[m[31m-------[m
+ service/src/main/java/com/cities/service/comment/RelationalCommentService.java     |  2 [32m+[m[31m-[m
+ service/src/main/java/com/cities/service/comment/model/CassandraCommentModel.java  | 17 [32m+++++++++++++++++[m
+ service/src/test/java/com/cities/service/comment/CassandraCommentServiceITest.java | 57 [32m++++++++++++++++++++++++++++++++++++++++++++++++[m[31m---------[m
+ web-api/src/main/java/com/cities/city/CityController.java                          |  7 [32m++++[m[31m---[m
+ web-api/src/main/java/com/cities/city/CityLogic.java                               | 43 [32m++++++++++++++[m[31m-----------------------------[m
+ web-api/src/main/java/com/cities/city/model/CityCommentDto.java                    |  4 [32m+[m[31m---[m
+ web-api/src/main/java/com/cities/comment/model/CommentDto.java                     |  4 [32m+[m[31m---[m
+ web-api/src/main/java/com/cities/security/AuthenticationTokenFilter.java           |  2 [31m--[m
+ web-api/src/main/java/com/cities/security/TokenUtils.java                          | 11 [32m++++++[m[31m-----[m
+ web-api/src/main/java/com/cities/user/UserLogic.java                               |  7 [31m-------[m
+ web-api/src/test/java/com/cities/city/CityControllerITest.java                     | 46 [32m+++++++++++++++++++++++++++[m[31m-------------------[m
+ 22 files changed, 189 insertions(+), 118 deletions(-)
+
+[33mcommit 3a30b90e3e5457c3bcde577a37e07e57f9c1c2fa[m
+Author: burak <kecelibu@gmail.com>
+Date:   Tue Mar 14 22:54:16 2017 +0100
+
+    Creating endpoint for posting end point
+
+ service/src/main/java/com/cities/helper/BaseTestHelper.java                    |  6 [32m+++[m[31m---[m
+ service/src/main/java/com/cities/service/comment/CommentService.java           | 34 [32m++++++++++++++++++++++++[m[31m----------[m
+ service/src/main/java/com/cities/service/comment/RelationalCommentService.java | 26 [32m++++++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/city/CityController.java                      | 19 [32m++++++++++++++++++[m[31m-[m
+ web-api/src/main/java/com/cities/city/CityLogic.java                           |  6 [32m+++[m[31m---[m
+ web-api/src/test/java/com/cities/base/AbstractBaseControllerITest.java         |  2 [32m+[m[31m-[m
+ web-api/src/test/java/com/cities/city/CityControllerITest.java                 | 74 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m----------------------[m
+ web-api/src/test/java/com/cities/country/CountryControllerITest.java           |  6 [32m+++[m[31m---[m
+ web-api/src/test/java/com/cities/security/AuthenticationControllerITest.java   |  2 [32m+[m[31m-[m
+ web-api/src/test/java/com/cities/security/RegisterControllerITest.java         |  2 [32m+[m[31m-[m
+ 10 files changed, 132 insertions(+), 45 deletions(-)
+
+[33mcommit 645ed6a58ba3124b331f9445c6745131cb56f2b2[m
+Merge: 48a5882 592b810
+Author: Burak Keceli <kecelibu@gmail.com>
+Date:   Tue Mar 7 21:20:37 2017 +0000
+
+    Merged in cities/CI-4-get-cities-comments (pull request #13)
+    
+    CI - craeting FE to getting city comments
+
+[33mcommit 592b8107795f3ee81aa799ab52cfc5007c4fba3f[m[33m ([1;31morigin/cities/CI-4-get-cities-comments[m[33m, [1;32mcities/CI-4-get-cities-comments[m[33m)[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Mar 5 18:00:17 2017 +0100
+
+    CI - craeting FE to getting city comments
+
+ commons/pom.xml                                                                    |  4 [32m++++[m
+ commons/src/main/java/com/cities/helper/JacksonService.java                        |  3 [32m++[m[31m-[m
+ database/pom.xml                                                                   | 14 [32m++++++++++++++[m
+ database/src/main/java/com/cities/cassandra/init/CassandraTables.java              |  6 [32m++++++[m
+ database/src/main/java/com/cities/dao/CommentDAO.java                              | 33 [32m+++++++++++++++++++++++++++++++++[m
+ database/src/main/java/com/cities/model/comment/Comment.java                       | 30 [32m++++++++++++++++++++++++++++++[m
+ database/src/main/resources/db/migration/V1__create_initial_schema.sql             |  9 [32m++++++++[m[31m-[m
+ database/src/test/java/com/cities/dao/CommentDAOITest.java                         | 41 [32m+++++++++++++++++++++++++++++++++++++++++[m
+ pom.xml                                                                            | 16 [32m+++++++++++++++[m[31m-[m
+ service/src/main/java/com/cities/cassandra/CassandraQueryUtil.java                 |  7 [32m+++++++[m
+ service/src/main/java/com/cities/helper/BaseTestHelper.java                        | 22 [32m++++++++++++++++++++++[m
+ service/src/main/java/com/cities/service/comment/CassandraCommentService.java      | 40 [32m++++++++++++++++++++++++++++++++++++++++[m
+ service/src/main/java/com/cities/service/comment/CommentService.java               | 23 [32m+++++++++++++++++++++++[m
+ service/src/test/java/com/cities/service/comment/CassandraCommentServiceITest.java | 40 [32m++++++++++++++++++++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/city/CityController.java                          | 19 [32m+++++++++++++++++[m[31m--[m
+ web-api/src/main/java/com/cities/city/CityLogic.java                               | 51 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/city/model/CityCommentDto.java                    | 16 [32m++++++++++++++++[m
+ web-api/src/main/java/com/cities/comment/model/CommentDto.java                     | 13 [32m+++++++++++++[m
+ web-api/src/main/java/com/cities/constant/ApiConstants.java                        |  1 [32m+[m
+ web-api/src/test/java/com/cities/city/CityControllerITest.java                     | 52 [32m++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m--[m
+ 20 files changed, 433 insertions(+), 7 deletions(-)
+
+[33mcommit 48a58822ba34c6515692156a3bcf7e27f582925d[m
+Merge: 3ca2730 505e603
+Author: Burak Keceli <kecelibu@gmail.com>
+Date:   Thu Mar 2 22:06:49 2017 +0000
+
+    Merged in cities/CI-3-persisting-users-who-like-cities (pull request #12)
+    
+    CI-3 cassandra persistence on user-city like connection
+
+[33mcommit 505e603f52765195d3494e05f25313f2be66e687[m[33m ([1;31morigin/cities/CI-3-persisting-users-who-like-cities[m[33m, [1;32mcities/CI-3-persisting-users-who-like-cities[m[33m)[m
+Author: burak <kecelibu@gmail.com>
+Date:   Tue Feb 14 00:06:05 2017 +0100
+
+    CI-3 cassandra persistence on user-city like connection
+
+ database/src/main/java/com/cities/cassandra/CassandraService.java            |  2 [32m+[m[31m-[m
+ database/src/main/java/com/cities/model/user/User.java                       | 16 [32m+++++++++++++[m[31m---[m
+ database/src/main/resources/db/migration/V1__create_initial_schema.sql       | 24 [32m++++++++++++++[m[31m----------[m
+ pom.xml                                                                      | 11 [32m++++++[m[31m-----[m
+ service/src/main/java/com/cities/cassandra/CassandraQueryUtil.java           | 24 [32m++++++++++++++++++++++++[m
+ service/src/main/java/com/cities/helper/BaseTestHelper.java                  | 22 [32m++++++++++++++++++[m[31m----[m
+ service/src/main/java/com/cities/service/city/CassandraCityService.java      | 58 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ service/src/test/java/com/cities/service/FriendshipServiceITest.java         |  1 [32m+[m
+ service/src/test/java/com/cities/service/city/CassandraCityServiceITest.java | 36 [32m++++++++++++++++++++++++++++++++++++[m
+ web-api/pom.xml                                                              | 12 [32m++++++++++++[m
+ web-api/src/main/java/com/cities/city/CityController.java                    | 20 [32m++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/city/CityLogic.java                         |  8 [31m--------[m
+ web-api/src/main/java/com/cities/constant/ApiConstants.java                  |  1 [32m+[m
+ web-api/src/main/java/com/cities/friend/FriendshipLogic.java                 |  4 [32m++[m[31m--[m
+ web-api/src/main/java/com/cities/security/RegisterController.java            |  4 [32m++[m[31m--[m
+ web-api/src/main/java/com/cities/user/UserDtoToUserConverter.java            | 45 [31m---------------------------------------------[m
+ web-api/src/main/java/com/cities/user/UserLogic.java                         | 59 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/user/model/UserDto.java                     |  2 [32m++[m
+ web-api/src/test/java/com/cities/city/CityControllerITest.java               | 44 [32m++++++++++++++++++++++++++++++++++++++++[m[31m----[m
+ web-api/src/test/java/com/cities/country/CountryControllerITest.java         |  4 [32m++[m[31m--[m
+ web-api/src/test/java/com/cities/friend/FriendshipControllerITest.java       | 19 [32m+++++++++[m[31m----------[m
+ web-api/src/test/java/com/cities/security/AuthenticationControllerITest.java |  3 [32m+++[m
+ web-api/src/test/java/com/cities/user/UserLogicTest.java                     | 42 [32m++++++++++++++++++++++++++++++++++++++++++[m
+ 23 files changed, 365 insertions(+), 96 deletions(-)
+
+[33mcommit 3ca27304c79c117dd1e5bc816eff45abf2b13a7b[m
+Merge: a99ea94 d81b6f5
+Author: Burak Keceli <kecelibu@gmail.com>
+Date:   Sun Feb 12 18:40:31 2017 +0000
+
+    Merged in cities/CI-1-cities-endpoint (pull request #11)
+    
+    CI-1 - changes on cities endpoint
+    
+    Approved-by: Murat Güvenç
+
+[33mcommit d81b6f50d2ace961d3bb9bbdb70d9d265d020526[m[33m ([1;31morigin/cities/CI-1-cities-endpoint[m[33m, [1;32mcities/CI-1-cities-endpoint[m[33m)[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Feb 12 18:27:20 2017 +0100
+
+    CI-1 - changes on cities endpoint
+
+ database/src/main/java/com/cities/model/city/City.java                  | 18 [32m++++++++++[m[31m-------[m
+ database/src/main/java/com/cities/model/country/Country.java            | 19 [32m++++++++++++++++[m[31m--[m
+ database/src/main/resources/db/migration/V1__create_initial_schema.sql  | 88 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m--------------------[m
+ database/src/main/resources/db/migration/V2__update_tables.sql          | 43 [32m+++++++++++++++++++++++++++++++++++++++++[m
+ database/src/test/java/com/cities/dao/CityDAOITest.java                 |  9 [32m++[m[31m-------[m
+ service/src/main/java/com/cities/helper/BaseTestHelper.java             |  9 [32m++++[m[31m-----[m
+ service/src/main/java/com/cities/main/SpringHibernateMain.java          | 85 [31m--------------------------------------------------------------------------------[m
+ service/src/main/java/com/cities/service/city/CityService.java          | 12 [32m++++++++++[m[31m--[m
+ web-api/src/main/java/com/cities/city/CityController.java               |  4 [32m++[m[31m--[m
+ web-api/src/main/java/com/cities/city/CityLogic.java                    | 11 [32m+++++++[m[31m----[m
+ web-api/src/main/java/com/cities/city/model/CityDto.java                |  6 [32m++++[m[31m--[m
+ web-api/src/main/java/com/cities/constant/ApiConstants.java             |  1 [32m+[m
+ web-api/src/main/java/com/cities/country/CountryController.java         | 47 [32m++++++++++++++++++++++++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/country/CountryLogic.java              | 17 [32m++++++++++++++++[m
+ web-api/src/main/java/com/cities/country/model/CountryDto.java          |  5 [32m+++++[m
+ web-api/src/main/java/com/cities/security/WebSecurityConfiguration.java |  5 [32m++[m[31m---[m
+ web-api/src/test/java/com/cities/city/CityControllerITest.java          |  8 [32m++++[m[31m----[m
+ web-api/src/test/java/com/cities/country/CountryControllerITest.java    | 90 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ 18 files changed, 333 insertions(+), 144 deletions(-)
+
+[33mcommit a99ea94bf247d30a5e473df80344582aa42d8ae3[m
+Merge: 1e666e2 a3e1f17
+Author: Burak Keceli <kecelibu@gmail.com>
+Date:   Sun Jan 29 21:34:12 2017 +0000
+
+    Merged in cities/CI-1-cities-endpoint (pull request #10)
+    
+    CI-1 - correction on city controller and adding fetching city end point
+
+[33mcommit a3e1f173f073ca7e19c0990b101d3db1c7493757[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Jan 29 15:21:48 2017 +0100
+
+    CI-1 - correction on city controller and adding fetching city end point
+
+ .gitignore                                                      |  3 [32m++[m[31m-[m
+ commons/src/main/java/com/cities/helper/JacksonService.java     | 15 [32m+++++++++++[m[31m----[m
+ database/src/main/java/com/cities/config/PersistenceConfig.java |  1 [32m+[m
+ database/src/main/java/com/cities/model/city/City.java          |  3 [32m++[m[31m-[m
+ docker-compose.yaml                                             |  1 [32m+[m
+ scripts/createDb.sh                                             |  3 [32m++[m[31m-[m
+ scripts/startDockerEnvironment.sh                               |  3 [32m+++[m
+ scripts/startLocalEnvironment.sh                                |  3 [32m+++[m
+ service/src/main/java/com/cities/helper/BaseTestHelper.java     | 22 [32m++++++++++++++++++++++[m
+ service/src/main/java/com/cities/service/city/CityService.java  | 18 [32m+++++++++++++++++[m[31m-[m
+ web-api/src/main/java/com/cities/city/CityController.java       | 15 [32m++++++++++++++[m[31m-[m
+ web-api/src/main/java/com/cities/city/CityLogic.java            |  2 [32m+[m[31m-[m
+ web-api/src/main/java/com/cities/city/model/CityDto.java        |  2 [32m++[m
+ web-api/src/main/java/com/cities/country/CountryLogic.java      |  2 [32m+[m[31m-[m
+ web-api/src/test/java/com/cities/city/CityControllerITest.java  | 67 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m--[m
+ 15 files changed, 147 insertions(+), 13 deletions(-)
+
+[33mcommit 1e666e2531b71128912e042f3ae0709f984f3ef0[m
+Merge: caa4047 efba309
+Author: Murat Güvenç <muratguvenc1905@gmail.com>
+Date:   Sat Jan 28 07:51:36 2017 +0000
+
+    Merged in cities/BE-10-auto-deploy-backend-services (pull request #9)
+    
+    Cities/BE-10 auto deploy backend services
+
+[33mcommit efba309abcc1622781a3c84c8e5f380925fd7a13[m[33m ([1;31morigin/cities/BE-10-auto-deploy-backend-services[m[33m, [1;32mcities/BE-10-auto-deploy-backend-services[m[33m)[m
+Author: burak <kecelibu@gmail.com>
+Date:   Thu Jan 26 23:14:01 2017 +0100
+
+    unrelated sql file
+
+ sql/V1__create_initial_schema.sql | 19 [31m-------------------[m
+ 1 file changed, 19 deletions(-)
+
+[33mcommit 7a3cfa476185577a9c9cf6d0bd9c5b888323b5d3[m
+Author: burak <kecelibu@gmail.com>
+Date:   Thu Jan 26 00:26:30 2017 +0100
+
+    WIP.
+
+ database/pom.xml                                                       |  2 [32m+[m[31m-[m
+ database/src/main/java/com/cities/model/city/City.java                 |  2 [32m+[m[31m-[m
+ database/src/main/java/com/cities/model/country/Country.java           |  2 [32m+[m[31m-[m
+ database/src/main/resources/db/migration/V1__create_initial_schema.sql | 14 [32m+++++++++++[m[31m---[m
+ database/src/test/resources/db/migration/V1__create_initial_schema.sql | 19 [31m-------------------[m
+ scripts/createDb.sh                                                    |  2 [32m+[m[31m-[m
+ scripts/runTomcat.sh                                                   |  2 [32m++[m
+ service/src/test/java/com/cities/base/AbstractBaseITest.java           | 16 [31m----------------[m
+ service/src/test/java/com/cities/base/AbstractServiceBaseITest.java    | 16 [32m++++++++++++++++[m
+ service/src/test/java/com/cities/service/FriendshipServiceITest.java   |  4 [32m++[m[31m--[m
+ service/src/test/resources/config.properties                           | 13 [32m+++++++++++++[m
+ web-api/src/test/java/com/cities/city/CityControllerITest.java         |  6 [31m------[m
+ web-api/src/test/java/com/cities/friend/FriendshipControllerITest.java |  3 [32m+++[m
+ web-api/src/test/resources/config.properties                           | 13 [32m+++++++++++++[m
+ 14 files changed, 64 insertions(+), 50 deletions(-)
+
+[33mcommit b6feb17498b170188d1352692955b1c649650f7f[m
+Author: burak <kecelibu@gmail.com>
+Date:   Thu Jan 26 00:05:53 2017 +0100
+
+    create db and two initial roles has been added
+
+ database/pom.xml                                                       | 22 [32m++++++++++++++++++++++[m
+ database/src/main/java/com/cities/config/PersistenceConfig.java        |  7 [32m++++++[m[31m-[m
+ database/src/main/resources/config.properties                          |  7 [32m++++++[m[31m-[m
+ database/src/main/resources/db/migration/V1__create_initial_schema.sql |  3 [32m+++[m
+ database/src/main/resources/flyway.properties                          |  6 [32m++++++[m
+ database/src/test/resources/config.properties                          |  7 [32m++++++[m[31m-[m
+ database/src/test/resources/db.migration/V1__create_initial_schema.sql | 15 [31m---------------[m
+ database/src/test/resources/db/migration/V1__create_initial_schema.sql | 19 [32m+++++++++++++++++++[m
+ database/src/test/resources/flyway.properties                          |  5 [32m+++++[m
+ docker-compose.yaml                                                    |  2 [32m+[m[31m-[m
+ pom.xml                                                                | 29 [31m-----------------------------[m
+ scripts/createDb.sh                                                    |  1 [32m+[m
+ scripts/image.sh                                                       |  2 [31m--[m
+ service/src/test/java/com/cities/base/AbstractBaseITest.java           |  6 [32m++++[m[31m--[m
+ sql/V1__create_initial_schema.sql                                      | 19 [32m+++++++++++++++++++[m
+ web-api/src/main/java/com/cities/config/RootConfig.java                |  2 [32m+[m[31m-[m
+ web-api/src/test/java/com/cities/base/AbstractBaseControllerITest.java |  2 [32m++[m
+ 17 files changed, 101 insertions(+), 53 deletions(-)
+
+[33mcommit 05c1accf66e874620ec57b8f185c717fb481262c[m
+Author: burak <kecelibu@gmail.com>
+Date:   Tue Jan 24 23:47:30 2017 +0100
+
+    BE-10 - added flyway integration to make automatize
+
+ database/src/main/java/com/cities/config/PersistenceConfig.java        | 25 [32m+++++++++++++++[m[31m----------[m
+ database/src/main/resources/config.properties                          |  6 [32m++++++[m
+ database/src/main/resources/db/migration/V1__create_initial_schema.sql | 15 [32m+++++++++++++++[m
+ database/src/test/resources/config.properties                          |  6 [32m++++++[m
+ database/src/test/resources/db.migration/V1__create_initial_schema.sql | 15 [32m+++++++++++++++[m
+ pom.xml                                                                | 47 [32m++++++++++++++++++++++++++++++++++++++[m[31m---------[m
+ scripts/runTomcat.sh                                                   |  0
+ 7 files changed, 95 insertions(+), 19 deletions(-)
+
+[33mcommit 806e6c29ed0d81023d1cc8cd4c10e9fb98ce6922[m
+Author: burak <kecelibu@gmail.com>
+Date:   Mon Jan 23 23:54:32 2017 +0100
+
+    BE-10 - read configuration files for local and test env
+
+ database/src/main/java/com/cities/cassandra/CassandraService.java |  6 [32m+++++[m[31m-[m
+ database/src/main/java/com/cities/config/BaseConfig.java          | 16 [32m++++++++++++++++[m
+ database/src/main/java/com/cities/config/PersistenceConfig.java   | 12 [32m++++++++[m[31m----[m
+ database/src/main/resources/config.properties                     |  2 [32m++[m
+ database/src/test/java/com/cities/base/AbstractBaseITest.java     |  6 [32m++++[m[31m--[m
+ database/src/test/resources/config.properties                     |  2 [32m++[m
+ docker-compose-local.yaml                                         | 18 [32m++++++++++++++++++[m
+ 7 files changed, 55 insertions(+), 7 deletions(-)
+
+[33mcommit caa4047994eb6a923f85957f8009d759ba0ce1de[m
+Merge: b33c984 7aa490f
+Author: Murat Güvenç <muratguvenc1905@gmail.com>
+Date:   Sun Jan 22 15:56:59 2017 +0000
+
+    Merged in cities/BE-10-auto-deploy-backend-services (pull request #8)
+    
+    BE-10 started deploying war to tomcat servers automatically
+
+[33mcommit 7aa490f6f2af51ac504f8a20b5e9fdb39c6e6cf3[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Jan 22 16:51:24 2017 +0100
+
+    BE-10 started deploying war to tomcat servers automatically
+
+ docker/tomcat/tomcat-users.xml |  2 [32m+[m[31m-[m
+ pom.xml                        | 17 [32m+++++++++++++++++[m
+ scripts/runTomcat.sh           |  1 [32m+[m
+ 3 files changed, 19 insertions(+), 1 deletion(-)
+
+[33mcommit b33c984b66f10c09965796d48a545816ced5bba1[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Jan 22 15:27:04 2017 +0100
+
+    finally, configuring tomcat server with cassandra and postgre
+
+ database/src/main/java/com/cities/cassandra/CassandraService.java |  2 [32m+[m[31m-[m
+ database/src/main/java/com/cities/config/PersistenceConfig.java   |  2 [32m+[m[31m-[m
+ docker-compose.yaml                                               | 24 [32m++++++++++++++++++++[m[31m----[m
+ docker/tomcat/tomcat-users.xml                                    |  7 [32m++++++[m[31m-[m
+ 4 files changed, 28 insertions(+), 7 deletions(-)
+
+[33mcommit 6f58ad62cd5eec46e480313ecfc8112d47a6c853[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sat Jan 21 00:29:49 2017 +0100
+
+    deleted unrelated binary files
+
+ out/production/commons/com/cities/exception/JsonException.class | Bin [31m748[m -> [32m0[m bytes
+ out/production/commons/com/cities/helper/JacksonService.class   | Bin [31m2215[m -> [32m0[m bytes
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+[33mcommit 6272f06adb4918f693445f2669daddc95baef6c0[m
+Merge: b547e81 99c420a
+Author: Burak Keceli <kecelibu@gmail.com>
+Date:   Wed Jan 18 23:54:45 2017 +0100
+
+    Merged in cities/CI-1-cities-end-point (pull request #7)
+    
+    CI-1 get all cities endpoint has been covered
+
+[33mcommit 99c420aedcae7558495901fbbfaec86faf869cd2[m
+Author: burak <kecelibu@gmail.com>
+Date:   Wed Jan 18 23:45:09 2017 +0100
+
+    CI-1 get all cities endpoint has been covered
+
+ database/src/main/java/com/cities/dao/CityDAO.java                      |  40 [32m++++++++++++++++++++++++++++++++++++++++[m
+ database/src/main/java/com/cities/dao/CountryDAO.java                   |  40 [32m++++++++++++++++++++++++++++++++++++++++[m
+ database/src/main/java/com/cities/dao/FriendshipDAO.java                |   2 [32m+[m[31m-[m
+ database/src/main/java/com/cities/model/city/City.java                  |  28 [32m++++++++++++++++++++++++++++[m
+ database/src/main/java/com/cities/model/country/Country.java            |  23 [32m+++++++++++++++++++++++[m
+ database/src/test/java/com/cities/dao/CityDAOITest.java                 |  40 [32m++++++++++++++++++++++++++++++++++++++++[m
+ out/production/commons/com/cities/exception/JsonException.class         | Bin [31m0[m -> [32m748[m bytes
+ out/production/commons/com/cities/helper/JacksonService.class           | Bin [31m0[m -> [32m2215[m bytes
+ service/src/main/java/com/cities/service/city/CityService.java          |  21 [32m+++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/city/CityController.java               |  23 [32m+++++++++++++++++++++[m[31m--[m
+ web-api/src/main/java/com/cities/city/CityLogic.java                    |  37 [32m+++++++++++++++++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/city/model/CityDto.java                |  16 [32m++++++++++++++++[m
+ web-api/src/main/java/com/cities/constant/ApiConstants.java             |   1 [32m+[m
+ web-api/src/main/java/com/cities/country/CountryLogic.java              |  16 [32m++++++++++++++++[m
+ web-api/src/main/java/com/cities/country/model/CountryDto.java          |  12 [32m++++++++++++[m
+ web-api/src/main/java/com/cities/security/AuthenticationController.java |   4 [32m++[m[31m--[m
+ web-api/src/main/java/com/cities/security/WebSecurityConfiguration.java |   2 [32m++[m
+ web-api/src/test/java/com/cities/city/CityControllerITest.java          |  20 [32m+++++++++++++++++++[m[31m-[m
+ 18 files changed, 319 insertions(+), 6 deletions(-)
+
+[33mcommit b547e81d3539879525e583d42e39cc51f8f8f988[m
+Author: burak <kecelibu@gmail.com>
+Date:   Wed Jan 18 22:26:54 2017 +0100
+
+    service module has been created
+
+ commons/pom.xml                                                                         | 17 [32m+++++++++++[m[31m-[m
+ commons/src/main/java/com/cities/exception/JsonException.java                           | 18 [32m+++++++++++++[m
+ commons/src/main/java/com/cities/helper/JacksonService.java                             | 53 [32m++++++++++++++++++++++++++++++++++++++[m
+ database/pom.xml                                                                        |  7 [31m-----[m
+ database/src/main/java/com/cities/exception/JsonException.java                          | 18 [31m-------------[m
+ database/src/main/java/com/cities/helper/BaseTestHelper.java                            | 30 [31m----------------------[m
+ database/src/main/java/com/cities/helper/JacksonService.java                            | 53 [31m--------------------------------------[m
+ database/src/main/java/com/cities/main/SpringHibernateMain.java                         | 85 [31m------------------------------------------------------------[m
+ database/src/main/java/com/cities/service/FriendshipService.java                        | 89 [31m---------------------------------------------------------------[m
+ database/src/main/java/com/cities/service/UserService.java                              | 61 [31m-------------------------------------------[m
+ database/src/main/java/com/cities/validation/FriendshipValidator.java                   | 26 [31m-------------------[m
+ database/src/test/java/com/cities/service/FriendshipServiceITest.java                   | 95 [31m-------------------------------------------------------------------[m
+ database/src/test/java/com/cities/validation/FriendshipValidatorTest.java               | 36 [31m--------------------------[m
+ pom.xml                                                                                 |  1 [32m+[m
+ service/pom.xml                                                                         | 62 [32m++++++++++++++++++++++++++++++++++++++++++++[m
+ service/src/main/java/com/cities/helper/BaseTestHelper.java                             | 30 [32m++++++++++++++++++++++[m
+ service/src/main/java/com/cities/main/SpringHibernateMain.java                          | 85 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ service/src/main/java/com/cities/service/friendship/FriendshipService.java              | 89 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ service/src/main/java/com/cities/service/friendship/validation/FriendshipValidator.java | 26 [32m+++++++++++++++++++[m
+ service/src/main/java/com/cities/service/user/UserService.java                          | 61 [32m+++++++++++++++++++++++++++++++++++++++++++[m
+ service/src/test/java/com/cities/base/AbstractBaseITest.java                            | 14 [32m++++++++++[m
+ service/src/test/java/com/cities/service/FriendshipServiceITest.java                    | 97 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ service/src/test/java/com/cities/service/validation/FriendshipValidatorTest.java        | 39 [32m++++++++++++++++++++++++++++[m
+ web-api/pom.xml                                                                         | 41 [32m+++++++++++++++++++[m[31m----------[m
+ web-api/src/main/java/com/cities/friend/FriendshipController.java                       |  4 [32m+[m[31m--[m
+ web-api/src/main/java/com/cities/friend/FriendshipLogic.java                            |  2 [32m+[m[31m-[m
+ web-api/src/main/java/com/cities/security/RegisterController.java                       |  2 [32m+[m[31m-[m
+ web-api/src/main/java/com/cities/security/UserDetailsServiceImpl.java                   |  2 [32m+[m[31m-[m
+ web-api/src/test/java/com/cities/friend/FriendshipControllerITest.java                  |  5 [32m++[m[31m--[m
+ web-api/src/test/java/com/cities/security/AuthenticationControllerITest.java            |  2 [32m+[m[31m-[m
+ web-api/src/test/java/com/cities/security/RegisterControllerITest.java                  |  2 [32m+[m[31m-[m
+ 31 files changed, 627 insertions(+), 525 deletions(-)
+
+[33mcommit 7161e117d5538d7b57ab1801e09bf87c61b7f481[m
+Author: burak <kecelibu@gmail.com>
+Date:   Wed Jan 18 02:06:11 2017 +0100
+
+    Rearrange dependencies on pom
+
+ database/pom.xml                                                         |  91 [32m++++++++[m[31m----------------[m
+ database/src/main/java/com/cities/helper/JacksonService.java             |   1 [31m-[m
+ pom.xml                                                                  | 313 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m--------------------------[m
+ web-api/pom.xml                                                          | 119 [32m+++++++++[m[31m-----------------------[m
+ web-api/src/main/java/com/cities/config/WebInit.java                     |   1 [31m-[m
+ web-api/src/main/java/com/cities/friend/FriendshipController.java        |   5 [32m+[m[31m-[m
+ web-api/src/main/java/com/cities/security/AuthenticationController.java  |   4 [32m+[m[31m-[m
+ web-api/src/main/java/com/cities/security/AuthenticationTokenFilter.java |   4 [32m+[m[31m-[m
+ web-api/src/main/java/com/cities/security/RegisterController.java        |   4 [32m+[m[31m-[m
+ web-api/src/main/java/com/cities/security/TokenUtils.java                |   5 [32m+[m[31m-[m
+ web-api/src/main/java/com/cities/security/UserDetailsServiceImpl.java    |   5 [32m+[m[31m-[m
+ web-api/src/main/java/com/cities/security/WebSecurityConfiguration.java  |   4 [32m+[m[31m-[m
+ 12 files changed, 288 insertions(+), 268 deletions(-)
+
+[33mcommit 68c06ad36a1bed22cad6200722c46a0056bf2bbc[m
+Merge: 83ee4de 489268a
+Author: Burak Keceli <kecelibu@gmail.com>
+Date:   Sun Jan 15 18:26:50 2017 +0100
+
+    Merged in cities/be-8-swagger-integration (pull request #6)
+    
+    swagger integration has been done
+
+[33mcommit 489268adb56508f86e7be9ff4435377fdf72a246[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Jan 15 18:25:48 2017 +0100
+
+    swagger integration has been done
+
+ web-api/pom.xml                                              | 14 [32m++++++++++++++[m
+ web-api/src/main/java/com/cities/config/RootConfig.java      |  3 [32m++[m[31m-[m
+ web-api/src/main/java/com/cities/config/SpringMvcConfig.java | 29 [32m++++++++++++++++++++++++++[m[31m---[m
+ 3 files changed, 42 insertions(+), 4 deletions(-)
+
+[33mcommit 83ee4dee9b6fd4d8ef71c5f034240ff54f713a15[m
+Author: burak <kecelibu@gmail.com>
+Date:   Fri Jan 13 00:36:01 2017 +0100
+
+    added tests regarding security
+
+ database/src/main/java/com/cities/helper/BaseTestHelper.java                 |  4 [32m+++[m[31m-[m
+ database/src/main/java/com/cities/main/SpringHibernateMain.java              |  8 [32m++++[m[31m----[m
+ database/src/main/java/com/cities/service/FriendshipService.java             |  4 [32m++[m[31m--[m
+ database/src/main/java/com/cities/service/UserService.java                   | 34 [32m+++++++++++++++[m[31m-------------------[m
+ database/src/test/java/com/cities/service/FriendshipServiceITest.java        | 17 [32m+++++++++[m[31m--------[m
+ web-api/src/main/java/com/cities/constant/ApiConstants.java                  |  1 [32m+[m
+ web-api/src/main/java/com/cities/security/AuthenticationController.java      | 12 [32m++++++[m[31m------[m
+ web-api/src/main/java/com/cities/security/AuthenticationRequest.java         |  8 [32m++++[m[31m----[m
+ web-api/src/main/java/com/cities/security/AuthenticationResponse.java        | 22 [32m+++++++++++++++++[m[31m-----[m
+ web-api/src/main/java/com/cities/security/LoginController.java               | 49 [31m-------------------------------------------------[m
+ web-api/src/main/java/com/cities/security/RegisterController.java            | 50 [32m++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/security/UserDetailsServiceImpl.java        |  2 [32m+[m[31m-[m
+ web-api/src/main/java/com/cities/security/WebSecurityConfiguration.java      |  7 [32m+++++[m[31m--[m
+ web-api/src/test/java/com/cities/base/AbstractBaseControllerITest.java       |  7 [32m+++++++[m
+ web-api/src/test/java/com/cities/friend/FriendshipControllerITest.java       | 20 [32m++++++++++++++[m[31m------[m
+ web-api/src/test/java/com/cities/login/LoginControllerITest.java             | 55 [31m-------------------------------------------------------[m
+ web-api/src/test/java/com/cities/security/AuthenticationControllerITest.java | 64 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ web-api/src/test/java/com/cities/security/RegisterControllerITest.java       | 55 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ 18 files changed, 257 insertions(+), 162 deletions(-)
+
+[33mcommit c7148493f970c7366cdde57e7b38ed9e078d052d[m
+Merge: a7eb72d ab8986f
+Author: Burak Keceli <kecelibu@gmail.com>
+Date:   Wed Jan 11 23:33:51 2017 +0100
+
+    Merged in cities/fr-1-send-request (pull request #4)
+    
+    Jackson service and friendship request test correction
+
+[33mcommit ab8986ff11700651bd5c689c897506699117590d[m
+Author: burak <kecelibu@gmail.com>
+Date:   Wed Jan 11 23:29:14 2017 +0100
+
+    friendship controller tests have been added and bug fixed on login controller
+
+ database/src/main/java/com/cities/service/FriendshipService.java         |  9 [32m++++++[m[31m---[m
+ web-api/src/main/java/com/cities/constant/ApiConstants.java              |  1 [32m+[m
+ web-api/src/main/java/com/cities/friend/FriendshipController.java        |  3 [32m+++[m
+ web-api/src/main/java/com/cities/security/AuthenticationTokenFilter.java |  1 [31m-[m
+ web-api/src/main/java/com/cities/security/LoginController.java           |  3 [32m++[m[31m-[m
+ web-api/src/main/java/com/cities/security/WebSecurityConfiguration.java  |  1 [32m+[m
+ web-api/src/test/java/com/cities/friend/FriendshipControllerITest.java   | 20 [32m++++++++++++++++++++[m
+ web-api/src/test/java/com/cities/login/LoginControllerITest.java         | 55 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ 8 files changed, 88 insertions(+), 5 deletions(-)
+
+[33mcommit 90d77b3440ec0924a33d834d71c35899b76686f7[m
+Author: burak <kecelibu@gmail.com>
+Date:   Wed Jan 11 21:39:08 2017 +0100
+
+    added test
+
+ database/src/main/java/com/cities/helper/JacksonService.java             | 10 [32m++++++++++[m
+ database/src/main/java/com/cities/model/friend/FriendshipStatusEnum.java |  3 [32m++[m[31m-[m
+ database/src/main/java/com/cities/service/FriendshipService.java         | 14 [32m++++++++++++++[m
+ database/src/main/java/com/cities/validation/FriendshipValidator.java    |  2 [32m+[m[31m-[m
+ web-api/src/main/java/com/cities/friend/FriendshipController.java        | 10 [32m++++++[m[31m----[m
+ web-api/src/test/java/com/cities/friend/FriendshipControllerITest.java   | 23 [32m+++++++++++++++++++++++[m
+ 6 files changed, 56 insertions(+), 6 deletions(-)
+
+[33mcommit 137e8f5d0a9ec3c4dc160feec2b4ef754024d770[m
+Author: burak <kecelibu@gmail.com>
+Date:   Mon Jan 9 23:29:54 2017 +0100
+
+    Jackson service and friendship request test correction
+
+ database/src/main/java/com/cities/dao/FriendshipDAO.java                |  4 [32m++[m[31m--[m
+ database/src/main/java/com/cities/exception/JsonException.java          | 18 [32m++++++++++++++++++[m
+ database/src/main/java/com/cities/helper/JacksonService.java            | 44 [32m++++++++++++++++++++++++++++++++++++++++++++[m
+ database/src/main/java/com/cities/service/FriendshipService.java        |  2 [32m+[m[31m-[m
+ pom.xml                                                                 | 10 [32m++++++++++[m
+ web-api/src/main/java/com/cities/security/AuthenticationController.java |  2 [32m+[m[31m-[m
+ web-api/src/main/java/com/cities/security/TokenUtils.java               |  2 [32m+[m[31m-[m
+ web-api/src/main/java/com/cities/user/model/UserDto.java                | 62 [32m+++++++++++++++++++++++++++[m[31m-----------------------------------[m
+ web-api/src/test/java/com/cities/friend/FriendshipControllerITest.java  | 19 [32m+++++++++++++++++[m[31m--[m
+ 9 files changed, 121 insertions(+), 42 deletions(-)
+
+[33mcommit a7eb72d3cd97208482dc39142457c0eb0e239d9a[m
+Author: burak <kecelibu@gmail.com>
+Date:   Wed Jan 11 22:50:32 2017 +0100
+
+    bug fix and mockito integration
+
+ database/pom.xml                                                           | 19 [32m+++++++++++++[m[31m------[m
+ database/src/main/java/com/cities/dao/UserDAO.java                         |  2 [32m+[m[31m-[m
+ database/src/main/java/com/cities/main/SpringHibernateMain.java            |  2 [32m+[m[31m-[m
+ database/src/test/java/com/cities/validation/FriendshipValidatorITest.java | 12 [31m------------[m
+ database/src/test/java/com/cities/validation/FriendshipValidatorTest.java  | 36 [32m++++++++++++++++++++++++++++++++++++[m
+ web-api/pom.xml                                                            | 12 [32m++++++[m[31m------[m
+ web-api/src/test/java/com/cities/base/AbstractBaseControllerITest.java     |  6 [32m++[m[31m----[m
+ 7 files changed, 59 insertions(+), 30 deletions(-)
+
+[33mcommit 33cce04bc3f11db28a474a8a74f3edd588f97014[m
+Merge: 42078ad 29e28f1
+Author: Burak Keceli <kecelibu@gmail.com>
+Date:   Tue Jan 10 23:51:28 2017 +0100
+
+    Merged in cities/cassandra-integration (pull request #5)
+    
+    Cities/cassandra integration
+
+[33mcommit 29e28f1cba934c8c0630222011a2c5f1ec71bb4e[m
+Author: burak <kecelibu@gmail.com>
+Date:   Tue Jan 10 23:48:15 2017 +0100
+
+    java and cassandra integration has been done, keyspace and tables created
+
+ Docker LB and 2 Tomcats                                                   |  82 [31m-------------------------------------[m
+ Information                                                               |  40 [31m------------------[m
+ READ ME                                                                   |   9 [31m-----[m
+ TODO.txt                                                                  |  12 [31m------[m
+ database/src/main/java/com/cities/cassandra/CassandraService.java         |  58 [32m++++++++++++++++++++++++++[m
+ database/src/main/java/com/cities/cassandra/init/CassandraProperties.java |   6 [32m+++[m
+ database/src/main/java/com/cities/cassandra/init/CassandraTables.java     |  22 [32m++++++++++[m
+ docker-compose.yaml                                                       |  17 [32m++++[m[31m----[m
+ docker/Docker LB and 2 Tomcats                                            |  82 [32m+++++++++++++++++++++++++++++++++++++[m
+ docker/Information of Docker                                              |  43 [32m++++++++++++++++++++[m
+ docker/nginx/conf.d/default.conf                                          |  49 [32m++++++++++++++++++++++[m
+ docker/tomcat/ROOT/index.jsp                                              |   8 [32m++++[m
+ docker/tomcat/ROOT/index.jsp~                                             |   8 [32m++++[m
+ docker/tomcat/server.xml                                                  | 182 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ docker/tomcat/tomcat-users.xml                                            |  45 [32m+++++++++++++++++++++[m
+ dockerVolume/nginx/conf.d/default.conf                                    |  49 [31m----------------------[m
+ dockerVolume/tomcat/ROOT/index.jsp                                        |   8 [31m----[m
+ dockerVolume/tomcat/ROOT/index.jsp~                                       |   8 [31m----[m
+ dockerVolume/tomcat/server.xml                                            | 182 [31m----------------------------------------------------------------------------------[m
+ dockerVolume/tomcat/tomcat-users.xml                                      |  45 [31m---------------------[m
+ pom.xml                                                                   |   7 [32m++++[m
+ scripts/database/cassandra/createKeyspace.cql                             |   1 [32m+[m
+ 22 files changed, 520 insertions(+), 443 deletions(-)
+
+[33mcommit 5bb89d251d6e902f5a83dee7c0b1eafa280125b3[m
+Author: burak <kecelibu@gmail.com>
+Date:   Tue Jan 10 21:48:58 2017 +0100
+
+    Added cassandra to docker compese
+
+ docker-compose.yaml                    | 23 [32m++++++++++++++++[m[31m-------[m
+ dockerVolume/nginx/conf.d/default.conf | 49 [32m+++++++++++++++++++++++++++++++++++++++++++++++++[m
+ dockerVolume/xginx/conf.d/default.conf | 49 [31m-------------------------------------------------[m
+ 3 files changed, 65 insertions(+), 56 deletions(-)
+
+[33mcommit 42078ad9c5d5930f164b0f2975e18d4ac64379ca[m
+Merge: f200b1d fe98d5f
+Author: Burak Keceli <kecelibu@gmail.com>
+Date:   Sat Jan 7 19:09:29 2017 +0100
+
+    Merged in cities/fr-1-send-request (pull request #3)
+    
+    send friendship request start
+
+[33mcommit fe98d5f8b9bc253976424b1681ac2f2d477db105[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sat Nov 26 23:01:37 2016 +0100
+
+    send friendship request start
+
+ database/pom.xml                                                       |  6 [32m++++++[m
+ database/src/main/java/com/cities/dao/FriendshipDAO.java               |  3 [32m++[m[31m-[m
+ database/src/main/java/com/cities/dao/UserDAO.java                     | 19 [32m++++++++++++[m[31m-------[m
+ database/src/main/java/com/cities/helper/BaseTestHelper.java           | 28 [32m++++++++++++++++++++++++++++[m
+ database/src/main/java/com/cities/main/SpringHibernateMain.java        |  2 [32m+[m[31m-[m
+ database/src/main/java/com/cities/model/user/User.java                 |  9 [32m+++[m[31m------[m
+ database/src/main/java/com/cities/service/FriendshipService.java       | 32 [32m+++++++++++++++++++[m[31m-------------[m
+ database/src/main/java/com/cities/service/UserService.java             |  4 [32m+++[m[31m-[m
+ database/src/main/java/com/cities/validation/FriendshipValidator.java  |  4 [32m++[m[31m--[m
+ database/src/test/java/com/cities/dao/FriendshipDAOITest.java          | 16 [32m++++++[m[31m----------[m
+ database/src/test/java/com/cities/dao/UserDAOITest.java                |  7 [32m+++[m[31m----[m
+ database/src/test/java/com/cities/service/FriendshipServiceITest.java  | 17 [32m++[m[31m---------------[m
+ web-api/pom.xml                                                        |  7 [32m+++++++[m
+ web-api/src/main/java/com/cities/city/CityController.java              | 10 [32m++++++[m[31m----[m
+ web-api/src/main/java/com/cities/constant/ApiConstants.java            | 10 [32m++++++++++[m
+ web-api/src/main/java/com/cities/friend/FriendshipController.java      | 25 [32m++++++++++++++++++++[m[31m-----[m
+ web-api/src/main/java/com/cities/friend/FriendshipLogic.java           |  5 [31m-----[m
+ web-api/src/main/java/com/cities/security/TokenUtils.java              |  2 [32m+[m[31m-[m
+ web-api/src/main/java/com/cities/security/UserDetailsServiceImpl.java  |  2 [32m+[m[31m-[m
+ web-api/src/main/java/com/cities/user/UserDtoToUserConverter.java      |  7 [32m++++[m[31m---[m
+ web-api/src/test/java/com/cities/base/AbstractBaseControllerITest.java | 37 [32m++++++++++++++++++++++++++++++++++++[m[31m-[m
+ web-api/src/test/java/com/cities/city/CityControllerITest.java         | 11 [32m++++++[m[31m-----[m
+ web-api/src/test/java/com/cities/friend/FriendshipControllerITest.java | 46 [32m++++++++++++++++++++++++++++++++++++++++++++++[m
+ 23 files changed, 224 insertions(+), 85 deletions(-)
+
+[33mcommit f200b1d5d87750fe10a4738bf82f90558d933d61[m
+Merge: ee3bf89 d319b5d
+Author: Burak Keceli <kecelibu@gmail.com>
+Date:   Sat Nov 26 21:35:29 2016 +0000
+
+    Merged in burak_keceli/cities-be/burak_keceli/information-deleted-online-with-bitbucke-1479990325813 (pull request #2)
+    
+    Information~ deleted online with Bitbucket
+
+[33mcommit ee3bf89b701db9b3aebed3517507705a8ca36f09[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sat Nov 26 22:34:39 2016 +0100
+
+    BE-1 and BE-2 - Controller Integration Test with user role
+
+ web-api/pom.xml                                                | 7 [32m+++++++[m
+ web-api/src/main/java/com/cities/city/CityController.java      | 1 [32m+[m
+ web-api/src/test/java/com/cities/city/CityControllerITest.java | 2 [32m++[m
+ 3 files changed, 10 insertions(+)
+
+[33mcommit d319b5d027c6079646c3c214e165b177db237f1d[m
+Author: Burak Keceli <burak.keceli@crossengage.io>
+Date:   Thu Nov 24 12:25:29 2016 +0000
+
+    Information~ deleted online with Bitbucket
+
+ Information~ | 36 [31m------------------------------------[m
+ 1 file changed, 36 deletions(-)
+
+[33mcommit 64e07698983b40febe840fde21e24c798e2748ec[m
+Author: burak <kecelibu@gmail.com>
+Date:   Wed Nov 23 00:27:48 2016 +0100
+
+    BE-1 start of integration test for controllers
+
+ database/src/test/java/com/cities/service/FriendshipServiceITest.java  |  6 [32m++++++[m
+ web-api/pom.xml                                                        | 20 [32m++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/city/CityController.java              |  1 [31m-[m
+ web-api/src/test/java/com/cities/base/AbstractBaseControllerITest.java | 31 [32m+++++++++++++++++++++++++++++++[m
+ web-api/src/test/java/com/cities/city/CityControllerITest.java         | 15 [32m+++++++++++++++[m
+ 5 files changed, 72 insertions(+), 1 deletion(-)
+
+[33mcommit 7b27e493fd3d238367f82b16c0f7c568037491bd[m
+Author: Burak Keceli <kecelibu@gmail.com>
+Date:   Wed Nov 16 22:08:40 2016 +0000
+
+    TODO~ deleted online with Bitbucket
+
+ TODO~ | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+[33mcommit b9b6dfc19461a78dc1947c927f3385974396e3e7[m
+Author: burak <kecelibu@gmail.com>
+Date:   Wed Nov 16 23:07:25 2016 +0100
+
+    TODO file
+
+ TODO.txt | 12 [32m++++++++++++[m
+ TODO~    |  0
+ 2 files changed, 12 insertions(+)
+
+[33mcommit 49471262be69b87e9b8f91cdeb55851eb1964361[m
+Author: burak <kecelibu@gmail.com>
+Date:   Wed Nov 16 22:55:35 2016 +0100
+
+    started friendship acceptence
+
+ Information                                                           |  4 [32m++++[m
+ Information~                                                          | 36 [32m++++++++++++++++++++++++++++++++++++[m
+ database/src/main/java/com/cities/main/SpringHibernateMain.java       |  4 [32m++[m[31m--[m
+ database/src/main/java/com/cities/model/friend/Friendship.java        | 44 [32m+++[m[31m-----------------------------------------[m
+ database/src/main/java/com/cities/model/user/User.java                | 53 [32m+++[m[31m--------------------------------------------------[m
+ database/src/main/java/com/cities/service/FriendshipService.java      |  7 [32m+++++[m[31m--[m
+ database/src/main/java/com/cities/validation/FriendshipValidator.java | 16 [32m+++++++[m[31m---------[m
+ database/src/test/java/com/cities/dao/FriendshipDAOITest.java         |  5 [32m++++[m[31m-[m
+ web-api/src/main/java/com/cities/friend/FriendshipController.java     |  4 [32m++++[m
+ web-api/src/main/java/com/cities/friend/FriendshipLogic.java          |  3 [32m++[m[31m-[m
+ 10 files changed, 70 insertions(+), 106 deletions(-)
+
+[33mcommit 7240fdda1ff1509d8f93fbd10850601c0a882d47[m
+Author: burak <kecelibu@gmail.com>
+Date:   Wed Nov 16 22:09:49 2016 +0100
+
+    continue with friendship logic
+
+ database/src/main/java/com/cities/config/PersistenceConfig.java | 4 [32m+[m[31m---[m
+ database/src/main/java/com/cities/dao/FriendshipDAO.java        | 1 [31m-[m
+ database/src/main/java/com/cities/model/friend/Friendship.java  | 4 [32m++[m[31m--[m
+ database/src/test/java/com/cities/dao/FriendshipDAOITest.java   | 9 [31m---------[m
+ web-api/src/main/java/com/cities/friend/FriendshipLogic.java    | 2 [32m+[m[31m-[m
+ 5 files changed, 4 insertions(+), 16 deletions(-)
+
+[33mcommit ef67492dba6f6919774aff9e85e24af136bf87ce[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Oct 16 14:47:59 2016 +0200
+
+    start of endpoint for accept friendship request
+
+ database/src/main/java/com/cities/dao/FriendshipDAO.java                |  21 [32m++++++++[m[31m----[m
+ database/src/main/java/com/cities/main/SpringHibernateMain.java         |   6 [32m++[m[31m--[m
+ database/src/main/java/com/cities/service/FriendshipService.java        |   5 [32m+++[m
+ database/src/main/java/com/cities/validation/FriendshipValidator.java   |   4 [32m+++[m
+ pom.xml                                                                 |   9 [32m++++[m[31m-[m
+ web-api/pom.xml                                                         |   8 [32m++++[m[31m-[m
+ web-api/src/main/java/com/cities/friend/FriendshipController.java       |  20 [32m+++++++++[m[31m--[m
+ web-api/src/main/java/com/cities/friend/FriendshipLogic.java            |   6 [32m+++[m[31m-[m
+ web-api/src/main/java/com/cities/security/AuthenticationController.java |   2 [32m+[m[31m-[m
+ web-api/src/main/java/com/cities/security/TokenUtils.java               |   2 [32m+[m[31m-[m
+ web-api/src/main/java/com/cities/security/UserDetailsServiceImpl.java   |   6 [32m+[m[31m---[m
+ web-api/src/main/java/com/cities/user/UserDto.java                      | 152 [31m------------------------------------------------------------------------------------[m
+ web-api/src/main/java/com/cities/user/UserDtoToUserConverter.java       |   5 [32m++[m[31m-[m
+ web-api/src/main/java/com/cities/user/model/UserDto.java                | 152 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/user/model/UserPropertiesView.java     |  14 [32m++++++++[m
+ 15 files changed, 236 insertions(+), 176 deletions(-)
+
+[33mcommit 6adf812caf1cede798f1827025fadc092a5328f0[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Oct 16 01:40:01 2016 +0200
+
+    correction of some double fetched friendship issue
+
+ database/src/main/java/com/cities/dao/FriendshipDAO.java                   | 11 [32m++++++[m[31m-----[m
+ database/src/main/java/com/cities/main/SpringHibernateMain.java            | 15 [32m++++++++++++++[m[31m-[m
+ database/src/main/java/com/cities/model/friend/Friendship.java             |  5 [32m+++[m[31m--[m
+ database/src/main/java/com/cities/validation/FriendshipValidator.java      | 24 [32m++++++++++++++++++++++++[m
+ database/src/test/java/com/cities/base/AbstractBaseITest.java              | 14 [32m++++++++++++++[m
+ database/src/test/java/com/cities/dao/FriendshipDAOITest.java              | 50 [32m+++++[m[31m---------------------------------------------[m
+ database/src/test/java/com/cities/service/FriendshipServiceITest.java      | 14 [32m++++[m[31m----------[m
+ database/src/test/java/com/cities/validation/FriendshipValidatorITest.java | 12 [32m++++++++++++[m
+ web-api/src/main/java/com/cities/security/AuthenticationTokenFilter.java   |  2 [32m+[m[31m-[m
+ 9 files changed, 83 insertions(+), 64 deletions(-)
+
+[33mcommit 43d69089064c3102439611551cc5f927f64152ca[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sat Oct 15 01:39:53 2016 +0200
+
+    continue with the friendship controller
+
+ database/src/main/java/com/cities/dao/FriendshipDAO.java                | 12 [32m+++++[m[31m-------[m
+ database/src/main/java/com/cities/main/SpringHibernateMain.java         | 47 [32m++++++++++++++++++++++++++++++++[m[31m---------------[m
+ database/src/main/java/com/cities/model/user/User.java                  |  1 [32m+[m
+ web-api/src/main/java/com/cities/friend/FriendController.java           | 36 [31m------------------------------------[m
+ web-api/src/main/java/com/cities/friend/FriendshipController.java       | 34 [32m++++++++++++++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/friend/FriendshipLogic.java            | 26 [32m++++++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/security/AuthenticationController.java |  2 [32m++[m
+ web-api/src/main/java/com/cities/user/UserDto.java                      | 11 [32m++++++++++[m[31m-[m
+ web-api/src/main/java/com/cities/user/UserDtoToUserConverter.java       | 22 [32m++++++++++++++++++++++[m
+ 9 files changed, 132 insertions(+), 59 deletions(-)
+
+[33mcommit f1754ccaa20b905d56ba7fcee101177d79099084[m
+Author: burak <kecelibu@gmail.com>
+Date:   Fri Oct 14 00:29:22 2016 +0200
+
+    spring security - @AuthenticationPrincipal problem solved
+
+ database/src/main/java/com/cities/config/PersistenceConfig.java          |  2 [32m+[m[31m-[m
+ database/src/main/java/com/cities/main/SpringHibernateMain.java          | 26 [32m+++++++++++++++++[m[31m---------[m
+ database/src/main/java/com/cities/service/UserService.java               |  4 [32m++[m[31m--[m
+ web-api/pom.xml                                                          |  6 [32m++++++[m
+ web-api/src/main/java/com/cities/friend/FriendController.java            | 10 [32m++++++[m[31m----[m
+ web-api/src/main/java/com/cities/security/AuthenticationTokenFilter.java | 16 [32m+++++++++[m[31m-------[m
+ 6 files changed, 41 insertions(+), 23 deletions(-)
+
+[33mcommit 230db4c04c5ef81a217ead7693604b09e2c643db[m
+Author: burak <kecelibu@gmail.com>
+Date:   Wed Oct 12 00:57:16 2016 +0200
+
+    start of friendship controller
+
+ web-api/src/main/java/com/cities/friend/FriendController.java           | 34 [32m++++++++++++++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/security/AuthenticationController.java | 14 [32m+++++++[m[31m-------[m
+ web-api/src/main/java/com/cities/user/UserController.java               | 12 [32m++++++++++++[m
+ 3 files changed, 53 insertions(+), 7 deletions(-)
+
+[33mcommit 88e559604869ec16b8d05e6d10575aef7f3d8301[m
+Author: burak <kecelibu@gmail.com>
+Date:   Wed Oct 12 00:40:49 2016 +0200
+
+    friendship pending and accepting have been created
+
+ database/src/main/java/com/cities/dao/FriendshipDAO.java                 |  25 [32m++++++++[m[31m---[m
+ database/src/main/java/com/cities/model/friend/FriendshipStatusEnum.java |   3 [32m+[m[31m-[m
+ database/src/main/java/com/cities/service/FriendshipService.java         |  38 [32m+++++++++++++++[m[31m--[m
+ database/src/main/java/com/cities/service/UserService.java               |   7 [32m+++[m[31m-[m
+ database/src/test/java/com/cities/dao/FriendshipDAOITest.java            | 187 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ database/src/test/java/com/cities/dao/UserDAOITest.java                  |  82 [32m++++++++++++++++++++++++++++++++++++[m
+ database/src/test/java/com/cities/service/FriendshipDAOITest.java        | 187 [31m-----------------------------------------------------------------------------------[m
+ database/src/test/java/com/cities/service/FriendshipServiceITest.java    | 107 [32m+++++++++++++++++++++++++++++++++++++++++++++++[m
+ database/src/test/java/com/cities/service/UserDAOITest.java              |  82 [31m------------------------------------[m
+ 9 files changed, 437 insertions(+), 281 deletions(-)
+
+[33mcommit b8affb6227bae6890003fe11017bce517b3109b3[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Oct 9 20:32:06 2016 +0200
+
+    friendship service
+
+ database/src/main/java/com/cities/service/FriendshipService.java | 28 [32m++++++++++++++++++++++++++++[m
+ database/src/main/java/com/cities/service/UserService.java       |  2 [32m+[m[31m-[m
+ 2 files changed, 29 insertions(+), 1 deletion(-)
+
+[33mcommit 1f5b9b3b922c9e1498404575559d61d0a87923fe[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Oct 9 19:44:56 2016 +0200
+
+    friendship continue
+
+ database/pom.xml                                                  |  12 [32m+++++++++[m
+ database/src/main/java/com/cities/dao/FriendshipDAO.java          |  34 [32m+++++++++++++++++++++++[m[31m--[m
+ database/src/main/java/com/cities/dao/UserDAO.java                |  10 [32m++++++++[m
+ database/src/main/java/com/cities/model/friend/Friendship.java    |  15 [32m++++++[m[31m-----[m
+ database/src/test/java/com/cities/service/FriendshipDAOITest.java | 122 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m--[m
+ 5 files changed, 181 insertions(+), 12 deletions(-)
+
+[33mcommit 044bb53a9b53b688f3594063483c0e10369697a6[m
+Author: burak <kecelibu@gmail.com>
+Date:   Wed Oct 5 23:11:37 2016 +0200
+
+    friendship started
+
+ database/pom.xml                                                         | 15 [32m+++++++++++++++[m
+ database/src/main/java/com/cities/config/PersistenceConfig.java          |  3 [32m+[m[31m--[m
+ database/src/main/java/com/cities/dao/FriendshipDAO.java                 | 30 [32m++++++++++++++++++++++++++++++[m
+ database/src/main/java/com/cities/model/friend/Friendship.java           | 79 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ database/src/main/java/com/cities/model/friend/FriendshipStatusEnum.java | 22 [32m++++++++++++++++++++++[m
+ database/src/main/java/com/cities/model/user/User.java                   | 10 [32m+++++[m[31m-----[m
+ database/src/test/java/com/cities/service/FriendshipDAOITest.java        | 69 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ 7 files changed, 221 insertions(+), 7 deletions(-)
+
+[33mcommit 23c861b8ad7b579d560c2baf4fd4bfaedd4f43ca[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sat Oct 1 16:31:28 2016 +0200
+
+    code refactorin - code correction
+
+ web-api/src/main/java/com/cities/security/UserDetailsServiceImpl.java | 21 [32m+++++++++++++++++[m[31m----[m
+ 1 file changed, 17 insertions(+), 4 deletions(-)
+
+[33mcommit 5ce9d7c54e2b8b085d854ce74bc4c642a8bde48f[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sat Oct 1 16:14:39 2016 +0200
+
+    Added test for hibernate dao
+
+ database/pom.xml                                                      | 19 [32m+++++++++++++++++++[m
+ database/src/main/java/com/cities/config/PersistenceConfig.java       |  2 [32m+[m[31m-[m
+ database/src/main/java/com/cities/dao/UserDAO.java                    | 25 [32m+++++++++++++++++[m[31m--------[m
+ database/src/main/java/com/cities/main/SpringHibernateMain.java       |  6 [32m+++[m[31m---[m
+ database/src/main/java/com/cities/model/User.java                     | 73 [31m-------------------------------------------------------------------------[m
+ database/src/main/java/com/cities/model/UserRole.java                 | 45 [31m---------------------------------------------[m
+ database/src/main/java/com/cities/model/user/User.java                | 86 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ database/src/main/java/com/cities/model/user/UserRole.java            | 45 [32m+++++++++++++++++++++++++++++++++++++++++++++[m
+ database/src/main/java/com/cities/model/user/UserRoleEnum.java        | 22 [32m++++++++++++++++++++++[m
+ database/src/main/java/com/cities/service/UserService.java            | 38 [32m++++++++++++++++++++++++++++++++++[m[31m----[m
+ database/src/test/java/com/cities/service/UserDAOITest.java           | 82 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/security/LoginController.java        |  4 [32m++[m[31m--[m
+ web-api/src/main/java/com/cities/security/TokenUtils.java             |  2 [32m+[m[31m-[m
+ web-api/src/main/java/com/cities/security/UserDetailsServiceImpl.java |  2 [32m+[m[31m-[m
+ web-api/src/main/java/com/cities/user/UserDtoToUserConverter.java     |  2 [32m+[m[31m-[m
+ 15 files changed, 314 insertions(+), 139 deletions(-)
+
+[33mcommit cc5826144fea677076362779562834f6d3da651f[m
+Author: burak <kecelibu@gmail.com>
+Date:   Fri Sep 30 21:54:05 2016 +0200
+
+    end point for user save
+
+ database/src/main/java/com/cities/config/PersistenceXmlConfig.java       |  16 [31m----------[m
+ database/src/main/java/com/cities/dao/UserDAO.java                       |  49 [32m+++++++++++++++++++++++[m[31m------[m
+ database/src/main/java/com/cities/dao/impl/UserDAOImpl.java              |  52 [31m------------------------------[m
+ database/src/main/java/com/cities/service/UserService.java               |  23 [32m+++++++++++[m[31m---[m
+ database/src/main/java/com/cities/service/impl/UserServiceImpl.java      |  32 [31m-------------------[m
+ database/src/main/java/com/cities/util/UIResponseKeys.java               |   4 [32m+++[m
+ web-api/src/main/java/com/cities/AppConstant.java                        |   5 [31m---[m
+ web-api/src/main/java/com/cities/constant/AppConstant.java               |   5 [32m+++[m
+ web-api/src/main/java/com/cities/error/BusinessExceptionHandler.java     |  20 [32m++++++++++++[m
+ web-api/src/main/java/com/cities/error/ErrorResourceDto.java             |  32 [32m+++++++++++++++++++[m
+ web-api/src/main/java/com/cities/security/AuthenticationController.java  |   5 [32m+[m[31m--[m
+ web-api/src/main/java/com/cities/security/AuthenticationTokenFilter.java |   4 [32m+[m[31m--[m
+ web-api/src/main/java/com/cities/security/LoginController.java           |  48 [32m++++++++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/security/SpringSecurityUser.java        | 143 [31m-----------------------------------------------------------------------------------[m
+ web-api/src/main/java/com/cities/security/TokenUtils.java                |  16 [32m++++++++[m[31m--[m
+ web-api/src/main/java/com/cities/security/UserDetailsServiceImpl.java    |   9 [32m++[m[31m----[m
+ web-api/src/main/java/com/cities/user/UserDto.java                       | 143 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/user/UserDtoToUserConverter.java        |  23 [32m++++++++++++++[m
+ 18 files changed, 352 insertions(+), 277 deletions(-)
+
+[33mcommit 20e7f0f674a593a66f0718b633ef96973dfdf496[m
+Author: burak <kecelibu@gmail.com>
+Date:   Thu Sep 29 23:55:15 2016 +0200
+
+    database module and web-api module connected
+
+ database/src/main/java/com/cities/config/PersistenceConfig.java          | 82 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ database/src/main/java/com/cities/config/PersistenceXmlConfig.java       | 16 [32m++++++++++++++++[m
+ database/src/main/java/com/cities/main/SpringHibernateMain.java          | 32 [32m+++++++++++++++++++++++++++++[m[31m---[m
+ database/src/main/java/com/cities/model/User.java                        |  6 [32m+++[m[31m---[m
+ database/src/main/java/com/cities/model/UserRole.java                    |  7 [32m+[m[31m------[m
+ database/src/main/resources/spring.xml                                   | 49 [31m-------------------------------------------------[m
+ web-api/pom.xml                                                          |  5 [32m+++++[m
+ web-api/src/main/java/com/cities/config/RootConfig.java                  |  4 [32m+++[m[31m-[m
+ web-api/src/main/java/com/cities/config/SpringMvcConfig.java             |  2 [32m+[m[31m-[m
+ web-api/src/main/java/com/cities/config/WebInit.java                     |  1 [32m+[m
+ web-api/src/main/java/com/cities/security/AuthenticationTokenFilter.java |  6 [32m+++++[m[31m-[m
+ web-api/src/main/java/com/cities/security/UserDetailsServiceImpl.java    |  7 [32m++++++[m[31m-[m
+ 12 files changed, 152 insertions(+), 65 deletions(-)
+
+[33mcommit 0478c0fc398d9599836fe10e0333ce381d45c76a[m
+Author: burak <kecelibu@gmail.com>
+Date:   Mon Sep 26 20:27:07 2016 +0200
+
+    refactoring
+
+ web-api/src/main/java/com/cities/custom/MyUserDetailsService.java     | 65 [31m-----------------------------------------------------------------[m
+ web-api/src/main/java/com/cities/security/UserDetailsServiceImpl.java |  7 [31m-------[m
+ 2 files changed, 72 deletions(-)
+
+[33mcommit 21e79603a2a92a1235911dd4632f953a41607461[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Sep 25 21:48:18 2016 +0200
+
+    user service detail cont.
+
+ database/src/main/java/com/cities/dao/UserDAO.java                    |  5 [32m+++++[m
+ database/src/main/java/com/cities/dao/impl/UserDAOImpl.java           | 31 [32m++++++++++++++++++++++[m[31m---------[m
+ database/src/main/java/com/cities/main/SpringHibernateMain.java       | 13 [32m++[m[31m-----------[m
+ database/src/main/java/com/cities/model/User.java                     | 33 [32m+++++++++++++++++++++[m[31m------------[m
+ database/src/main/java/com/cities/model/UserRole.java                 |  3 [32m+[m[31m--[m
+ database/src/main/java/com/cities/service/UserService.java            |  5 [32m+++++[m
+ database/src/main/java/com/cities/service/impl/UserServiceImpl.java   | 13 [32m++++++++++++[m[31m-[m
+ database/src/main/resources/spring.xml                                |  2 [32m++[m
+ web-api/pom.xml                                                       | 12 [32m++++++++++++[m
+ web-api/src/main/java/com/cities/custom/MyUserDetailsService.java     |  2 [32m+[m[31m-[m
+ web-api/src/main/java/com/cities/security/SpringSecurityUser.java     |  8 [32m++++[m[31m----[m
+ web-api/src/main/java/com/cities/security/UserDetailsServiceImpl.java | 26 [32m++++++++++++++++++[m[31m--------[m
+ 12 files changed, 105 insertions(+), 48 deletions(-)
+
+[33mcommit 8d6fa5228bce01e9ee879f18f1360e392d5d2dfc[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Sep 25 18:13:46 2016 +0200
+
+    start of security and hibernate communication
+
+ Information                                                              |  4 [32m++[m[31m--[m
+ commons/pom.xml                                                          | 12 [31m------------[m
+ database/src/main/java/com/cities/dao/impl/UserDAOImpl.java              |  1 [31m-[m
+ database/src/main/java/com/cities/main/SpringHibernateMain.java          |  9 [32m++++++++[m[31m-[m
+ database/src/main/java/com/cities/model/User.java                        | 23 [32m++++++++++++++++++[m[31m-----[m
+ database/src/main/java/com/cities/model/UserRole.java                    | 51 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ database/src/main/resources/hibernate.cfg.xml                            | 28 [31m----------------------------[m
+ database/src/main/resources/spring.xml                                   |  2 [32m++[m
+ docker-compose.yaml                                                      | 10 [32m++++++++++[m
+ web-api/pom.xml                                                          | 28 [32m++++++++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/custom/MyUserDetailsService.java        | 65 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/security/AuthenticationTokenFilter.java |  2 [31m--[m
+ 12 files changed, 184 insertions(+), 51 deletions(-)
+
+[33mcommit 8f0d251f46659bf7bd0043c00877df6b78b8a226[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Sep 25 16:15:04 2016 +0200
+
+    solved transactional issue with hibernate
+
+ database/pom.xml                                            | 7 [32m+[m[31m------[m
+ database/src/main/java/com/cities/dao/UserDAO.java          | 4 [32m++[m[31m--[m
+ database/src/main/java/com/cities/dao/impl/UserDAOImpl.java | 4 [32m++[m[31m--[m
+ database/src/main/resources/spring.xml                      | 7 [32m+++[m[31m----[m
+ pom.xml                                                     | 2 [32m+[m[31m-[m
+ 5 files changed, 9 insertions(+), 15 deletions(-)
+
+[33mcommit 39806b023ad8110a2aaea706d8b738692621a620[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Sep 25 15:57:54 2016 +0200
+
+    initial commit with spring, hibernate, postgre and docker
+
+ Information                                                         |  9 [32m+++++++++[m
+ commons/pom.xml                                                     |  1 [32m+[m
+ database/pom.xml                                                    | 76 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ database/src/main/java/com/cities/dao/UserDAO.java                  | 13 [32m++++++++++++[m
+ database/src/main/java/com/cities/dao/impl/UserDAOImpl.java         | 40 [32m+++++++++++++++++++++++++++++++++++++[m
+ database/src/main/java/com/cities/main/SpringHibernateMain.java     | 23 [32m+++++++++++++++++++++[m
+ database/src/main/java/com/cities/model/User.java                   | 51 [32m+++++++++++++++++++++++++++++++++++++++++++++++[m
+ database/src/main/java/com/cities/service/UserService.java          |  8 [32m++++++++[m
+ database/src/main/java/com/cities/service/impl/UserServiceImpl.java | 21 [32m++++++++++++++++++++[m
+ database/src/main/resources/hibernate.cfg.xml                       | 28 [32m++++++++++++++++++++++++++[m
+ database/src/main/resources/spring.xml                              | 46 [32m++++++++++++++++++++++++++++++++++++++++++[m
+ docker-compose.yaml                                                 | 14 [32m++++++[m[31m-------[m
+ pom.xml                                                             | 97 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ web-api/pom.xml                                                     | 23 [32m+[m[31m--------------------[m
+ 14 files changed, 421 insertions(+), 29 deletions(-)
+
+[33mcommit 1afe74b4ed27cb82cde3d42f8491b0c76b66b9e7[m
+Author: burak <kecelibu@gmail.com>
+Date:   Mon Sep 19 21:47:55 2016 +0200
+
+    code refactoring
+
+ web-api/src/main/java/com/cities/city/CityController.java                      |   8 [32m+++[m[31m--[m
+ web-api/src/main/java/com/cities/security/AuthenticationController.java        |  39 [31m------------------------[m
+ web-api/src/main/java/com/cities/security/CustomDaoAuthenticationProvider.java |  24 [31m---------------[m
+ web-api/src/main/java/com/cities/security/SpringSecurityUser.java              | 124 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-----------------[m
+ web-api/src/main/java/com/cities/security/UserDetailsServiceImpl.java          |   7 [32m++[m[31m---[m
+ 5 files changed, 105 insertions(+), 97 deletions(-)
+
+[33mcommit f26ab292910f93165850036ce6be4e17ebe4b962[m
+Author: burak <kecelibu@gmail.com>
+Date:   Fri Sep 9 02:14:13 2016 +0200
+
+    token has been finally created by using JWTS. But code is mess. Should be refactored
+
+ web-api/src/main/java/com/cities/security/AuthenticationController.java        | 38 [32m++++++++++++++++++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/security/AuthenticationTokenFilter.java       |  5 [32m++++[m[31m-[m
+ web-api/src/main/java/com/cities/security/CustomDaoAuthenticationProvider.java | 24 [32m++++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/security/SpringSecurityUser.java              |  8 [32m+++++++[m[31m-[m
+ web-api/src/main/java/com/cities/security/TokenUtils.java                      |  9 [32m++++++++[m[31m-[m
+ web-api/src/main/java/com/cities/security/UserDetailsServiceImpl.java          | 12 [32m+++++++[m[31m-----[m
+ web-api/src/main/java/com/cities/security/WebSecurityConfiguration.java        |  2 [32m++[m
+ web-api/src/main/resources/log4j.properties                                    | 16 [32m++++++++++++++++[m
+ 8 files changed, 106 insertions(+), 8 deletions(-)
+
+[33mcommit fbbeeaf8988dd651712d414e7122c049b4bc74e9[m
+Author: burak <kecelibu@gmail.com>
+Date:   Wed Sep 7 23:03:19 2016 +0200
+
+    security continue
+
+ commons/pom.xml                                                          | 11 [32m+++++++++++[m
+ web-api/pom.xml                                                          |  7 [32m+++++++[m
+ web-api/src/main/java/com/cities/security/AuthenticationController.java  |  2 [32m+[m[31m-[m
+ web-api/src/main/java/com/cities/security/AuthenticationTokenFilter.java |  1 [32m+[m
+ web-api/src/main/java/com/cities/security/SpringSecurityUser.java        | 20 [32m++++++++++[m[31m----------[m
+ web-api/src/main/java/com/cities/security/TokenUtils.java                | 14 [32m++++++++++++[m[31m--[m
+ web-api/src/main/java/com/cities/security/UserDetailsServiceImpl.java    | 11 [32m++++++++[m[31m---[m
+ web-api/src/main/java/com/cities/security/WebSecurityConfiguration.java  |  8 [32m++++++++[m
+ 8 files changed, 58 insertions(+), 16 deletions(-)
+
+[33mcommit 08424d23441db2ee031364897d276ba528be94ba[m
+Author: burak <kecelibu@gmail.com>
+Date:   Wed Sep 7 01:54:37 2016 +0200
+
+    spring security continue
+
+ pom.xml                                                                      |   2 [31m--[m
+ web-api/pom.xml                                                              |  14 [32m++++++++[m
+ web-api/src/main/java/com/cities/AppConstant.java                            |   5 [32m+++[m
+ web-api/src/main/java/com/cities/city/CityController.java                    |   3 [32m+[m[31m-[m
+ web-api/src/main/java/com/cities/config/SpringMvcConfig.java                 |   1 [31m-[m
+ web-api/src/main/java/com/cities/config/WebAppInitializer.java               |  20 [31m------------[m
+ web-api/src/main/java/com/cities/config/WebInit.java                         |  10 [32m++++++[m
+ web-api/src/main/java/com/cities/security/AuthenticationController.java      |  20 [32m+++++++++++[m[31m-[m
+ web-api/src/main/java/com/cities/security/AuthenticationTokenFilter.java     |   7 [32m++[m[31m--[m
+ web-api/src/main/java/com/cities/security/EntryPointUnauthorizedHandler.java |  20 [32m++++++++++++[m
+ web-api/src/main/java/com/cities/security/SpringSecurityUser.java            |  67 [32m+++++++++++++++++++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/security/TokenUtils.java                    | 137 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/security/UserDetailsServiceImpl.java        |  27 [32m++++++++++++++++[m
+ web-api/src/main/java/com/cities/security/WebSecurityConfiguration.java      |   8 [32m+++[m[31m--[m
+ 14 files changed, 311 insertions(+), 30 deletions(-)
+
+[33mcommit 35b82cd1d1d19c62c30372250405624f754bc4e8[m
+Author: burak <kecelibu@gmail.com>
+Date:   Tue Sep 6 01:39:42 2016 +0200
+
+    token based spring security intro
+
+ pom.xml                                                                  |  1 [31m-[m
+ web-api/pom.xml                                                          | 20 [32m++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/config/RootConfig.java                  | 14 [32m++++++++++++++[m
+ web-api/src/main/java/com/cities/config/SpringMvcConfig.java             |  1 [32m+[m
+ web-api/src/main/java/com/cities/config/WebInit.java                     | 22 [32m++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/security/AuthenticationController.java  | 50 [32m++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/security/AuthenticationRequest.java     | 31 [32m+++++++++++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/security/AuthenticationResponse.java    | 14 [32m++++++++++++++[m
+ web-api/src/main/java/com/cities/security/AuthenticationTokenFilter.java | 62 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ web-api/src/main/java/com/cities/security/ProtectedController.java       | 19 [32m+++++++++++++++++++[m
+ web-api/src/main/java/com/cities/security/WebSecurityConfiguration.java  | 55 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ 11 files changed, 288 insertions(+), 1 deletion(-)
+
+[33mcommit dab185baa5ed848e3575214c5ec1a43825320f3f[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Sep 4 20:56:26 2016 +0200
+
+    docker images
+
+ scripts/image.sh | 2 [32m++[m
+ 1 file changed, 2 insertions(+)
+
+[33mcommit 92d036ec5892debfaacbb08f0cef570150f8adc9[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Sep 4 20:44:53 2016 +0200
+
+    changed as more automised
+
+ Information                            |  27 [32m++++++++++++++++++[m
+ READ ME                                |  30 [32m++++[m[31m----------------[m
+ docker-compose.yaml                    |  14 [32m++++[m[31m-----[m
+ dockerVolume/tomcat/ROOT/index.jsp     |   8 [32m++++++[m
+ dockerVolume/tomcat/ROOT/index.jsp~    |   8 [32m++++++[m
+ dockerVolume/tomcat/server.xml         | 182 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ dockerVolume/tomcat/tomcat-users.xml   |  45 [32m+++++++++++++++++++++++++++++[m
+ dockerVolume/xginx/conf.d/default.conf |  49 [32m++++++++++++++++++++++++++++++++[m
+ 8 files changed, 332 insertions(+), 31 deletions(-)
+
+[33mcommit 6560e9b767f3bb92fd67987068f1719a18cd836f[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Sep 4 16:48:16 2016 +0200
+
+    correction
+
+ docker-compose.yaml | 2 [32m++[m
+ 1 file changed, 2 insertions(+)
+
+[33mcommit 94fe035d1e09cff13971392b8e3a611b31af9437[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Sep 4 16:45:13 2016 +0200
+
+    removed unnecessary file
+
+ Docker LB and 2 Tomcats~ | 79 [31m-------------------------------------------------------------------------------[m
+ 1 file changed, 79 deletions(-)
+
+[33mcommit 4ae369c9f0f1370d2b5678256f99c5015f2de3b8[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Sep 4 16:44:07 2016 +0200
+
+    docker-compose with two tomcat and one load balancer has been added
+
+ Docker LB and 2 Tomcats  |  3 [32m+++[m
+ Docker LB and 2 Tomcats~ | 79 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ docker-compose.yaml      | 23 [32m+++++++++++++++++++++++[m
+ 3 files changed, 105 insertions(+)
+
+[33mcommit 5b3e83e5aac89e5e60ba4bd5e0a1a5e4a3ce25bb[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Sep 4 15:56:30 2016 +0200
+
+    deleted unnecessary files
+
+ .idea/.name                                                                     |   1 [31m-[m
+ .idea/compiler.xml                                                              |  35 [31m------[m
+ .idea/copyright/profiles_settings.xml                                           |   3 [31m-[m
+ .idea/libraries/Maven__aopalliance_aopalliance_1_0.xml                          |  13 [31m---[m
+ .idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_8_0.xml |  13 [31m---[m
+ .idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_8_1.xml        |  13 [31m---[m
+ .idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_8_1.xml    |  13 [31m---[m
+ .idea/libraries/Maven__commons_logging_commons_logging_1_2.xml                  |  13 [31m---[m
+ .idea/libraries/Maven__javax_servlet_javax_servlet_api_3_1_0.xml                |  13 [31m---[m
+ .idea/libraries/Maven__org_springframework_spring_aop_4_2_6_RELEASE.xml         |  13 [31m---[m
+ .idea/libraries/Maven__org_springframework_spring_beans_4_2_6_RELEASE.xml       |  13 [31m---[m
+ .idea/libraries/Maven__org_springframework_spring_context_4_2_6_RELEASE.xml     |  13 [31m---[m
+ .idea/libraries/Maven__org_springframework_spring_core_4_2_6_RELEASE.xml        |  13 [31m---[m
+ .idea/libraries/Maven__org_springframework_spring_expression_4_2_6_RELEASE.xml  |  13 [31m---[m
+ .idea/libraries/Maven__org_springframework_spring_tx_4_2_6_RELEASE.xml          |  13 [31m---[m
+ .idea/libraries/Maven__org_springframework_spring_web_4_2_6_RELEASE.xml         |  13 [31m---[m
+ .idea/libraries/Maven__org_springframework_spring_webmvc_4_2_6_RELEASE.xml      |  13 [31m---[m
+ .idea/misc.xml                                                                  |  39 [31m-------[m
+ .idea/modules.xml                                                               |  10 [31m--[m
+ .idea/vcs.xml                                                                   |   6 [31m-[m
+ .idea/workspace.xml                                                             | 477 [31m----------------------------------------------------------------------------[m
+ cities.iml                                                                      |  12 [31m--[m
+ commons/commons.iml                                                             |  12 [31m--[m
+ commons/target/Cities.jar                                                       | Bin [31m1476[m -> [32m0[m bytes
+ commons/target/maven-archiver/pom.properties                                    |   5 [31m-[m
+ web-api/web-api.iml                                                             |  29 [31m-----[m
+ 26 files changed, 811 deletions(-)
+
+[33mcommit 982b84a90cbea8e901b164da4a9dc4c592fd9af7[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Sep 4 15:54:28 2016 +0200
+
+    deleted target
+
+ .idea/workspace.xml                                                                              |  34 [32m+++++++++++++++++++++++++++++[m[31m-----[m
+ web-api/target/Cities.war                                                                        | Bin [31m6436430[m -> [32m0[m bytes
+ web-api/target/Cities/WEB-INF/classes/com/cities/city/CityController.class                       | Bin [31m1105[m -> [32m0[m bytes
+ web-api/target/Cities/WEB-INF/classes/com/cities/config/SpringMvcConfig.class                    | Bin [31m571[m -> [32m0[m bytes
+ web-api/target/Cities/WEB-INF/classes/com/cities/config/WebAppInitializer.class                  | Bin [31m1612[m -> [32m0[m bytes
+ web-api/target/Cities/WEB-INF/lib/aopalliance-1.0.jar                                            | Bin [31m4467[m -> [32m0[m bytes
+ web-api/target/Cities/WEB-INF/lib/commons-logging-1.2.jar                                        | Bin [31m61829[m -> [32m0[m bytes
+ web-api/target/Cities/WEB-INF/lib/jackson-annotations-2.8.0.jar                                  | Bin [31m55784[m -> [32m0[m bytes
+ web-api/target/Cities/WEB-INF/lib/jackson-core-2.8.1.jar                                         | Bin [31m280014[m -> [32m0[m bytes
+ web-api/target/Cities/WEB-INF/lib/jackson-databind-2.8.1.jar                                     | Bin [31m1230290[m -> [32m0[m bytes
+ web-api/target/Cities/WEB-INF/lib/javax.servlet-api-3.1.0.jar                                    | Bin [31m95806[m -> [32m0[m bytes
+ web-api/target/Cities/WEB-INF/lib/spring-aop-4.2.6.RELEASE.jar                                   | Bin [31m371197[m -> [32m0[m bytes
+ web-api/target/Cities/WEB-INF/lib/spring-beans-4.2.6.RELEASE.jar                                 | Bin [31m731562[m -> [32m0[m bytes
+ web-api/target/Cities/WEB-INF/lib/spring-context-4.2.6.RELEASE.jar                               | Bin [31m1096730[m -> [32m0[m bytes
+ web-api/target/Cities/WEB-INF/lib/spring-core-4.2.6.RELEASE.jar                                  | Bin [31m1096425[m -> [32m0[m bytes
+ web-api/target/Cities/WEB-INF/lib/spring-expression-4.2.6.RELEASE.jar                            | Bin [31m262993[m -> [32m0[m bytes
+ web-api/target/Cities/WEB-INF/lib/spring-tx-4.2.6.RELEASE.jar                                    | Bin [31m265182[m -> [32m0[m bytes
+ web-api/target/Cities/WEB-INF/lib/spring-web-4.2.6.RELEASE.jar                                   | Bin [31m767148[m -> [32m0[m bytes
+ web-api/target/Cities/WEB-INF/lib/spring-webmvc-4.2.6.RELEASE.jar                                | Bin [31m877630[m -> [32m0[m bytes
+ web-api/target/classes/com/cities/city/CityController.class                                      | Bin [31m1105[m -> [32m0[m bytes
+ web-api/target/classes/com/cities/config/SpringMvcConfig.class                                   | Bin [31m571[m -> [32m0[m bytes
+ web-api/target/classes/com/cities/config/WebAppInitializer.class                                 | Bin [31m1612[m -> [32m0[m bytes
+ web-api/target/maven-archiver/pom.properties                                                     |   5 [31m-----[m
+ web-api/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst       |   3 [31m---[m
+ web-api/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst         |   3 [31m---[m
+ web-api/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst |   0
+ 26 files changed, 29 insertions(+), 16 deletions(-)
+
+[33mcommit 1079392342ccaacb38035d9c2394e3af167e423e[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Sep 4 15:52:44 2016 +0200
+
+    gitignore
+
+ .gitignore          |  10 [32m+++++[m
+ .idea/workspace.xml | 287 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-----------------------------------[m
+ 2 files changed, 224 insertions(+), 73 deletions(-)
+
+[33mcommit 6b8cc06773d41805211f4b3b87d5131f10589f27[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Sep 4 15:46:53 2016 +0200
+
+    correction of project structure
+
+ .idea/.name                                                                                             |   1 [32m+[m
+ .idea/compiler.xml                                                                                      |  35 [32m+++[m
+ .idea/copyright/profiles_settings.xml                                                                   |   3 [32m+[m
+ .idea/libraries/Maven__aopalliance_aopalliance_1_0.xml                                                  |  13 [32m+[m
+ .idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_8_0.xml                         |  13 [32m+[m
+ .idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_8_1.xml                                |  13 [32m+[m
+ .idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_8_1.xml                            |  13 [32m+[m
+ .idea/libraries/Maven__commons_logging_commons_logging_1_2.xml                                          |  13 [32m+[m
+ .idea/libraries/Maven__javax_servlet_javax_servlet_api_3_1_0.xml                                        |  13 [32m+[m
+ .idea/libraries/Maven__org_springframework_spring_aop_4_2_6_RELEASE.xml                                 |  13 [32m+[m
+ .idea/libraries/Maven__org_springframework_spring_beans_4_2_6_RELEASE.xml                               |  13 [32m+[m
+ .idea/libraries/Maven__org_springframework_spring_context_4_2_6_RELEASE.xml                             |  13 [32m+[m
+ .idea/libraries/Maven__org_springframework_spring_core_4_2_6_RELEASE.xml                                |  13 [32m+[m
+ .idea/libraries/Maven__org_springframework_spring_expression_4_2_6_RELEASE.xml                          |  13 [32m+[m
+ .idea/libraries/Maven__org_springframework_spring_tx_4_2_6_RELEASE.xml                                  |  13 [32m+[m
+ .idea/libraries/Maven__org_springframework_spring_web_4_2_6_RELEASE.xml                                 |  13 [32m+[m
+ .idea/libraries/Maven__org_springframework_spring_webmvc_4_2_6_RELEASE.xml                              |  13 [32m+[m
+ .idea/misc.xml                                                                                          |  39 [32m+++[m
+ .idea/modules.xml                                                                                       |  10 [32m+[m
+ .idea/vcs.xml                                                                                           |   6 [32m+[m
+ .idea/workspace.xml                                                                                     | 312 [32m++++++++++++++++++++++[m
+ cities be/.idea/compiler.xml                                                                            |  35 [31m---[m
+ cities be/.idea/copyright/profiles_settings.xml                                                         |   3 [31m-[m
+ cities be/.idea/libraries/Maven__aopalliance_aopalliance_1_0.xml                                        |  13 [31m-[m
+ cities be/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_8_0.xml               |  13 [31m-[m
+ cities be/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_8_1.xml                      |  13 [31m-[m
+ cities be/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_8_1.xml                  |  13 [31m-[m
+ cities be/.idea/libraries/Maven__commons_logging_commons_logging_1_2.xml                                |  13 [31m-[m
+ cities be/.idea/libraries/Maven__javax_servlet_javax_servlet_api_3_1_0.xml                              |  13 [31m-[m
+ cities be/.idea/libraries/Maven__org_springframework_spring_aop_4_2_6_RELEASE.xml                       |  13 [31m-[m
+ cities be/.idea/libraries/Maven__org_springframework_spring_beans_4_2_6_RELEASE.xml                     |  13 [31m-[m
+ cities be/.idea/libraries/Maven__org_springframework_spring_context_4_2_6_RELEASE.xml                   |  13 [31m-[m
+ cities be/.idea/libraries/Maven__org_springframework_spring_core_4_2_6_RELEASE.xml                      |  13 [31m-[m
+ cities be/.idea/libraries/Maven__org_springframework_spring_expression_4_2_6_RELEASE.xml                |  13 [31m-[m
+ cities be/.idea/libraries/Maven__org_springframework_spring_tx_4_2_6_RELEASE.xml                        |  13 [31m-[m
+ cities be/.idea/libraries/Maven__org_springframework_spring_web_4_2_6_RELEASE.xml                       |  13 [31m-[m
+ cities be/.idea/libraries/Maven__org_springframework_spring_webmvc_4_2_6_RELEASE.xml                    |  13 [31m-[m
+ cities be/.idea/misc.xml                                                                                |  42 [31m---[m
+ cities be/.idea/modules.xml                                                                             |  10 [31m-[m
+ cities be/.idea/workspace.xml                                                                           | 745 [31m----------------------------------------------------[m
+ cities be/cities be.iml                                                                                 |  15 [31m--[m
+ cities be/commons/commons.iml                                                                           |  15 [31m--[m
+ cities be/commons/pom.xml                                                                               |  16 [31m--[m
+ cities be/commons/target/Cities.jar                                                                     | Bin [31m1476[m -> [32m0[m bytes
+ cities be/commons/target/maven-archiver/pom.properties                                                  |   5 [31m-[m
+ cities be/pom.xml                                                                                       |  45 [31m----[m
+ cities be/web-api/pom.xml                                                                               |  49 [31m----[m
+ cities be/web-api/src/main/java/com/cities/city/CityController.java                                     |  21 [31m--[m
+ cities be/web-api/src/main/java/com/cities/config/SpringMvcConfig.java                                  |  11 [31m-[m
+ cities be/web-api/src/main/java/com/cities/config/WebAppInitializer.java                                |  20 [31m--[m
+ cities be/web-api/target/Cities.war                                                                     | Bin [31m6436430[m -> [32m0[m bytes
+ cities be/web-api/target/Cities/WEB-INF/classes/com/cities/city/CityController.class                    | Bin [31m1105[m -> [32m0[m bytes
+ cities be/web-api/target/Cities/WEB-INF/classes/com/cities/config/SpringMvcConfig.class                 | Bin [31m571[m -> [32m0[m bytes
+ cities be/web-api/target/Cities/WEB-INF/classes/com/cities/config/WebAppInitializer.class               | Bin [31m1612[m -> [32m0[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/aopalliance-1.0.jar                                         | Bin [31m4467[m -> [32m0[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/commons-logging-1.2.jar                                     | Bin [31m61829[m -> [32m0[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/jackson-annotations-2.8.0.jar                               | Bin [31m55784[m -> [32m0[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/jackson-core-2.8.1.jar                                      | Bin [31m280014[m -> [32m0[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/jackson-databind-2.8.1.jar                                  | Bin [31m1230290[m -> [32m0[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/javax.servlet-api-3.1.0.jar                                 | Bin [31m95806[m -> [32m0[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/spring-aop-4.2.6.RELEASE.jar                                | Bin [31m371197[m -> [32m0[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/spring-beans-4.2.6.RELEASE.jar                              | Bin [31m731562[m -> [32m0[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/spring-context-4.2.6.RELEASE.jar                            | Bin [31m1096730[m -> [32m0[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/spring-core-4.2.6.RELEASE.jar                               | Bin [31m1096425[m -> [32m0[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/spring-expression-4.2.6.RELEASE.jar                         | Bin [31m262993[m -> [32m0[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/spring-tx-4.2.6.RELEASE.jar                                 | Bin [31m265182[m -> [32m0[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/spring-web-4.2.6.RELEASE.jar                                | Bin [31m767148[m -> [32m0[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/spring-webmvc-4.2.6.RELEASE.jar                             | Bin [31m877630[m -> [32m0[m bytes
+ cities be/web-api/target/classes/com/cities/city/CityController.class                                   | Bin [31m1105[m -> [32m0[m bytes
+ cities be/web-api/target/classes/com/cities/config/SpringMvcConfig.class                                | Bin [31m571[m -> [32m0[m bytes
+ cities be/web-api/target/classes/com/cities/config/WebAppInitializer.class                              | Bin [31m1612[m -> [32m0[m bytes
+ cities be/web-api/target/maven-archiver/pom.properties                                                  |   5 [31m-[m
+ cities be/web-api/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst    |   3 [31m-[m
+ cities be/web-api/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst      |   3 [31m-[m
+ .../web-api/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst    |   0
+ cities be/web-api/web-api.iml                                                                           |  29 [31m--[m
+ cities.iml                                                                                              |  12 [32m+[m
+ commons/commons.iml                                                                                     |  12 [32m+[m
+ commons/pom.xml                                                                                         |  16 [32m++[m
+ commons/target/Cities.jar                                                                               | Bin [31m0[m -> [32m1476[m bytes
+ commons/target/maven-archiver/pom.properties                                                            |   5 [32m+[m
+ pom.xml                                                                                                 |  45 [32m++++[m
+ web-api/pom.xml                                                                                         |  49 [32m++++[m
+ web-api/src/main/java/com/cities/city/CityController.java                                               |  21 [32m++[m
+ web-api/src/main/java/com/cities/config/SpringMvcConfig.java                                            |  11 [32m+[m
+ web-api/src/main/java/com/cities/config/WebAppInitializer.java                                          |  20 [32m++[m
+ web-api/target/Cities.war                                                                               | Bin [31m0[m -> [32m6436430[m bytes
+ web-api/target/Cities/WEB-INF/classes/com/cities/city/CityController.class                              | Bin [31m0[m -> [32m1105[m bytes
+ web-api/target/Cities/WEB-INF/classes/com/cities/config/SpringMvcConfig.class                           | Bin [31m0[m -> [32m571[m bytes
+ web-api/target/Cities/WEB-INF/classes/com/cities/config/WebAppInitializer.class                         | Bin [31m0[m -> [32m1612[m bytes
+ web-api/target/Cities/WEB-INF/lib/aopalliance-1.0.jar                                                   | Bin [31m0[m -> [32m4467[m bytes
+ web-api/target/Cities/WEB-INF/lib/commons-logging-1.2.jar                                               | Bin [31m0[m -> [32m61829[m bytes
+ web-api/target/Cities/WEB-INF/lib/jackson-annotations-2.8.0.jar                                         | Bin [31m0[m -> [32m55784[m bytes
+ web-api/target/Cities/WEB-INF/lib/jackson-core-2.8.1.jar                                                | Bin [31m0[m -> [32m280014[m bytes
+ web-api/target/Cities/WEB-INF/lib/jackson-databind-2.8.1.jar                                            | Bin [31m0[m -> [32m1230290[m bytes
+ web-api/target/Cities/WEB-INF/lib/javax.servlet-api-3.1.0.jar                                           | Bin [31m0[m -> [32m95806[m bytes
+ web-api/target/Cities/WEB-INF/lib/spring-aop-4.2.6.RELEASE.jar                                          | Bin [31m0[m -> [32m371197[m bytes
+ web-api/target/Cities/WEB-INF/lib/spring-beans-4.2.6.RELEASE.jar                                        | Bin [31m0[m -> [32m731562[m bytes
+ web-api/target/Cities/WEB-INF/lib/spring-context-4.2.6.RELEASE.jar                                      | Bin [31m0[m -> [32m1096730[m bytes
+ web-api/target/Cities/WEB-INF/lib/spring-core-4.2.6.RELEASE.jar                                         | Bin [31m0[m -> [32m1096425[m bytes
+ web-api/target/Cities/WEB-INF/lib/spring-expression-4.2.6.RELEASE.jar                                   | Bin [31m0[m -> [32m262993[m bytes
+ web-api/target/Cities/WEB-INF/lib/spring-tx-4.2.6.RELEASE.jar                                           | Bin [31m0[m -> [32m265182[m bytes
+ web-api/target/Cities/WEB-INF/lib/spring-web-4.2.6.RELEASE.jar                                          | Bin [31m0[m -> [32m767148[m bytes
+ web-api/target/Cities/WEB-INF/lib/spring-webmvc-4.2.6.RELEASE.jar                                       | Bin [31m0[m -> [32m877630[m bytes
+ web-api/target/classes/com/cities/city/CityController.class                                             | Bin [31m0[m -> [32m1105[m bytes
+ web-api/target/classes/com/cities/config/SpringMvcConfig.class                                          | Bin [31m0[m -> [32m571[m bytes
+ web-api/target/classes/com/cities/config/WebAppInitializer.class                                        | Bin [31m0[m -> [32m1612[m bytes
+ web-api/target/maven-archiver/pom.properties                                                            |   5 [32m+[m
+ web-api/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst              |   3 [32m+[m
+ web-api/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst                |   3 [32m+[m
+ web-api/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst        |   0
+ web-api/web-api.iml                                                                                     |  29 [32m++[m
+ 112 files changed, 819 insertions(+), 1254 deletions(-)
+
+[33mcommit 409ef5ca4b4bb6ac58218da32bea703205cf2377[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Sep 4 15:34:32 2016 +0200
+
+    created project structure and added an example of restful service
+
+ cities be/.idea/compiler.xml                                                                            |   4 [32m+[m[31m-[m
+ cities be/.idea/libraries/Maven__aopalliance_aopalliance_1_0.xml                                        |  13 [32m+++[m
+ cities be/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_8_0.xml               |  13 [32m+++[m
+ cities be/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_8_1.xml                      |  13 [32m+++[m
+ cities be/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_8_1.xml                  |  13 [32m+++[m
+ cities be/.idea/libraries/Maven__commons_logging_commons_logging_1_2.xml                                |  13 [32m+++[m
+ cities be/.idea/libraries/Maven__javax_servlet_javax_servlet_api_3_1_0.xml                              |  13 [32m+++[m
+ cities be/.idea/libraries/Maven__org_springframework_spring_aop_4_2_6_RELEASE.xml                       |  13 [32m+++[m
+ cities be/.idea/libraries/Maven__org_springframework_spring_beans_4_2_6_RELEASE.xml                     |  13 [32m+++[m
+ cities be/.idea/libraries/Maven__org_springframework_spring_context_4_2_6_RELEASE.xml                   |  13 [32m+++[m
+ cities be/.idea/libraries/Maven__org_springframework_spring_core_4_2_6_RELEASE.xml                      |  13 [32m+++[m
+ cities be/.idea/libraries/Maven__org_springframework_spring_expression_4_2_6_RELEASE.xml                |  13 [32m+++[m
+ cities be/.idea/libraries/Maven__org_springframework_spring_tx_4_2_6_RELEASE.xml                        |  13 [32m+++[m
+ cities be/.idea/libraries/Maven__org_springframework_spring_web_4_2_6_RELEASE.xml                       |  13 [32m+++[m
+ cities be/.idea/libraries/Maven__org_springframework_spring_webmvc_4_2_6_RELEASE.xml                    |  13 [32m+++[m
+ cities be/.idea/misc.xml                                                                                |   3 [32m+[m
+ cities be/.idea/modules.xml                                                                             |   1 [32m+[m
+ cities be/.idea/workspace.xml                                                                           | 307 [32m+++++++++++++++++++++++++++++++++++++++++++++++++[m[31m---[m
+ cities be/commons/commons.iml                                                                           |   2 [32m+[m[31m-[m
+ cities be/commons/pom.xml                                                                               |   4 [32m+[m[31m-[m
+ cities be/commons/target/Cities.jar                                                                     | Bin [31m0[m -> [32m1476[m bytes
+ cities be/commons/target/maven-archiver/pom.properties                                                  |   5 [32m+[m
+ cities be/pom.xml                                                                                       |  31 [32m+++++[m[31m-[m
+ cities be/web-api/pom.xml                                                                               |  49 [32m+++++++++[m
+ cities be/web-api/src/main/java/com/cities/city/CityController.java                                     |  21 [32m++++[m
+ cities be/web-api/src/main/java/com/cities/config/SpringMvcConfig.java                                  |  11 [32m++[m
+ cities be/web-api/src/main/java/com/cities/config/WebAppInitializer.java                                |  20 [32m++++[m
+ cities be/web-api/target/Cities.war                                                                     | Bin [31m0[m -> [32m6436430[m bytes
+ cities be/web-api/target/Cities/WEB-INF/classes/com/cities/city/CityController.class                    | Bin [31m0[m -> [32m1105[m bytes
+ cities be/web-api/target/Cities/WEB-INF/classes/com/cities/config/SpringMvcConfig.class                 | Bin [31m0[m -> [32m571[m bytes
+ cities be/web-api/target/Cities/WEB-INF/classes/com/cities/config/WebAppInitializer.class               | Bin [31m0[m -> [32m1612[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/aopalliance-1.0.jar                                         | Bin [31m0[m -> [32m4467[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/commons-logging-1.2.jar                                     | Bin [31m0[m -> [32m61829[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/jackson-annotations-2.8.0.jar                               | Bin [31m0[m -> [32m55784[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/jackson-core-2.8.1.jar                                      | Bin [31m0[m -> [32m280014[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/jackson-databind-2.8.1.jar                                  | Bin [31m0[m -> [32m1230290[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/javax.servlet-api-3.1.0.jar                                 | Bin [31m0[m -> [32m95806[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/spring-aop-4.2.6.RELEASE.jar                                | Bin [31m0[m -> [32m371197[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/spring-beans-4.2.6.RELEASE.jar                              | Bin [31m0[m -> [32m731562[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/spring-context-4.2.6.RELEASE.jar                            | Bin [31m0[m -> [32m1096730[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/spring-core-4.2.6.RELEASE.jar                               | Bin [31m0[m -> [32m1096425[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/spring-expression-4.2.6.RELEASE.jar                         | Bin [31m0[m -> [32m262993[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/spring-tx-4.2.6.RELEASE.jar                                 | Bin [31m0[m -> [32m265182[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/spring-web-4.2.6.RELEASE.jar                                | Bin [31m0[m -> [32m767148[m bytes
+ cities be/web-api/target/Cities/WEB-INF/lib/spring-webmvc-4.2.6.RELEASE.jar                             | Bin [31m0[m -> [32m877630[m bytes
+ cities be/web-api/target/classes/com/cities/city/CityController.class                                   | Bin [31m0[m -> [32m1105[m bytes
+ cities be/web-api/target/classes/com/cities/config/SpringMvcConfig.class                                | Bin [31m0[m -> [32m571[m bytes
+ cities be/web-api/target/classes/com/cities/config/WebAppInitializer.class                              | Bin [31m0[m -> [32m1612[m bytes
+ cities be/web-api/target/maven-archiver/pom.properties                                                  |   5 [32m+[m
+ cities be/web-api/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst    |   3 [32m+[m
+ cities be/web-api/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst      |   3 [32m+[m
+ .../web-api/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst    |   0
+ cities be/web-api/web-api.iml                                                                           |  29 [32m+++++[m
+ 53 files changed, 660 insertions(+), 20 deletions(-)
+
+[33mcommit 393f8bd9d173111e337d973beb78074130b12eb8[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sun Sep 4 02:21:47 2016 +0200
+
+    road balancer for two comcat has been set
+
+ Docker LB and 2 Tomcats       | 79 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ READ ME                       |  8 [32m++++++++[m
+ cities be/.idea/workspace.xml | 66 [32m+++++++++++++++++++++++++++++++++++++++[m[31m---------------------------[m
+ 3 files changed, 126 insertions(+), 27 deletions(-)
+
+[33mcommit faebdc3e961d140f14485ebd3f96d0f7296adb47[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sat Sep 3 20:13:03 2016 +0200
+
+    docker tomcat installation
+
+ READ ME                       |  5 [32m+++++[m
+ cities be/.idea/workspace.xml | 19 [32m+++++++++++++[m[31m------[m
+ 2 files changed, 18 insertions(+), 6 deletions(-)
+
+[33mcommit 96da89a170b7db0b48537771befaf9c0fcfae70a[m
+Author: burak <kecelibu@gmail.com>
+Date:   Sat Sep 3 01:24:30 2016 +0200
+
+    docker container with posgresql connection has been explained
+
+ READ ME | 16 [32m++++++++++++++[m[31m--[m
+ 1 file changed, 14 insertions(+), 2 deletions(-)
+
+[33mcommit f515cee509b5efd0aa8e2a432169cb66d815fa27[m
+Author: burak <kecelibu@gmail.com>
+Date:   Fri Sep 2 23:25:00 2016 +0200
+
+    project initialize
+
+ cities be/.idea/compiler.xml                    |  33 [32m++++++++[m
+ cities be/.idea/copyright/profiles_settings.xml |   3 [32m+[m
+ cities be/.idea/misc.xml                        |  39 [32m++++++++++[m
+ cities be/.idea/modules.xml                     |   9 [32m+++[m
+ cities be/.idea/workspace.xml                   | 449 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ cities be/cities be.iml                         |  15 [32m++++[m
+ cities be/commons/commons.iml                   |  15 [32m++++[m
+ cities be/commons/pom.xml                       |  16 [32m++++[m
+ cities be/pom.xml                               |  16 [32m++++[m
+ 9 files changed, 595 insertions(+)
+
+[33mcommit ecc221ed4104d413966ef073eb5a01d1c723c1b4[m
+Author: burak <kecelibu@gmail.com>
+Date:   Fri Sep 2 23:16:21 2016 +0200
+
+    rewrite project
+
+ cities-be/.idea/.name                           |   1 [31m-[m
+ cities-be/.idea/compiler.xml                    |  32 [31m---------[m
+ cities-be/.idea/copyright/profiles_settings.xml |   3 [31m-[m
+ cities-be/.idea/misc.xml                        |  77 [31m--------------------[m
+ cities-be/.idea/modules.xml                     |   9 [31m---[m
+ cities-be/.idea/workspace.xml                   | 417 [31m------------------------------------------------------------------------------------------------------------[m
+ cities-be/cities-be.iml                         |  16 [31m-----[m
+ cities-be/cities.iml                            |  15 [31m----[m
+ cities-be/commons/commons.iml                   |   9 [31m---[m
+ cities-be/commons/pom.xml                       |  16 [31m-----[m
+ cities-be/pom.xml                               |  16 [31m-----[m
+ 11 files changed, 611 deletions(-)
+
+[33mcommit 1f8c48e21655e0f47f0342abacbf790ba3c5abf7[m
+Author: burak <kecelibu@gmail.com>
+Date:   Fri Sep 2 20:49:13 2016 +0200
+
+    project structure
+
+ cities-be/.idea/.name                           |   1 [32m+[m
+ cities-be/.idea/compiler.xml                    |  32 [32m+++++++++[m
+ cities-be/.idea/copyright/profiles_settings.xml |   3 [32m+[m
+ cities-be/.idea/misc.xml                        |  77 [32m++++++++++++++++++++[m
+ cities-be/.idea/modules.xml                     |   9 [32m+++[m
+ cities-be/.idea/workspace.xml                   | 417 [32m++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[m
+ cities-be/cities-be.iml                         |  16 [32m+++++[m
+ cities-be/cities.iml                            |  15 [32m++++[m
+ cities-be/commons/commons.iml                   |   9 [32m+++[m
+ cities-be/commons/pom.xml                       |  16 [32m+++++[m
+ cities-be/pom.xml                               |  16 [32m+++++[m
+ 11 files changed, 611 insertions(+)
+
+[33mcommit 7add0e2573a50c9deabd8ceca21ba006742c694c[m
+Author: burak <kecelibu@gmail.com>
+Date:   Fri Sep 2 20:28:50 2016 +0200
+
+    removed read me ext
+
+ READ ME~ | 1 [31m-[m
+ 1 file changed, 1 deletion(-)
+
+[33mcommit 15921fb35b867ea536395a5ff532c8f5596296a8[m
+Author: burak <kecelibu@gmail.com>
+Date:   Fri Sep 2 20:26:39 2016 +0200
+
+    changed project name
+
+ READ ME  | 1 [32m+[m
+ READ ME~ | 1 [32m+[m
+ 2 files changed, 2 insertions(+)
+
+[33mcommit 48becfabd92feeea78dc74e91cdb91cfe9f95eca[m
+Author: burak <kecelibu@gmail.com>
+Date:   Fri Sep 2 00:51:10 2016 +0200
+
+    read me filled
+
+ READ ME | 1 [32m+[m
+ 1 file changed, 1 insertion(+)
+
+[33mcommit 3eda029e998ab715e8029e85ac8a29f851d8455c[m
+Author: burak <kecelibu@gmail.com>
+Date:   Fri Sep 2 00:48:48 2016 +0200
+
+    first initial read me
+
+ READ ME | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
