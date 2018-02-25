@@ -29,26 +29,27 @@
     <concurrentBuild>false</concurrentBuild>
     <builders>
         <hudson.tasks.Maven>
-            <targets>clean package -DskipTests</targets>
-            <mavenName>(Default)</mavenName>
+            <targets>clean install -DskipTests</targets>
+            <usePrivateRepository>false</usePrivateRepository>
+            <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+            <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+            <injectBuildVariables>false</injectBuildVariables>
+        </hudson.tasks.Maven>
+        <hudson.tasks.Maven>
+            <targets> compile -pl com.cities.database:database flyway:clean</targets>
+            <usePrivateRepository>false</usePrivateRepository>
+            <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+            <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+            <injectBuildVariables>false</injectBuildVariables>
+        </hudson.tasks.Maven>
+        <hudson.tasks.Maven>
+            <targets>compile -pl database/ flyway:migrate</targets>
             <usePrivateRepository>false</usePrivateRepository>
             <settings class="jenkins.mvn.DefaultSettingsProvider"/>
             <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
             <injectBuildVariables>false</injectBuildVariables>
         </hudson.tasks.Maven>
     </builders>
-    <publishers>
-        <hudson.plugins.deploy.DeployPublisher plugin="deploy@1.13">
-            <adapters>
-                <hudson.plugins.deploy.tomcat.Tomcat8xAdapter>
-                    <credentialsId>tomcatCredentials</credentialsId>
-                    <url>http://tomcatOne:8080</url>
-                </hudson.plugins.deploy.tomcat.Tomcat8xAdapter>
-            </adapters>
-            <contextPath></contextPath>
-            <war>**/*.war</war>
-            <onFailure>false</onFailure>
-        </hudson.plugins.deploy.DeployPublisher>
-    </publishers>
+    <publishers/>
     <buildWrappers/>
 </project>
