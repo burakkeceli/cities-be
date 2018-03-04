@@ -124,6 +124,17 @@ services:
       docker-tst:
         ipv4_address: 172.28.0.14
 
+  jenkins-full:
+    image: stephenreed/jenkins-java8-maven-git
+    container_name: jenkinsfull
+    hostname: jenkinsfull
+    ports:
+      - 9091:8080
+    networks:
+      docker-tst:
+        ipv4_address: 172.28.0.21
+
+
 networks:
   docker-tst:
     driver: bridge
