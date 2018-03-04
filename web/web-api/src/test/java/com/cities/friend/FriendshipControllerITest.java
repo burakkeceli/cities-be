@@ -45,7 +45,7 @@ public class FriendshipControllerITest extends AbstractBaseControllerITest {
     private BaseTestHelper baseTestHelper;
     @Autowired
     private JacksonService jacksonService;
-
+/*
     @Test
     public void shouldGetFriendshipRequests() throws Exception {
         // given
@@ -112,5 +112,5 @@ public class FriendshipControllerITest extends AbstractBaseControllerITest {
         // then
         Friendship friendship = friendshipService.getFriendship(userMakingRequest.getId(), userRejectingRequest.getId());
         assertThat(friendship.getFriendshipStatusEnum()).isEqualTo(REJECTED);
-    }
+    }*/
 }

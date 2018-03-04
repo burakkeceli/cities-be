@@ -46,7 +46,7 @@ public class CityControllerITest extends AbstractBaseControllerITest {
     private JacksonService jacksonService;
     @Autowired
     private CommentService commentService;
-
+/*
     @Test
     public void shouldGetAllCitiesWithoutAnyPermission() throws Exception {
 
@@ -213,5 +213,5 @@ public class CityControllerITest extends AbstractBaseControllerITest {
         String cityName = randomUUID().toString();
         Integer countryId = 1;
         return baseTestHelper.saveCity(countryId, cityName);
-    }
+    }*/
 }

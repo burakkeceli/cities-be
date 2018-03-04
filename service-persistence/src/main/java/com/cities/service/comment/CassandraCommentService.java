@@ -31,14 +31,14 @@ public class CassandraCommentService {
                 user.getId().toString(),
                 user.getUsername(),
                 createdTime.toString());
-        cassandraService.execute(querySaveCommentOfCity);
+        //cassandraService.execute(querySaveCommentOfCity);
     }
 
     public List<CassandraCommentModel> getCommentsOfCity(Integer cityId) {
         String queryGetCommentsOfCity = getQuery(SELECT_COMMENTS_OF_CITY_BY_CITY_ID, cityId.toString());
-        ResultSet resultSet = cassandraService.execute(queryGetCommentsOfCity);
+        //ResultSet resultSet = cassandraService.execute(queryGetCommentsOfCity);
         List<CassandraCommentModel> cassandraCommentModelList = new ArrayList<>();
-
+/*
         for (Row row : resultSet) {
             Integer fetchedCityId = row.getInt("city_id");
             Integer fetchedCommentId = row.getInt("comment_id");
@@ -48,7 +48,7 @@ public class CassandraCommentService {
             UUID fetchedCreatedTime = row.getUUID("created_time");
             CassandraCommentModel cassandraCommentModel = new CassandraCommentModel(fetchedCityId, fetchedCommentId, fetchedCommentText, fetchedUserId, fetchedUserName, fetchedCreatedTime);
             cassandraCommentModelList.add(cassandraCommentModel);
-        }
+        }*/
 
         return cassandraCommentModelList;
     }

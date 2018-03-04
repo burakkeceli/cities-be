@@ -25,7 +25,7 @@ public class CassandraCityService {
     private CassandraService cassandraService;
     @Autowired
     private UserService userService;
-
+/*
     public void saveUserInfoWhoLikesCity(Integer userId, Integer cityId) {
         saveCityLikeUser(userId, cityId);
         saveUserLikeCity(userId, cityId);
@@ -54,5 +54,5 @@ public class CassandraCityService {
             userDetailMap.put(fetchedUserId, fetchedUserName);
         }
         return userDetailMap;
-    }
+    }*/
 }

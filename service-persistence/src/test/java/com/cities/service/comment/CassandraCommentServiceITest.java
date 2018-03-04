@@ -22,7 +22,7 @@ public class CassandraCommentServiceITest extends AbstractBaseTest {
     private BaseTestHelper baseTestHelper;
     @Autowired
     private CassandraCommentService cassandraCommentService;
-
+/*
     @Test
     public void shouldSaveCommentToCity() {
         // given
@@ -75,5 +75,5 @@ public class CassandraCommentServiceITest extends AbstractBaseTest {
         assertThat(cassandraCommentModel.getCityId()).isEqualTo(city.getId());
         assertThat(cassandraCommentModel.getUserName()).isEqualTo(user.getUsername());
         assertThat(cassandraCommentModel.getCommentText()).isEqualTo(text);
-    }
+    }*/
 }

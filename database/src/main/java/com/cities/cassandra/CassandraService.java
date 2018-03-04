@@ -18,7 +18,7 @@ import static com.cities.cassandra.init.CassandraTables.TABLES;
 @Component
 public class CassandraService {
 
-    private static final String CREATE_KEYSPACE = "CREATE KEYSPACE " + CASSANDRA_KEYSPACE+ " WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': " + DEFAULT_REPLICATION_FACTOR + "}";
+    /*private static final String CREATE_KEYSPACE = "CREATE KEYSPACE " + CASSANDRA_KEYSPACE+ " WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': " + DEFAULT_REPLICATION_FACTOR + "}";
 
     private Cluster cluster;
     private Session session;
@@ -58,5 +58,5 @@ public class CassandraService {
 
     public ResultSet execute(String query) {
         return session.execute(query);
-    }
+    }*/
 }

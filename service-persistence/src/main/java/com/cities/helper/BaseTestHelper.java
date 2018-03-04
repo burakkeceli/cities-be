@@ -20,7 +20,7 @@ import static com.cities.model.user.UserRoleEnum.ROLE_USER;
 
 @Component
 public class BaseTestHelper {
-
+/*
     @Autowired
     private UserService userService;
     @Autowired
@@ -82,5 +82,5 @@ public class BaseTestHelper {
 
     public void saveCommentOfCity(User user, Integer cityId, Comment comment) {
         cassandraCommentService.saveCommentOfCity(user, cityId, comment);
-    }
+    }*/
 }

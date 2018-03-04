@@ -41,8 +41,9 @@ public class CityController {
     private CityService cityService;
     @Autowired
     private CityLogic cityLogic;
+    /*
     @Autowired
-    private CassandraCityService cassandraCityService;
+    private CassandraCityService cassandraCityService;*/
     @Autowired
     private UserLogic userLogic;
     @Autowired
@@ -67,6 +68,7 @@ public class CityController {
         return new ResponseEntity<>(cityDto, OK);
     }
 
+    /*
     @RequestMapping(value = "/{id}"+ Urls.LIKED, method = GET)
     public ResponseEntity getUserListWhoLikeCity(@PathVariable Integer id, HttpServletRequest request) {
         City city = cityService.getCityById(id);
@@ -77,7 +79,7 @@ public class CityController {
         Map<Integer, String> userMap = cassandraCityService.getUserListWhoLikeCity(id);
         List<UserDto> userDtoList = userLogic.fromUserMap(userMap);
         return new ResponseEntity<>(userDtoList, OK);
-    }
+    }*/
 
     @RequestMapping(value = "/{id}"+ Urls.COMMENT, method = GET)
     public ResponseEntity getCommentsOfCity(@PathVariable Integer id, HttpServletRequest request) {

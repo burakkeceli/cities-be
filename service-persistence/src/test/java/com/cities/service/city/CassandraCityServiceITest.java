@@ -19,7 +19,7 @@ public class CassandraCityServiceITest extends AbstractBaseTest {
     private BaseTestHelper baseTestHelper;
     @Autowired
     private CassandraCityService cassandraCityService;
-
+/*
     @Test
     public void shouldAddUserToCityLikedList() {
         // given
@@ -32,5 +32,5 @@ public class CassandraCityServiceITest extends AbstractBaseTest {
         // then
         Map<Integer, String> userMap = cassandraCityService.getUserListWhoLikeCity(city.getId());
         assertThat(userMap).containsEntry(user.getId(), user.getUsername());
-    }
+    }*/
 }
