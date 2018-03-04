@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+    <description></description>
+    <keepDependencies>false</keepDependencies>
+    <properties/>
+    <scm class="hudson.scm.NullSCM"/>
+    <canRoam>true</canRoam>
+    <disabled>false</disabled>
+    <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+    <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+    <triggers/>
+    <concurrentBuild>false</concurrentBuild>
+    <builders/>
+    <publishers>
+        <hudson.plugins.deploy.DeployPublisher plugin="deploy@1.13">
+            <adapters>
+                <hudson.plugins.deploy.tomcat.Tomcat8xAdapter>
+                    <credentialsId>tomcatCredentials</credentialsId>
+                    <url>http://tomcatOne:8080</url>
+                </hudson.plugins.deploy.tomcat.Tomcat8xAdapter>
+            </adapters>
+            <contextPath></contextPath>
+            <war>**/*.war</war>
+            <onFailure>false</onFailure>
+        </hudson.plugins.deploy.DeployPublisher>
+    </publishers>
+    <buildWrappers/>
+</project>
+
+<!--
+    TODO: take url as parameter and deploy tomcatTwo as well.
+-->
